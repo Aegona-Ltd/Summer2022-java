@@ -42,28 +42,28 @@
     <div class="container mt-5">
         <div class="row row-cols-4 text-center gx-5">
             <div class="col">
-                <div class="rounded-circle shadow row row-cols-1 bg-opacity-50 bg-info">
+                <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-info shadow-sum">
                     <p class="m-0 col h5 mt-3">Tổng sản phẩm</p>
                     <i class="bi bi-gift col mt-2 fs-3"></i>
                     <p class="fs-2 fw-bold">52</p>
                 </div>
             </div>
             <div class="col">
-                <div class="rounded-circle shadow row row-cols-1 bg-opacity-50 bg-warning">
+                <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-warning shadow-sum">
                     <p class="m-0 col h5 mt-3">Tổng doanh thu</p>
                     <i class="bi bi-currency-exchange col mt-2 fs-3"></i>
                     <p class="fs-2 fw-bold">3000$</p>
                 </div>
             </div>
             <div class="col">
-                <div class="rounded-circle shadow row row-cols-1 bg-opacity-50 bg-success">
+                <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-success shadow-sum">
                     <p class="m-0 col h5 mt-3">Tổng đơn hàng</p>
                     <i class="bi bi-truck col mt-2 fs-3"></i>
                     <p class="fs-2 fw-bold">200</p>
                 </div>
             </div>
             <div class="col">
-                <div class="rounded-circle shadow row row-cols-1 bg-opacity-50 bg-danger">
+                <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-danger shadow-sum">
                     <p class="m-0 col h5 mt-3">Tổng khách hàng</p>
                     <i class="bi bi-people-fill col mt-2 fs-3"></i>
                     <p class="fs-2 fw-bold">2892</p>
@@ -201,7 +201,73 @@
             </div>
         </div>
       </div>
+
+      
+      <div class="row row-cols-2 mb-4">
+        <!-- Thống kê biểu đồ bar -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Biểu đồ Bar</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartBar"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Thống kê biểu đồ Char Bar -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Biểu đồ Char Bar</h4>
+                </div>
+                <div class="card-body" >
+                    <canvas id="bar-chart-grouped"></canvas>
+                    
+                </div>
+            </div>
+        </div>
+      </div>
+
+    <div class="row">
+        <!-- Thống kê biểu đồ Polar -->
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Biểu đồ Polar</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartPolar"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thống kê biểu đồ mixed -->
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Biểu đồ Mixed</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="mixed-chart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="row my-4">
+        <!-- Thống kê biểu đồ Line -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Biểu đồ char</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="line-chart" width="800" height="450"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
       <!-- JS -->
       <script src="../js/dashboard.js"></script>
 </body>
