@@ -1,15 +1,31 @@
 
-// Chart line
-const cvsLine = document.getElementById('chartLine').getContext('2d');
-const chartLine = new Chart(cvsLine, {
-    type: 'line',
+// Chart bar
+const cvsBar = document.getElementById('chartLine').getContext('2d');
+const chartBar = new Chart(cvsBar, {
+    type: 'bar',
     data: {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [{
             label: 'Số lượng',
             data: [10, 42, 35, 78, 60, 91, 32, 57, 58, 32, 32, 77],
-            backgroundColor: ['orange'],
-            borderColor: ['orange'],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
             borderWidth: 2
         }]
     },
