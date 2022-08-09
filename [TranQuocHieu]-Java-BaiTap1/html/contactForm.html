@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <title>Contact</title>
+</head>
+<body>
+    <div class="d-flex justify-content-center align-items-center screen" id="contactForm-img">
+        <div class="rounded-3 bg-white w-75" id="card-contactForm">
+            <h2 class="text-center my-3 fw-bolder">CONTACT US</h2>
+            <div class="row row-cols-2 align-items-center p-4 pt-0">
+                <div class="col">
+                    <img src="../img/contactFormUs.png" alt="Email-img">
+                </div>
+                <div class="col">
+                    <form name="contactForm" class="row row-cols-1 gy-3">
+                        <div class="col">   
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="fullName" id="inputFullName" placeholder="Enter your FullName">
+                                <label for="inputFullName">Full Name</label>
+                            </div>
+                        </div>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="validation-fullname"></p>
+                        <div class="col">   
+                            <div class="form-floating">
+                                <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Enter your email address">
+                                <label for="inputEmail">Email</label>
+                            </div>
+                        </div>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="validation-email"></p>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="phone" id="inputPhone" placeholder="Enter your phone number">
+                                <label for="inputPhone">Phone Number</label>
+                            </div>
+                        </div>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="validation-phone"></p>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="subject" id="inputSubject" placeholder="Enter Subject">
+                                <label for="inputSubject">Subject</label>
+                            </div>
+                        </div>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="validation-subject"></p>
+                        <div class="col">
+                            <textarea class="form-control" placeholder="Enter messages here" id="textareaMessage"></textarea>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="SUBMIT" onclick="checkInputForm(document.contactForm)" class="btn btn-primary w-100">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/contactForm.js"></script>
+</body>
+</html>

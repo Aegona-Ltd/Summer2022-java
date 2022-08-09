@@ -1,0 +1,45 @@
+.screen {
+    height: 100vh;
+}
+
+
+.valid-input {
+    font-weight: bold;
+    color: rgb(248, 1, 1);
+    margin-left: 110px;
+}
+
+/* login */
+#bg-login {
+    background-image: url("../img/login.jpg");
+    background-repeat: no-repeat, repeat;
+}
+#card-login {
+    background-color: rgba(255, 255, 255, 0.425);
+    width: 400px;
+    border-radius: 5px;
+    box-shadow: 5px 10px 60px black;
+}
+
+/* FormContact */
+#contactForm-img{
+    background-image: url("../img/contactForm.jpg");
+    background-repeat: repeat-y;
+}
+#card-contactForm{
+    border-radius: 5px;
+    box-shadow: 5px 10px 60px black;
+}
+#textareaMessage {
+    height: 100px;
+}
+img {
+    width: 100% !important; 
+}
+
+/* Contacts */
+#bg-list {
+    background-image: url("../img/contactList.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat, repeat;
+}

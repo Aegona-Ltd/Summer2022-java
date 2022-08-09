@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <title>Contacts</title>
+</head>
+<body id="bg-list">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+          <a class="navbar-brand" href="#">COMPANY</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="./contactList.html">Trang Chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Thống kê</a>
+                </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-danger" type="submit" onclick="signout()">Đăng xuất <i class="bi bi-box-arrow-right"></i></button>
+                </div>        
+            </div>
+        </div>
+      </nav>
+    <section class="mt-4">
+        <div class="container screen">
+            <div class="card border-2 border-primary">
+                <div class="card-header bg-primary">
+                    <div class="row row-cols-auto justify-content-between py-2">
+                        <h3 class="fw-bold col text-white">Contacts</h3>
+                        <button class="btn btn-info me-3" onclick="addContact()"><i class="bi bi-plus"></i> Thêm mới</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Datetime</th>
+                                <th>Fullname</th>
+                                <th>Email</th>
+                                <th>Phone-Number</th>
+                                <th>Subject</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            <tr>
+                                <th>1</th>
+                                <td>22-07-2022 12:00:00:000</td>
+                                <td>Mark John</td>
+                                <td>mark.john@gmail.com</td>
+                                <td>0123456789</td>
+                                <td>Java</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success">View <i class="bi bi-card-list"></i></button>
+                                    <button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td>22-07-2022 12:00:00:000</td>
+                                <td>Jacob</td>
+                                <td>jacod@gmail.com</td>
+                                <td>0987654321</td>
+                                <td>C#</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success">View <i class="bi bi-card-list"></i></button>
+                                    <button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>3</th>
+                                <td>22-07-2022 12:00:00:000</td>
+                                <td>Coder</td>
+                                <td>coder@gmail.com</td>
+                                <td>0123789456</td>
+                                <td>Javascript</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success">View <i class="bi bi-card-list"></i></button>
+                                    <button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>4</th>
+                                <td>22-07-2022 12:00:00:000</td>
+                                <td>Developer</td>
+                                <td>developer@gmail.com</td>
+                                <td>0456123789</td>
+                                <td>PHP</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success">View <i class="bi bi-card-list"></i></button>
+                                    <button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>5</th>
+                                <td>22-07-2022 12:00:00:000</td>
+                                <td>Font-end</td>
+                                <td>font-end@gmail.com</td>
+                                <td>0456123789</td>
+                                <td>ReactJS</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success">View <i class="bi bi-card-list"></i></button>
+                                    <button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>6</th>
+                                <td>22-07-2022 12:00:00:000</td>
+                                <td>Back-end</td>
+                                <td>backend@gmail.com</td>
+                                <td>0456123789</td>
+                                <td>NodeJS</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success">View <i class="bi bi-card-list"></i></button>
+                                    <button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav class="float-end mt-3 me-5">
+                        <ul class="pagination">
+                          <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                          </li>
+                          <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">1</a>
+                          </li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                          </li>
+                        </ul>
+                      </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="../js/contactList.js"></script>
+</body>
+</html>
