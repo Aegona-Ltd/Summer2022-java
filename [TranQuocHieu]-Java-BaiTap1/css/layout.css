@@ -43,3 +43,12 @@ img {
     background-size: 100%;
     background-repeat: no-repeat, repeat;
 }
+
+/* Dashboard */
+#chartLine {
+    width:100%;
+}
+.list-thongke {
+    height: 355px;
+    overflow-y: scroll;
+}
