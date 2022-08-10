@@ -1,6 +1,33 @@
-function checkAccount(formLogin) {
+
+function checkAccount() {
+    $.ajax({
+        url: "https://private-a601d-logincontactform.apiary-mock.com/GET",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            username: $('#email').val(),
+            password: $('#password').val()
+        }),
+        success: function(data) {
+            if(data.success) {
+                window.location = "../html/dashboard.html";
+            }else {
+                document.getElementById('mess-error').innerText = data.message;
+            }
+        },
+        error: function (jqXHR, exception) {
+            console.log(jqXHR, exception);
+            document.getElementById('mess-error').innerText = "Error from server";
+        },
+    })
+}
+
+
+function loginAccount(formLogin) {
     document.getElementById('validation-email').innerText = "";
     document.getElementById('validation-password').innerText = "";
+    document.getElementById('mess-error').innerText = "";
     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     let check = false
@@ -18,8 +45,5 @@ function checkAccount(formLogin) {
         document.getElementById('password').focus();
         check = true
     }
-    if (!check) {
-        window.location="../html/contactList.html";
-    }
-    
+    return (check) ? "" : checkAccount();
 }

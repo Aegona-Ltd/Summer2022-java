@@ -45,5 +45,28 @@ function checkInputForm(form) {
         document.getElementById("inputSubject").focus();
         check = true
     }
-    if (!check) window.location="../html/contactList.html"
+    if (!check) sendContact()
+}
+
+function sendContact() {
+    $.ajax({
+        url: "https://private-a601d-logincontactform.apiary-mock.com/contact",
+        type: "POST",
+        data: JSON.stringify({
+            fullname: $('#inputFullName').val(),
+            email: $('#inputEmail').val(),
+            phonenumber: $('#inputPhone').val(),
+            subject: $('#inputSubject').val(),
+            message: $('#textareaMessage').val()
+        }),
+        dataType: 'json',
+        success: function(data) {
+            alert("Success")
+            window.location="../html/contactList.html";
+        },
+        error: function (jqXHR, exception) {
+            console.log(jqXHR, exception)
+            document.getElementById('mess-error').innerText = "Error from server";
+        },
+    })
 }
