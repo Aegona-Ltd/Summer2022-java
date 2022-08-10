@@ -12,6 +12,7 @@
     <title>Contacts</title>
 </head>
 <body id="bg-list">
+    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
           <a class="navbar-brand" href="#">COMPANY</a>
@@ -33,6 +34,7 @@
             </div>
         </div>
       </nav>
+      <!-- List -->
     <section class="mt-4">
         <div class="container screen">
             <div class="card border-2 border-primary">
@@ -78,6 +80,49 @@
             </div>
         </div>
     </section>
+    <!-- Model -->
+    <div class="modal fade" id="view" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="labelModel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3 row row-cols-auto justify-content-between">
+                  <p class="m-0 col">Date: <span id="date"></span></p>
+                  <p class="m-0 col">Time: <span id="time"></span></p>
+                </div>
+                <div class="mb-3 row">
+                  <p class="m-0 col-3 fw-bold">Full Name:</p>
+                  <p class="col-9" id="name"></p>
+                </div>
+                <div class="mb-3 row">
+                  <p class="m-0 col-3 fw-bold">Email:</p>
+                  <p class="col-9" id="email"></p>
+                </div>
+                <div class="mb-3 row">
+                  <p class="m-0 col-3 fw-bold">Phone:</p>
+                  <p class="col-9" id="phone"></p>
+                </div>
+                <div class="mb-3 row">
+                  <p class="m-0 col-3 fw-bold">Subject:</p>
+                  <p class="col-9" id="subject"></p>
+                </div>
+                <div class="mb-3 row">
+                  <p class="m-0 col-3 fw-bold">Message:</p>
+                  <p class="col-9" id="message"></p>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
     <script src="../js/dataContactList.js"></script>
 </body>
 </html>

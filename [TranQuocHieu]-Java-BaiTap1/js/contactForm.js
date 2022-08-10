@@ -61,8 +61,19 @@ function sendContact() {
         }),
         dataType: 'json',
         success: function(data) {
-            alert("Success")
-            window.location="../html/contactList.html";
+            toastr.success(
+                'Thank you ' + $('#inputFullName').val(),
+                'Send Success',
+                {
+                    timeOut: 1000,
+                    fadeOut: 1000,
+                    onHidden: function () {
+                        window.location="../html/contactList.html";
+                    }
+                }
+              );
+            
+            
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception)
