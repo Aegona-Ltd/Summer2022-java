@@ -24,6 +24,6 @@ public class LoginController {
 	@PostMapping("")
 	public String loginAccount(AccountForm loginForm) {
 		loginForm = service.loginAccount(loginForm);
-		return (loginForm==null) ? "redirect:/contactus": loginPage(loginForm);
+		return (loginForm==null) ? "redirect:/dashboard": loginPage(loginForm);
 	}
 }

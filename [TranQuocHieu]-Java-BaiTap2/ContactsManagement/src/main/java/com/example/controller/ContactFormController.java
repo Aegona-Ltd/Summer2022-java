@@ -20,10 +20,9 @@ public class ContactFormController {
     public String viewContact(@ModelAttribute ContactForm form) {
         return "contactForm";
     }
-
     @PostMapping("")
     public String contactUs(ContactForm form) {
         form = service.addContact(form);
-        return (form==null) ? "redirect:/login":viewContact(form);
+        return (form==null) ? "redirect:/contacts":viewContact(form);
     }
 }

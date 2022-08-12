@@ -8,12 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ImpContactService implements ContactService {
 
     @Autowired
     private ContactRepository repository;
+
+    @Override
+    public List<Contact> listContact() {
+        return repository.findAll();
+    }
 
     @Override
     public ContactForm addContact(ContactForm form) {
@@ -44,7 +50,6 @@ public class ImpContactService implements ContactService {
             form.setMessEmail("");
         }
 //        Phone
-        System.out.println(phone.length());
         if (phone.isEmpty()) {
             form.setMessPhone(messnull + "Phone Number");
             error = true;
@@ -79,5 +84,10 @@ public class ImpContactService implements ContactService {
             repository.save(contact);
             return null;
         }
+    }
+
+    @Override
+    public void deleteContact(Integer id) {
+        repository.deleteById(id);
     }
 }

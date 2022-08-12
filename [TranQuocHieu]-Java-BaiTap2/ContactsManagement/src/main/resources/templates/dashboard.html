@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css}">
+
+    <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}" defer></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js}"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0}"></script>
+</head>
+<body>
+<!-- Header -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#">COMPANY</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{'/dashboard'}">Trang Chủ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" th:href="@{'/contacts'}">Contacts</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <a class="btn btn-danger" type="submit" th:href="@{'/login'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- body -->
+  <!-- Thống kê tổng -->
+  <div class="container mt-5">
+    <div class="row row-cols-4 text-center gx-5">
+      <div class="col">
+        <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-info shadow-sum">
+          <p class="m-0 col h5 mt-3">Tổng sản phẩm</p>
+          <i class="bi bi-gift col mt-2 fs-3"></i>
+          <p class="fs-2 fw-bold">52</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-warning shadow-sum">
+          <p class="m-0 col h5 mt-3">Tổng doanh thu</p>
+          <i class="bi bi-currency-exchange col mt-2 fs-3"></i>
+          <p class="fs-2 fw-bold">3000$</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-success shadow-sum">
+          <p class="m-0 col h5 mt-3">Tổng đơn hàng</p>
+          <i class="bi bi-truck col mt-2 fs-3"></i>
+          <p class="fs-2 fw-bold">200</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="rounded-2 row row-cols-1 bg-opacity-50 bg-danger shadow-sum">
+          <p class="m-0 col h5 mt-3">Tổng khách hàng</p>
+          <i class="bi bi-people-fill col mt-2 fs-3"></i>
+          <p class="fs-2 fw-bold">2892</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thống kê biểu đồ đường -->
+    <div class="card my-5">
+      <div class="card-header">
+        <h4 class="fw-bold">Tổng số lượng</h4>
+      </div>
+      <div class="card-body">
+        <canvas id="chartLine"></canvas>
+      </div>
+    </div>
+
+
+    <!-- Thống kê biểu đồ tròn/list -->
+
+    <!-- List -->
+    <div class="row row-cols-3 mb-5">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Quà tặng</h4>
+          </div>
+          <div class="card-body list-thongke">
+            <table class="table" >
+              <thead>
+              <tr>
+                <th>Địa điểm</th>
+                <th>Đã tặng</th>
+                <th>Còn lại</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Chợ Trung An</td>
+                <td>175</td>
+                <td>1125</td>
+              </tr>
+              <tr>
+                <td>Chợ Ô Môn</td>
+                <td>129</td>
+                <td>1571</td>
+              </tr>
+              <tr>
+                <td>Thốt nốt</td>
+                <td>29</td>
+                <td>1272</td>
+              </tr>
+              <tr>
+                <td>Chợ cái Răng</td>
+                <td>56</td>
+                <td>1244</td>
+              </tr>
+              <tr>
+                <td>TTTM Cái Khế</td>
+                <td>119</td>
+                <td>1181</td>
+              </tr>
+              <tr>
+                <td>TTTM Vincom</td>
+                <td>119</td>
+                <td>1181</td>
+              </tr>
+              <tr>
+                <td>Chợ</td>
+                <td>119</td>
+                <td>1181</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Biểu đồ tròn -->
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Số lượng</h4>
+          </div>
+          <div class="card-body">
+            <canvas id="chartDoughnut"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- List -->
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Khách hàng</h4>
+          </div>
+          <div class="card-body list-thongke">
+            <table class="table" >
+              <thead>
+              <tr>
+                <th>Địa điểm</th>
+                <th>Khách hàng</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Thốt nốt</td>
+                <td>12</td>
+              </tr>
+              <tr>
+                <td>TTTM Cái Khế</td>
+                <td>11</td>
+              </tr>
+              <tr>
+                <td>Chợ cái Răng</td>
+                <td>29</td>
+              </tr>
+              <tr>
+                <td>Chợ cái Răng</td>
+                <td>56</td>
+              </tr>
+              <tr>
+                <td>TTTM Cái Khế</td>
+                <td>119</td>
+              </tr>
+              <tr>
+                <td>TTTM Vincom</td>
+                <td>119</td>
+              </tr>
+              <tr>
+                <td>Chợ</td>
+                <td>119</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row row-cols-2 mb-4">
+      <!-- Thống kê biểu đồ bar -->
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Biểu đồ Bar</h4>
+          </div>
+          <div class="card-body">
+            <canvas id="chartBar"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Thống kê biểu đồ Char Bar -->
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Biểu đồ Char Bar</h4>
+          </div>
+          <div class="card-body" >
+            <canvas id="bar-chart-grouped"></canvas>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Thống kê biểu đồ Polar -->
+      <div class="col-4">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Biểu đồ Polar</h4>
+          </div>
+          <div class="card-body">
+            <canvas id="chartPolar"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thống kê biểu đồ mixed -->
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Biểu đồ Mixed</h4>
+          </div>
+          <div class="card-body">
+            <canvas id="mixed-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row my-4">
+      <!-- Thống kê biểu đồ Line -->
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="fw-bold">Biểu đồ char</h4>
+          </div>
+          <div class="card-body">
+            <canvas id="line-chart" width="800" height="450"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script th:src="@{/js/dashboard.js}" defer></script>
+</body>
+</html>
