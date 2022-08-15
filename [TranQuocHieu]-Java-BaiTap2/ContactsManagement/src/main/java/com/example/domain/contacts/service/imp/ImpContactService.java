@@ -2,13 +2,19 @@ package com.example.domain.contacts.service.imp;
 
 import com.example.domain.contacts.model.Contact;
 import com.example.domain.contacts.service.ContactService;
+import com.example.domain.restResult.RestResult;
 import com.example.form.ContactForm;
 import com.example.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ImpContactService implements ContactService {
@@ -16,78 +22,63 @@ public class ImpContactService implements ContactService {
     @Autowired
     private ContactRepository repository;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
-    public List<Contact> listContact() {
-        return repository.findAll();
+    public RestResult listContact() {
+
+        RestResult result = new RestResult();
+        result.setResult(0);
+
+        result.setData(repository.findAll());
+
+        return result;
     }
 
+    /*
+    *
+    * */
     @Override
-    public ContactForm addContact(ContactForm form) {
-        String fullName = form.getFullname();
-        String email = form.getEmail();
-        String phone = form.getPhone();
-        String sub = form.getSubject();
-        String messnull = "Please enter the ";
-        String regex = "^(.+)@(.+)$";
-        int phoneNumber = 0;
-
-        boolean error = false;
-//        Fullname
-        if (fullName.isEmpty()){
-            form.setMessFullname(messnull + "Fullname");
-            error = true;
-        }else {
-            form.setMessFullname("");
-        }
-//        Email
-        if (email.isEmpty()){
-            form.setMessEmail(messnull + "Email");
-            error = true;
-        }else if (!email.matches(regex)){
-            form.setMessEmail("Invalid email!!");
-            error = true;
-        }else {
-            form.setMessEmail("");
-        }
-//        Phone
-        if (phone.isEmpty()) {
-            form.setMessPhone(messnull + "Phone Number");
-            error = true;
-        }else if (phone.length()<10 || phone.length()>10){
-            form.setMessPhone("Phone number accept length value equals 10");
-            error = true;
-        } else {
-            try {
-                phoneNumber = Integer.parseInt(form.getPhone());
-                form.setMessPhone("");
-            }catch (Exception e){
-                form.setMessPhone("Please enter the number");
-                error = true;
+    public RestResult addContact(@Valid ContactForm form, BindingResult bindingResult) {
+        RestResult result = new RestResult();
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error: bindingResult.getFieldErrors()){
+                System.out.println(error);
+                String mess = messageSource.getMessage(error, null);
+                errors.put(error.getField(), mess);
             }
+            result.setResult(90);
+            result.setErrors(errors);
+            return result;
         }
 
-//        Subject
-        if (sub.isEmpty()){
-            form.setMessSubject(messnull + "Subject");
-            error = true;
-        }else {
-            form.setMessSubject("");
+        try{
+            Integer phonenumber = Integer.parseInt(form.getPhone());
+        }catch (Exception e){
+            Map<String, String> errors = new HashMap<>();
+            result.setResult(90);
+            errors.put("phone", "phone khong hop le");
+            result.setErrors(errors);
+            return result;
         }
-        if (error) {
-            return form;
-        }else {
-//            Data-time now
-            LocalDateTime myDateObj = LocalDateTime.now();
 
-            Contact contact = new Contact(form);
-            contact.setDatatime(myDateObj);
-            repository.save(contact);
-            return null;
-        }
+        LocalDateTime myDateObj = LocalDateTime.now();
+
+        Contact contact = new Contact(form);
+        contact.setDatatime(myDateObj);
+        repository.save(contact);
+        result.setResult(0);
+        result.setMessage("Success");
+        return result;
     }
 
     @Override
-    public void deleteContact(Integer id) {
+    public RestResult deleteContact(Integer id) {
         repository.deleteById(id);
+        RestResult result = new RestResult();
+        result.setResult(0);
+        return result;
     }
 }

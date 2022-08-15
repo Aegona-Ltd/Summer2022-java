@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css}">
     <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}" defer></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
 </head>
 <body>
 	<div class="d-flex justify-content-center align-items-center screen" id="bg-login">
@@ -14,24 +15,23 @@
             <div class="row text-center">
                 <div class="col fw-bold py-2 h2">Login account</div>
             </div>
-            <form method="post" th:action="@{/login}" class="row justify-content-center" th:object="${accountForm}">
-                <p class="text-danger text-center fw-bold mb-3" th:text="*{messAccount}"></p>
+            <form class="row justify-content-center">
+                <p class="text-danger text-center fw-bold mb-3" id="messError"></p>
                 <div class="row align-items-center">
                     <div class="col input-group">
                         <span for="email" class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                        <input type="text" name="email" id="email" class="form-control" placeholder="Enter your email"
-                               th:field="*{email}">
+                        <input type="text" name="email" id="email" class="form-control" placeholder="Enter your email">
                     </div>
                 </div>
-                <div class="valid-input" th:text="*{messEmail}"></div>
+                <div class="valid-input" id="messEmail"></div>
                 <div class="row align-items-center mt-4">
                     <div class="col input-group">
                         <span for="password" class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                         <input type="password" name="password" id="password" class="form-control input-group"
-                               placeholder="Enter your password" th:field="*{password}">
+                               placeholder="Enter your password">
                     </div>
                 </div>
-                <div class="valid-input" th:text="*{messPassword}"></div>
+                <div class="valid-input" id="messPassword"></div>
                 <div class="row row-cols-auto justify-content-between align-items-center">
                     <div class="col">
                         <div class="form-check">
@@ -44,10 +44,11 @@
                     </div>
                 </div>
                 <div class="row my-4">
-                    <input type="submit" class="btn btn-primary mx-3 col fw-bolder" value="Login">
+                    <input type="button" class="btn btn-primary mx-3 col fw-bolder" id="btn-login" value="Login">
                 </div>
             </form>
         </div>
     </div>
+    <script th:src="@{/js/login.js}" defer></script>
 </body>
 </html>

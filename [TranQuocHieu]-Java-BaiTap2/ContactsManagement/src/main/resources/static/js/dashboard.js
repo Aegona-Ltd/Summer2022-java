@@ -1,4 +1,22 @@
 
+$(document).ready(function () {
+    accountName();
+});
+
+function accountName() {
+    $.ajax({
+            url: "http://localhost:8080/api/login/account",
+            type: "GET",
+            success: function (rs) {
+            console.log(rs)
+                $('#account-name').html("Name: " + rs.message);
+            },
+            error: function (jqXHR, exception) {
+                console.log(jqXHR, exception);
+            },
+        })
+}
+
 // Chart bar
 const cvsLine = document.getElementById('chartLine').getContext('2d');
 const chartLine = new Chart(cvsLine, {

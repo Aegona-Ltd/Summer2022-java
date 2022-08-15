@@ -2,50 +2,75 @@ package com.example.domain.customers.service.imp;
 
 import com.example.domain.customers.model.Customer;
 import com.example.domain.customers.service.CustomerService;
+import com.example.domain.restResult.RestResult;
 import com.example.form.AccountForm;
 import com.example.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ImpCustomerService implements CustomerService {
+
+    private static String accountName;
+    @Autowired
+    private MessageSource messageSource;
+
     @Autowired
     private CustomerRepository repository;
 
+    /*
+    * Method check account on database
+    * Method return RestResult:
+    *   result 0: login success
+    *   result 10: Wrong Email
+    *   result 20: Wrong Password
+    *   result 90: Wrong input value
+    * */
     @Override
-    public AccountForm loginAccount(AccountForm account) {
-        String regex = "^(.+)@(.+)$";
-        String email = account.getEmail();
-        String pass = account.getPassword();
-        boolean success = true;
-//        Validation Email
-        if (email.length()==0) {
-            account.setMessEmail("Email is not null!!");
-            success = false;
-        }else if (!email.matches(regex)){
-            account.setMessEmail("Invalid email!!");
-            success = false;
-        }else {
-            account.setMessEmail("");
-        }
-//        Validation Password
-        if (pass.length()==0) {
-            account.setMessPassword("Password is not null");
-            success = false;
-        }else {
-            account.setMessPassword("");
-        }
-//        Validation Account DB
-        if (success==true) {
-            Customer customer = repository.findById(account.getEmail()).orElse(null);
-            if (customer==null) {
-                account.setMessAccount("Wrong Email");
-            }else if (customer.getPassword().equals(account.getPassword())) {
-                return null;
-            }else {
-                account.setMessAccount("Wrong Password");
+    public RestResult loginAccount(@Valid AccountForm account, BindingResult bindingResult) {
+        System.out.println(account);
+        RestResult result = new RestResult();
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+
+            for (FieldError error: bindingResult.getFieldErrors()) {
+                String message = messageSource.getMessage(error, null);
+                errors.put(error.getField(), message);
             }
+            result.setResult(90);
+            result.setMessage("Wrong input value");
+            result.setErrors(errors);
+            return result;
         }
-        return account;
+
+//        Get account in database
+        Customer customer = repository.findById(account.getEmail()).orElse(null);
+
+        if (customer==null) {
+            result.setResult(10);
+            result.setMessage("Sai email!!");
+        }else if (!customer.getPassword().equals(account.getPassword())) {
+            result.setResult(20);
+            result.setMessage("Sai mat khau!!");
+        }else {
+            result.setResult(0);
+            result.setMessage("Success");
+            this.accountName = customer.getEmail();
+        }
+        return result;
+    }
+
+    public RestResult getAccountName() {
+        RestResult result = new RestResult();
+        result.setResult(0);
+        result.setMessage(this.accountName);
+        return result;
     }
 }

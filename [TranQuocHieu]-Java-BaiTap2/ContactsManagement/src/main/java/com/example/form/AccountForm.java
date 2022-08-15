@@ -1,17 +1,15 @@
 package com.example.form;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Data
 public class AccountForm {
+    @Email(message = "Email khong hop le!!")
+    @NotEmpty(message = "Vui long nhap Email!!")
     private String email;
+
+    @NotEmpty(message = "Vui long nhap mat khau!!")
     private String password;
-    private String messAccount;
-    private String messEmail;
-    private String messPassword;
 }

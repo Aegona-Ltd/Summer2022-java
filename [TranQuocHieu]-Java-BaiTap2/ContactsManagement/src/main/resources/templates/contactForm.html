@@ -7,6 +7,8 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css}">
     <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}" defer></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js}"></script>
 </head>
 <body id="contactForm-img">
     <div class="d-flex justify-content-center align-items-center screen" >
@@ -17,50 +19,52 @@
                     <img src="../img/contactFormUs.png" alt="Email-img">
                 </div>
                 <div class="col">
-                    <form method="post" th:action="@{/contactus}" class="row row-cols-1 gy-3" th:object="${contactForm}">
+                    <form class="row row-cols-1 gy-3">
                         <div class="col">
                             <div class="form-floating">
                                 <input type="text" class="form-control" name="fullName" id="inputFullName"
-                                       placeholder="Enter your FullName" th:field="*{fullname}">
+                                       placeholder="Enter your FullName">
                                 <label for="inputFullName">Full Name <span class="text-danger">*</span></label>
                             </div>
                         </div>
-                        <p class="text-danger ps-3 m-0 fw-bold" th:text="*{messFullname}"></p>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="messFullname"></p>
                         <div class="col">
                             <div class="form-floating">
                                 <input type="text" class="form-control" name="email" id="inputEmail"
-                                       placeholder="Enter your email address" th:field="*{email}">
+                                       placeholder="Enter your email address">
                                 <label for="inputEmail">Email <span class="text-danger">*</span></label>
                             </div>
                         </div>
-                        <p class="text-danger ps-3 m-0 fw-bold" th:text="*{messEmail}"></p>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="messEmail"></p>
                         <div class="col">
                             <div class="form-floating">
                                 <input type="text" class="form-control" name="phone" id="inputPhone"
-                                       placeholder="Enter your phone number" th:field="*{phone}">
+                                       placeholder="Enter your phone number">
                                 <label for="inputPhone">Phone Number <span class="text-danger">*</span></label>
                             </div>
                         </div>
-                        <p class="text-danger ps-3 m-0 fw-bold" th:text="*{messPhone}"></p>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="messPhone"></p>
                         <div class="col">
                             <div class="form-floating">
                                 <input type="text" class="form-control" name="subject" id="inputSubject"
-                                       placeholder="Enter Subject" th:field="*{subject}">
+                                       placeholder="Enter Subject" >
                                 <label for="inputSubject">Subject <span class="text-danger">*</span></label>
                             </div>
                         </div>
-                        <p class="text-danger ps-3 m-0 fw-bold" th:text="*{messSubject}"></p>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="messSubject"></p>
                         <div class="col">
                             <textarea class="form-control" placeholder="Enter messages here"
-                                      id="textareaMessage" th:field="*{mess}"></textarea>
+                                      id="textareaMessage"></textarea>
                         </div>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="mess"></p>
                         <div class="col">
-                            <input type="submit" value="SUBMIT" class="btn btn-primary w-100">
+                            <input type="button" value="SUBMIT" id="btn-submit-ContactUs" class="btn btn-primary w-100">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script th:src="@{/js/contactForm.js}" defer></script>
 </body>
 </html>

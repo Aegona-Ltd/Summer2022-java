@@ -10,6 +10,7 @@
     <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}" defer></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js}"></script>
     <script th:src="@{https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
 </head>
 <body>
 <!-- Header -->
@@ -28,7 +29,8 @@
             <a class="nav-link" aria-current="page" th:href="@{'/contacts'}">Contacts</a>
           </li>
         </ul>
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
+          <p id="account-name" class="m-0 me-5 text-white fw-bold"></p>
           <a class="btn btn-danger" type="submit" th:href="@{'/login'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
         </div>
       </div>
