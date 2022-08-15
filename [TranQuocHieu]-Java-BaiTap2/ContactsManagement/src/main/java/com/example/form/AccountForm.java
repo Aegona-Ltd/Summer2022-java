@@ -6,10 +6,10 @@ import javax.validation.constraints.*;
 
 @Data
 public class AccountForm {
-    @Email(message = "Email khong hop le!!")
-    @NotEmpty(message = "Vui long nhap Email!!")
+    @Email(message = "Invalid Email!!")
+    @NotEmpty(message = "Please enter your Email!!")
     private String email;
 
-    @NotEmpty(message = "Vui long nhap mat khau!!")
+    @NotEmpty(message = "Please enter your Password!!")
     private String password;
 }

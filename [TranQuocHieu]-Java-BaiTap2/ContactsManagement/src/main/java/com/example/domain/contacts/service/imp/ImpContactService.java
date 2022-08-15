@@ -59,7 +59,7 @@ public class ImpContactService implements ContactService {
         }catch (Exception e){
             Map<String, String> errors = new HashMap<>();
             result.setResult(90);
-            errors.put("phone", "phone khong hop le");
+            errors.put("phone", "Invalid Phone number");
             result.setErrors(errors);
             return result;
         }

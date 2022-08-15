@@ -55,10 +55,10 @@ public class ImpCustomerService implements CustomerService {
 
         if (customer==null) {
             result.setResult(10);
-            result.setMessage("Sai email!!");
+            result.setMessage("Wrong email!!");
         }else if (!customer.getPassword().equals(account.getPassword())) {
             result.setResult(20);
-            result.setMessage("Sai mat khau!!");
+            result.setMessage("Wrong password!!");
         }else {
             result.setResult(0);
             result.setMessage("Success");
