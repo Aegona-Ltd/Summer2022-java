@@ -13,7 +13,9 @@ import org.springframework.validation.FieldError;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -36,9 +38,24 @@ public class ImpContactService implements ContactService {
         return result;
     }
 
+    @Override
+    public RestResult getContact(int id) {
+        Contact contact = repository.findById(id).orElse(null);
+        List<Contact> contacts = new ArrayList<>();
+        contacts.add(contact);
+        RestResult result = new RestResult();
+        result.setResult(0);
+        result.setMessage("Success");
+        result.setData(contacts);
+        return result;
+    }
+
     /*
-    *
-    * */
+     * Method check account on database
+     * Method return RestResult:
+     *   result 0: login success
+     *   result 90: Wrong input value
+     * */
     @Override
     public RestResult addContact(@Valid ContactForm form, BindingResult bindingResult) {
         RestResult result = new RestResult();
@@ -79,6 +96,7 @@ public class ImpContactService implements ContactService {
         repository.deleteById(id);
         RestResult result = new RestResult();
         result.setResult(0);
+        result.setMessage("Success");
         return result;
     }
 }

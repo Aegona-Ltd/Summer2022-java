@@ -10,6 +10,9 @@ import java.util.List;
 public interface ContactService {
 
     RestResult listContact();
+
+    RestResult getContact(int id);
+
     RestResult addContact(ContactForm form, BindingResult bindingResult);
 
     RestResult deleteContact(Integer id);

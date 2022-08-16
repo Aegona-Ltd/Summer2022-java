@@ -22,8 +22,19 @@ public class ContactRestController {
         return service.listContact();
     }
 
+    @GetMapping("/{id:.+}")
+    public RestResult getContact(@PathVariable Integer id) {
+        return service.getContact(id);
+    }
+
     @PostMapping("")
     public RestResult addContact(@RequestBody @Valid ContactForm form, BindingResult bindingResult) {
         return service.addContact(form, bindingResult);
     }
+
+    @DeleteMapping("/{id:.+}")
+    public RestResult deleteContact(@PathVariable Integer id) {
+        return service.deleteContact(id);
+    }
+
 }

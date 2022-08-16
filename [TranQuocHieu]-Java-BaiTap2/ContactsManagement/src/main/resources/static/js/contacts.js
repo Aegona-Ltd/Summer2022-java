@@ -19,8 +19,8 @@ function loadData() {
                                 '<td>'+ item.phone +'</td>' +
                                 '<td>'+ item.subject +'</td>' +
                                 '<td class="text-center">' +
-                                    '<button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#view">View <i class="bi bi-card-list"></i></button> ' +
-                                    '<button class="btn btn-outline-danger">Delete <i class="bi bi-trash3-fill"></i></i></button>' +
+                                    '<button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#view" onclick="viewContact('+item.id+')">View <i class="bi bi-card-list"></i></button> ' +
+                                    '<button class="btn btn-outline-danger" onclick="deleteContact('+item.id+')">Delete <i class="bi bi-trash3-fill"></i></i></button>' +
                                 '</td>' +
                              '</tr>';
             })
@@ -34,14 +34,51 @@ function loadData() {
 
 function accountName() {
     $.ajax({
-            url: "http://localhost:8080/api/login/account",
-            type: "GET",
-            success: function (rs) {
-            console.log(rs)
-                $('#account-name').html("Name: " + rs.message);
-            },
-            error: function (jqXHR, exception) {
-                console.log(jqXHR, exception);
-            },
-        })
+        url: "http://localhost:8080/api/login/account",
+        type: "GET",
+        success: function (rs) {
+            $('#account-name').html("Name: " + rs.message);
+        },
+        error: function (jqXHR, exception) {
+            console.log(jqXHR, exception);
+        },
+    })
+}
+
+function deleteContact(id) {
+    $.ajax({
+        url: "http://localhost:8080/api/contact/" + id,
+        type: "DELETE",
+        success: function (rs) {
+            if (rs.result===0) {
+                window.location.href ="http://localhost:8080/contacts";
+            }
+        },
+        error: function (jqXHR, exception) {
+            console.log(jqXHR, exception);
+        },
+    })
+}
+
+function viewContact(id) {
+    $.ajax({
+        url: "http://localhost:8080/api/contact/" + id,
+        type: "GET",
+        dataType: 'json',
+        success: function(rs) {
+            var data = rs.data[0];
+            const dataTime = data.datatime.split("T");
+            $('#date').html(dataTime[0])
+            $('#time').html(dataTime[1])
+            $('#labelModel').html(data.fullname)
+            $('#name').html(data.fullname)
+            $('#email').html(data.email)
+            $('#phone').html(data.phone)
+            $('#subject').html(data.subject)
+            $('#message').html(data.message)
+        },
+        error: function (jqXHR, exception) {
+            console.log(jqXHR, exception)
+        },
+    })
 }
