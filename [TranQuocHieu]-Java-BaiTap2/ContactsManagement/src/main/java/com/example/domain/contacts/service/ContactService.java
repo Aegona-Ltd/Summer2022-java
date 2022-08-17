@@ -1,12 +1,9 @@
 package com.example.domain.contacts.service;
 
-import com.example.domain.contacts.model.Contact;
 import com.example.domain.contacts.model.ResultContact;
 import com.example.domain.restResult.RestResult;
-import com.example.form.ContactForm;
+import com.example.domain.contacts.model.ContactDTO;
 import org.springframework.validation.BindingResult;
-
-import java.util.List;
 
 public interface ContactService {
 
@@ -14,7 +11,7 @@ public interface ContactService {
 
     RestResult getContact(int id);
 
-    RestResult addContact(ContactForm form, BindingResult bindingResult);
+    RestResult addContact(ContactDTO form, BindingResult bindingResult);
 
     RestResult deleteContact(Integer id);
 }

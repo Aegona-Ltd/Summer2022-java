@@ -1,11 +1,11 @@
-package com.example.form;
+package com.example.domain.customers.model;
 
 import lombok.Data;
 
 import javax.validation.constraints.*;
 
 @Data
-public class AccountForm {
+public class AccountDTO {
     @Email(message = "Invalid Email!!")
     @NotEmpty(message = "Please enter your Email!!")
     private String email;

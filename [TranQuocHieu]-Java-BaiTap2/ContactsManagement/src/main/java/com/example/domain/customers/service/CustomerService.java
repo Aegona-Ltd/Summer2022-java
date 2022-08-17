@@ -2,12 +2,14 @@ package com.example.domain.customers.service;
 
 
 import com.example.domain.restResult.RestResult;
-import com.example.form.AccountForm;
+import com.example.domain.customers.model.AccountDTO;
 import org.springframework.validation.BindingResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface CustomerService {
 
-    RestResult loginAccount(AccountForm account, BindingResult bindingResult);
+    RestResult loginAccount(AccountDTO account, BindingResult bindingResult);
 
-    RestResult getAccountName();
+    RestResult getAccountName(HttpServletRequest request);
 }

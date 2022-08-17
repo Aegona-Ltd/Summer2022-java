@@ -1,4 +1,4 @@
-package com.example.form;
+package com.example.domain.contacts.model;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class ContactForm {
+public class ContactDTO {
     @NotEmpty(message = "Please enter your Fullname")
     private String fullname;
 

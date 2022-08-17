@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "CUSTOMER")
-public class Customer implements Serializable {
+@Table(name = "ACCOUNT")
+public class Account implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "email")

@@ -3,7 +3,7 @@ package com.example.controller.contact;
 import com.example.domain.contacts.model.ResultContact;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restResult.RestResult;
-import com.example.form.ContactForm;
+import com.example.domain.contacts.model.ContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class ContactRestController {
     }
 
     @PostMapping("")
-    public RestResult addContact(@RequestBody @Valid ContactForm form, BindingResult bindingResult) {
+    public RestResult addContact(@RequestBody @Valid ContactDTO form, BindingResult bindingResult) {
         return service.addContact(form, bindingResult);
     }
 

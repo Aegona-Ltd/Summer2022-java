@@ -1,6 +1,5 @@
 package com.example.domain.contacts.model;
 
-import com.example.form.ContactForm;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,7 +29,7 @@ public class Contact implements Serializable {
 
     public Contact(){}
 
-    public Contact (ContactForm contactForm){
+    public Contact (ContactDTO contactForm){
         this.id = 0;
         this.fullname = contactForm.getFullname();
         this.email = contactForm.getEmail();

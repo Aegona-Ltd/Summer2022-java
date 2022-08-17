@@ -1,4 +1,4 @@
-INSERT INTO customer (email, password)
+INSERT INTO account (email, password)
 VALUES
     ('abc@abc.com', '123'),
     ('admin@admin.com', '123'),

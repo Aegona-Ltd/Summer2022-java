@@ -4,7 +4,7 @@ import com.example.domain.contacts.model.Contact;
 import com.example.domain.contacts.model.ResultContact;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restResult.RestResult;
-import com.example.form.ContactForm;
+import com.example.domain.contacts.model.ContactDTO;
 import com.example.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -60,7 +60,7 @@ public class ImpContactService implements ContactService {
      *   result 90: Wrong input value
      * */
     @Override
-    public RestResult addContact(@Valid ContactForm form, BindingResult bindingResult) {
+    public RestResult addContact(@Valid ContactDTO form, BindingResult bindingResult) {
         RestResult result = new RestResult();
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();

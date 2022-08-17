@@ -1,9 +1,9 @@
 package com.example.domain.customers.service.imp;
 
-import com.example.domain.customers.model.Customer;
+import com.example.domain.customers.model.Account;
 import com.example.domain.customers.service.CustomerService;
 import com.example.domain.restResult.RestResult;
-import com.example.form.AccountForm;
+import com.example.domain.customers.model.AccountDTO;
 import com.example.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class ImpCustomerService implements CustomerService {
-
-    private static String accountName;
     @Autowired
     private MessageSource messageSource;
 
@@ -34,7 +34,7 @@ public class ImpCustomerService implements CustomerService {
     *   result 90: Wrong input value
     * */
     @Override
-    public RestResult loginAccount(@Valid AccountForm account, BindingResult bindingResult) {
+    public RestResult loginAccount(@Valid AccountDTO account, BindingResult bindingResult) {
         RestResult result = new RestResult();
         if(bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -50,7 +50,7 @@ public class ImpCustomerService implements CustomerService {
         }
 
 //        Get account in database
-        Customer customer = repository.findById(account.getEmail()).orElse(null);
+        Account customer = repository.findById(account.getEmail()).orElse(null);
 
         if (customer==null) {
             result.setResult(10);
@@ -61,15 +61,23 @@ public class ImpCustomerService implements CustomerService {
         }else {
             result.setResult(0);
             result.setMessage("Success");
-            this.accountName = customer.getEmail();
         }
         return result;
     }
 
-    public RestResult getAccountName() {
+    public RestResult getAccountName(HttpServletRequest request) {
         RestResult result = new RestResult();
         result.setResult(0);
-        result.setMessage(this.accountName);
+        Cookie[] cookies = request.getCookies();
+        System.out.println(cookies);
+        if (cookies==null) result.setMessage("");
+        else {
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("username")) {
+                    result.setMessage(cookies[i].getValue());
+                }
+            }
+        }
         return result;
     }
 }
