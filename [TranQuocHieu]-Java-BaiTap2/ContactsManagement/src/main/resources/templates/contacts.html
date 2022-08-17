@@ -9,6 +9,7 @@
     <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css}" rel="stylesheet"/>
     <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}" defer></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js}"></script>
 </head>
 <body id="bg-list">
     <!-- Header -->
@@ -35,7 +36,7 @@
         </div>
     </nav>
     <!-- List -->
-    <section class="mt-4">
+    <section class="my-4">
         <div class="container screen">
             <div class="card border-2 border-primary">
                 <div class="card-header bg-primary">
@@ -62,17 +63,21 @@
                         </tbody>
                     </table>
                     <nav class="float-end mt-3 me-5">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
+                        <ul class="pagination" id="pagination">
+                            <li class="page-item disabled" id="back-page">
+                                <button class="page-link">Previous</button>
                             </li>
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="#">1</a>
+                            <li class="page-item active" id="page-first">
+                                <button class="page-link" onclick="loadData(1)">1</button>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
+                            <li class="page-item" id="page-second">
+                                <button class="page-link" onclick="loadData(2)">2</button>
+                            </li>
+                            <li class="page-item" id="page-third">
+                                <button class="page-link" onclick="loadData(3)">3</button>
+                            </li>
+                            <li class="page-item" id="page-next">
+                                <button class="page-link" onclick="loadData(3)">Next</button>
                             </li>
                         </ul>
                     </nav>

@@ -1,5 +1,6 @@
 package com.example.controller.contact;
 
+import com.example.domain.contacts.model.ResultContact;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restResult.RestResult;
 import com.example.form.ContactForm;
@@ -18,8 +19,8 @@ public class ContactRestController {
 
 
     @GetMapping("")
-    public RestResult listContact() {
-        return service.listContact();
+    public ResultContact listContact(@RequestParam (value = "page",defaultValue = "1",required = false) Integer page) {
+        return service.listContact(page-1);
     }
 
     @GetMapping("/{id:.+}")
@@ -36,5 +37,4 @@ public class ContactRestController {
     public RestResult deleteContact(@PathVariable Integer id) {
         return service.deleteContact(id);
     }
-
 }

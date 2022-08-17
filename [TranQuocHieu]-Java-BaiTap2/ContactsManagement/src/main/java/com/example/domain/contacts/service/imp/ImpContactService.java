@@ -1,12 +1,16 @@
 package com.example.domain.contacts.service.imp;
 
 import com.example.domain.contacts.model.Contact;
+import com.example.domain.contacts.model.ResultContact;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restResult.RestResult;
 import com.example.form.ContactForm;
 import com.example.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -28,12 +32,11 @@ public class ImpContactService implements ContactService {
     private MessageSource messageSource;
 
     @Override
-    public RestResult listContact() {
-
-        RestResult result = new RestResult();
-        result.setResult(0);
-
-        result.setData(repository.findAll());
+    public ResultContact listContact(int page) {
+        Pageable pageable = PageRequest.of(page, 3, Sort.by("datatime").descending());
+        ResultContact result = new ResultContact();
+        result.setPage(page+1);
+        result.setData(repository.findAll(pageable));
 
         return result;
     }

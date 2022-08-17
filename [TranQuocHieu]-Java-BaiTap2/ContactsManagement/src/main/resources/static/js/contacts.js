@@ -3,13 +3,14 @@ $(document).ready(function () {
     accountName();
 });
 
-function loadData() {
+function loadData(page = 1) {
+    //if (page==undefined) page = 1;
     $.ajax({
-        url: "http://localhost:8080/api/contact",
+        url: "http://localhost:8080/api/contact?page="+page,
         type: "GET",
         success: function (rs) {
             var tableList = "";
-            var data = rs.data;
+            var data = rs.data.content;
             $.each(data, function (i, item) {
                 tableList += '<tr>' +
                                 '<th>'+ (i+1) +'</th>' +
@@ -25,6 +26,20 @@ function loadData() {
                              '</tr>';
             })
             $('#contact-list').html(tableList);
+            let pagi = "";
+            pagi += '<li class="page-item">' +
+                        '<button class="page-link" onclick="loadData('+((page==1) ? 1: page-1)+')">Previous</button>' +
+                    '</li>'
+            for (let i = 1; i <= rs.data.totalPages; i++) {
+                pagi += '<li class="page-item" id="pagi-'+i+'">' +
+                         '<button class="page-link" onclick="loadData('+i+')">'+i+'</button>' +
+                         '</li>'
+            }
+            pagi += '<li class="page-item">' +
+                    '<button class="page-link" onclick="loadData('+((page==rs.data.totalPages) ? rs.data.totalPages: page+1)+')">Next</button>'+
+                    '</li>';
+             $('#pagination').html(pagi);
+             document.getElementById("pagi-" + rs.page).classList.add('active');
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
@@ -51,7 +66,17 @@ function deleteContact(id) {
         type: "DELETE",
         success: function (rs) {
             if (rs.result===0) {
-                window.location.href ="http://localhost:8080/contacts";
+
+                toastr.success(
+                    'Delete',
+                    'Success',
+                    {
+                        timeOut: 1000,
+                        fadeOut: 1000
+                    }
+                );
+                loadData();
+
             }
         },
         error: function (jqXHR, exception) {

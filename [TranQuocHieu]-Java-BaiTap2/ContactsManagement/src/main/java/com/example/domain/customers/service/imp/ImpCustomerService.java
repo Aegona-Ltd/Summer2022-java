@@ -35,7 +35,6 @@ public class ImpCustomerService implements CustomerService {
     * */
     @Override
     public RestResult loginAccount(@Valid AccountForm account, BindingResult bindingResult) {
-        System.out.println(account);
         RestResult result = new RestResult();
         if(bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
