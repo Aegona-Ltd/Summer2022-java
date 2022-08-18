@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "contact")
+@Table(name = "contacts")
 public class Contact implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

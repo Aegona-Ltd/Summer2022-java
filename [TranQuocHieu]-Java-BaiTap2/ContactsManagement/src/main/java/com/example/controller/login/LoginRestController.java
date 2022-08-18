@@ -1,8 +1,8 @@
 package com.example.controller.login;
 
-import com.example.domain.customers.service.CustomerService;
+import com.example.domain.users.service.UsersService;
 import com.example.domain.restResult.RestResult;
-import com.example.domain.customers.model.AccountDTO;
+import com.example.domain.users.model.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +17,10 @@ import javax.validation.Valid;
 public class LoginRestController {
 
     @Autowired
-    private CustomerService service;
+    private UsersService service;
 
     @PostMapping("")
-    public RestResult login(@RequestBody @Valid AccountDTO form, BindingResult bindingResult, HttpServletResponse response) {
+    public RestResult login(@RequestBody @Valid UserDTO form, BindingResult bindingResult, HttpServletResponse response) {
         RestResult result = service.loginAccount(form, bindingResult);
         if (result.getResult()==0){
             Cookie cookie = new Cookie("username", form.getEmail());

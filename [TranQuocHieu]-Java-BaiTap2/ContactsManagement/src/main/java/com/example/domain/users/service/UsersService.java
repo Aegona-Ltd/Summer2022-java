@@ -1,15 +1,15 @@
-package com.example.domain.customers.service;
+package com.example.domain.users.service;
 
 
 import com.example.domain.restResult.RestResult;
-import com.example.domain.customers.model.AccountDTO;
+import com.example.domain.users.model.UserDTO;
 import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface CustomerService {
+public interface UsersService {
 
-    RestResult loginAccount(AccountDTO account, BindingResult bindingResult);
+    RestResult loginAccount(UserDTO account, BindingResult bindingResult);
 
     RestResult getAccountName(HttpServletRequest request);
 }

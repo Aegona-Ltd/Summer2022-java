@@ -5,7 +5,7 @@ import com.example.domain.contacts.model.ResultContact;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restResult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
-import com.example.repository.ContactRepository;
+import com.example.repository.ContactsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageRequest;
@@ -26,14 +26,14 @@ import java.util.Map;
 public class ImpContactService implements ContactService {
 
     @Autowired
-    private ContactRepository repository;
+    private ContactsRepository repository;
 
     @Autowired
     private MessageSource messageSource;
 
     @Override
     public ResultContact listContact(int page) {
-        Pageable pageable = PageRequest.of(page, 3, Sort.by("datatime").descending());
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("datatime").descending());
         ResultContact result = new ResultContact();
         result.setPage(page+1);
         result.setData(repository.findAll(pageable));

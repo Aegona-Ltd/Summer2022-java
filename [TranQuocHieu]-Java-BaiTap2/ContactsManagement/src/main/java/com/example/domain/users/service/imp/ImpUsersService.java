@@ -1,10 +1,10 @@
-package com.example.domain.customers.service.imp;
+package com.example.domain.users.service.imp;
 
-import com.example.domain.customers.model.Account;
-import com.example.domain.customers.service.CustomerService;
+import com.example.domain.users.model.User;
+import com.example.domain.users.service.UsersService;
 import com.example.domain.restResult.RestResult;
-import com.example.domain.customers.model.AccountDTO;
-import com.example.repository.CustomerRepository;
+import com.example.domain.users.model.UserDTO;
+import com.example.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -18,12 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class ImpCustomerService implements CustomerService {
+public class ImpUsersService implements UsersService {
     @Autowired
     private MessageSource messageSource;
 
     @Autowired
-    private CustomerRepository repository;
+    private UsersRepository repository;
 
     /*
     * Method check account on database
@@ -34,7 +34,7 @@ public class ImpCustomerService implements CustomerService {
     *   result 90: Wrong input value
     * */
     @Override
-    public RestResult loginAccount(@Valid AccountDTO account, BindingResult bindingResult) {
+    public RestResult loginAccount(@Valid UserDTO account, BindingResult bindingResult) {
         RestResult result = new RestResult();
         if(bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -50,12 +50,12 @@ public class ImpCustomerService implements CustomerService {
         }
 
 //        Get account in database
-        Account customer = repository.findById(account.getEmail()).orElse(null);
+        User user = repository.findByEmail(account.getEmail()).orElse(null);
 
-        if (customer==null) {
+        if (user==null) {
             result.setResult(10);
             result.setMessage("Wrong email!!");
-        }else if (!customer.getPassword().equals(account.getPassword())) {
+        }else if (!user.getPassword().equals(account.getPassword())) {
             result.setResult(20);
             result.setMessage("Wrong password!!");
         }else {
@@ -69,7 +69,6 @@ public class ImpCustomerService implements CustomerService {
         RestResult result = new RestResult();
         result.setResult(0);
         Cookie[] cookies = request.getCookies();
-        System.out.println(cookies);
         if (cookies==null) result.setMessage("");
         else {
             for (int i = 0; i < cookies.length; i++) {
