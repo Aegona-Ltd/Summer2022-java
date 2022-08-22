@@ -1,36 +1,43 @@
 package com.example.controller.login;
 
+import com.example.config.JwtProvider;
+import com.example.domain.restresult.RestResultError;
+import com.example.domain.role.model.JwtResult;
 import com.example.domain.users.service.UsersService;
-import com.example.domain.restResult.RestResult;
-import com.example.domain.users.model.UserDTO;
+import com.example.domain.users.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api/auth")
 public class LoginRestController {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Autowired
     private UsersService service;
 
-    @PostMapping("")
-    public RestResult login(@RequestBody @Valid UserDTO form, BindingResult bindingResult, HttpServletResponse response) {
-        RestResult result = service.loginAccount(form, bindingResult);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid UserDTO form, BindingResult bindingResult) {
+        RestResultError result = service.loginAccount(form, bindingResult);
         if (result.getResult()==0){
-            Cookie cookie = new Cookie("username", form.getEmail());
-            response.addCookie(cookie);
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(form.getEmail(), form.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateToken(authentication);
+            return ResponseEntity.ok(new JwtResult(0, result.getMessage(), jwt));
         }
-        return result;
-    }
-
-    @GetMapping("/account")
-    public RestResult accountName(HttpServletRequest request) {
-        return service.getAccountName(request);
+        return ResponseEntity.ok().body(result);
     }
 }

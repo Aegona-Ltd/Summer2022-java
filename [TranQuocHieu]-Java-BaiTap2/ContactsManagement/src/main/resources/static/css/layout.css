@@ -12,7 +12,7 @@
 /* login */
 #bg-login {
     background-image: url("../img/login.jpg");
-    background-repeat: no-repeat, repeat;
+    background-repeat: repeat-y;
 }
 #card-login {
     background-color: rgba(255, 255, 255, 0.425);
@@ -41,7 +41,7 @@ img {
 #bg-list {
     background-image: url("../img/contactList.jpg");
     background-size: 100%;
-    background-repeat: no-repeat, repeat;
+    background-repeat: repeat-y;
 }
 
 /* Dashboard */
@@ -54,4 +54,11 @@ img {
 }
 .shadow-sum {
     box-shadow: 2px 2px 4px rgba(48, 43, 43, 0.25);
+}
+
+/* Info */
+#img-avatar {
+    width: 250px !important;
+    height: 250px !important;
+    border-radius: 5px;
 }

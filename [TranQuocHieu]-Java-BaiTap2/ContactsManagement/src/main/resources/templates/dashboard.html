@@ -28,10 +28,13 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" th:href="@{'/contacts'}">Contacts</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{'/users'}">Người dùng</a>
+          </li>
         </ul>
         <div class="d-flex align-items-center">
-          <p id="account-name" class="m-0 me-5 text-white fw-bold"></p>
-          <a class="btn btn-danger" type="submit" th:href="@{'/login'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
+          <a id="account-name" th:href="@{'/info'}" class="m-0 me-5 text-white fw-bold"></a>
+          <a class="btn btn-danger" type="submit" th:href="@{'/api/auth/logout'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
         </div>
       </div>
     </div>

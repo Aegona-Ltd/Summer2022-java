@@ -1,9 +1,10 @@
-package com.example.domain.restResult;
+package com.example.domain.restresult;
 
 import com.example.domain.contacts.model.Contact;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.util.List;
@@ -16,7 +17,4 @@ public class RestResult {
 
         private int result;
         private String message;
-        private Map<String, String> errors;
-        private List<Contact> data;
-
 }

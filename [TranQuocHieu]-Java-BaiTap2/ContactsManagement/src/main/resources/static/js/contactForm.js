@@ -8,7 +8,7 @@ jQuery(function($){
 
 function sendContact() {
     $.ajax({
-        url: "http://localhost:8080/api/contact",
+        url: "http://localhost:8080/api/auth/contact",
         type: "POST",
         contentType: "application/json;",
         data: JSON.stringify({
@@ -20,17 +20,18 @@ function sendContact() {
         }),
         dataType: 'json',
         success: function(data) {
+            console.log(data)
             $('#messFullname').html("");
             $('#messEmail').html("");
             $('#messPhone').html("");
             $('#messSubject').html("");
             $('#mess').html("");
             if (data.result==90) {
-                $('#messFullname').html(data.errors.fullname);
-                $('#messEmail').html(data.errors.email);
-                $('#messPhone').html(data.errors.phone);
-                $('#messSubject').html(data.errors.subject);
-                $('#mess').html(data.errors.mess);
+                $('#messFullname').html(data.error.fullname);
+                $('#messEmail').html(data.error.email);
+                $('#messPhone').html(data.error.phone);
+                $('#messSubject').html(data.error.subject);
+                $('#mess').html(data.error.mess);
             }else {
                 toastr.success(
                     'Thank you ' + $('#inputFullName').val(),

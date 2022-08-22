@@ -1,10 +1,12 @@
 package com.example.domain.contacts.service.imp;
 
 import com.example.domain.contacts.model.Contact;
-import com.example.domain.contacts.model.ResultContact;
+import com.example.domain.contacts.model.result.ResultContact;
+import com.example.domain.contacts.model.result.ResultContactList;
 import com.example.domain.contacts.service.ContactService;
-import com.example.domain.restResult.RestResult;
+import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
+import com.example.domain.restresult.RestResultError;
 import com.example.repository.ContactsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -17,9 +19,7 @@ import org.springframework.validation.FieldError;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,9 +32,12 @@ public class ImpContactService implements ContactService {
     private MessageSource messageSource;
 
     @Override
-    public ResultContact listContact(int page) {
-        Pageable pageable = PageRequest.of(page, 5, Sort.by("datatime").descending());
-        ResultContact result = new ResultContact();
+    public ResultContactList listContact(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("datatime").descending());
+
+        ResultContactList result = new ResultContactList();
+        result.setResult(0);
+        result.setMessage("Success");
         result.setPage(page+1);
         result.setData(repository.findAll(pageable));
 
@@ -42,14 +45,18 @@ public class ImpContactService implements ContactService {
     }
 
     @Override
-    public RestResult getContact(int id) {
+    public ResultContact getContact(int id) {
         Contact contact = repository.findById(id).orElse(null);
-        List<Contact> contacts = new ArrayList<>();
-        contacts.add(contact);
-        RestResult result = new RestResult();
-        result.setResult(0);
-        result.setMessage("Success");
-        result.setData(contacts);
+        ResultContact result = new ResultContact();
+
+        if (contact==null) {
+            result.setResult(10);
+            result.setMessage("Not Found Contact by id: " + id);
+        }else {
+            result.setResult(0);
+            result.setMessage("Success");
+            result.setData(contact);
+        }
         return result;
     }
 
@@ -60,27 +67,26 @@ public class ImpContactService implements ContactService {
      *   result 90: Wrong input value
      * */
     @Override
-    public RestResult addContact(@Valid ContactDTO form, BindingResult bindingResult) {
-        RestResult result = new RestResult();
+    public RestResultError addContact(@Valid ContactDTO form, BindingResult bindingResult) {
+        RestResultError result = new RestResultError();
+        Map<String, String> errors = new HashMap<>();
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
             for (FieldError error: bindingResult.getFieldErrors()){
                 System.out.println(error);
                 String mess = messageSource.getMessage(error, null);
                 errors.put(error.getField(), mess);
             }
             result.setResult(90);
-            result.setErrors(errors);
+            result.setMessage("Valid input");
+            result.setError(errors);
             return result;
         }
-
         try{
             Integer phonenumber = Integer.parseInt(form.getPhone());
         }catch (Exception e){
-            Map<String, String> errors = new HashMap<>();
             result.setResult(90);
             errors.put("phone", "Invalid Phone number");
-            result.setErrors(errors);
+            result.setError(errors);
             return result;
         }
 

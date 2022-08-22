@@ -27,10 +27,13 @@
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{'/contacts'}">Contacts</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/users'}">Người dùng</a>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center">
-                    <p id="account-name" class="m-0 me-5 text-white fw-bold"></p>
-                    <a class="btn btn-danger" type="submit" th:href="@{'/login'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
+                    <a id="account-name" th:href="@{'/info'}" class="m-0 me-5 text-white fw-bold"></a>
+                    <a class="btn btn-danger" type="submit" th:href="@{'/api/auth/logout'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -64,21 +67,7 @@
                     </table>
                     <nav class="float-end mt-3 me-5">
                         <ul class="pagination" id="pagination">
-                            <li class="page-item disabled" id="back-page">
-                                <button class="page-link">Previous</button>
-                            </li>
-                            <li class="page-item active" id="page-first">
-                                <button class="page-link" onclick="loadData(1)">1</button>
-                            </li>
-                            <li class="page-item" id="page-second">
-                                <button class="page-link" onclick="loadData(2)">2</button>
-                            </li>
-                            <li class="page-item" id="page-third">
-                                <button class="page-link" onclick="loadData(3)">3</button>
-                            </li>
-                            <li class="page-item" id="page-next">
-                                <button class="page-link" onclick="loadData(3)">Next</button>
-                            </li>
+
                         </ul>
                     </nav>
                 </div>

@@ -4,10 +4,12 @@ $(document).ready(function () {
 });
 
 function loadData(page = 1) {
-    //if (page==undefined) page = 1;
     $.ajax({
         url: "http://localhost:8080/api/contact?page="+page,
         type: "GET",
+        headers: {
+            'Authorization':'Bearer ' + getCookie("TOKEN")
+        },
         success: function (rs) {
             var tableList = "";
             var data = rs.data.content;
@@ -48,22 +50,16 @@ function loadData(page = 1) {
 }
 
 function accountName() {
-    $.ajax({
-        url: "http://localhost:8080/api/login/account",
-        type: "GET",
-        success: function (rs) {
-            $('#account-name').html("Name: " + rs.message);
-        },
-        error: function (jqXHR, exception) {
-            console.log(jqXHR, exception);
-        },
-    })
+    document.getElementById('account-name').innerHTML = "Name: " + getCookie("USERNAME");
 }
 
 function deleteContact(id) {
     $.ajax({
         url: "http://localhost:8080/api/contact/" + id,
         type: "DELETE",
+        headers: {
+            'Authorization':'Bearer ' + getCookie("TOKEN")
+        },
         success: function (rs) {
             if (rs.result===0) {
 
@@ -89,9 +85,12 @@ function viewContact(id) {
     $.ajax({
         url: "http://localhost:8080/api/contact/" + id,
         type: "GET",
+        headers: {
+            'Authorization':'Bearer ' + getCookie("TOKEN")
+        },
         dataType: 'json',
         success: function(rs) {
-            var data = rs.data[0];
+            var data = rs.data;
             const dataTime = data.datatime.split("T");
             $('#date').html(dataTime[0])
             $('#time').html(dataTime[1])
@@ -106,4 +105,20 @@ function viewContact(id) {
             console.log(jqXHR, exception)
         },
     })
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }

@@ -35,7 +35,7 @@ function checkInputForm(form) {
     let name = document.getElementById('validation-fullname');
     let email = document.getElementById('validation-email');
     let phone = document.getElementById('validation-phone');
-    let subject = document.getElementById('validation-subject');
+    let subject = document.getElementById('validation-subject');    
     name.innerText="";
     email.innerText="";
     phone.innerText="";
