@@ -12,11 +12,11 @@ function loadData(page = 1) {
         },
         success: function (rs) {
             var tableList = "";
-            var data = rs.data.content;
+            var data = rs.data;
             $.each(data, function (i, item) {
                 tableList += '<tr>' +
                                 '<th>'+ (i+1) +'</th>' +
-                                '<td>'+ item.datatime +'</td>' +
+                                '<td>'+ item.datetime +'</td>' +
                                 '<td>'+ item.fullname +'</td>'+
                                 '<td>'+ item.email +'</td>' +
                                 '<td>'+ item.phone +'</td>' +
@@ -32,13 +32,13 @@ function loadData(page = 1) {
             pagi += '<li class="page-item">' +
                         '<button class="page-link" onclick="loadData('+((page==1) ? 1: page-1)+')">Previous</button>' +
                     '</li>'
-            for (let i = 1; i <= rs.data.totalPages; i++) {
+            for (let i = 1; i <= rs.totalPages; i++) {
                 pagi += '<li class="page-item" id="pagi-'+i+'">' +
                          '<button class="page-link" onclick="loadData('+i+')">'+i+'</button>' +
                          '</li>'
             }
             pagi += '<li class="page-item">' +
-                    '<button class="page-link" onclick="loadData('+((page==rs.data.totalPages) ? rs.data.totalPages: page+1)+')">Next</button>'+
+                    '<button class="page-link" onclick="loadData('+((page==rs.totalPages) ? rs.totalPages: page+1)+')">Next</button>'+
                     '</li>';
              $('#pagination').html(pagi);
              document.getElementById("pagi-" + rs.page).classList.add('active');
@@ -62,7 +62,6 @@ function deleteContact(id) {
         },
         success: function (rs) {
             if (rs.result===0) {
-
                 toastr.success(
                     'Delete',
                     'Success',
@@ -90,8 +89,8 @@ function viewContact(id) {
         },
         dataType: 'json',
         success: function(rs) {
-            var data = rs.data;
-            const dataTime = data.datatime.split("T");
+            var data = rs.contact;
+            const dataTime = data.datetime.split(" ");
             $('#date').html(dataTime[0])
             $('#time').html(dataTime[1])
             $('#labelModel').html(data.fullname)

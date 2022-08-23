@@ -1,6 +1,8 @@
 package com.example.domain.users.service.imp;
 
 import com.example.domain.restresult.RestResultError;
+import com.example.domain.restresult.ResultList;
+import com.example.domain.restresult.ResultMapper;
 import com.example.domain.role.model.Role;
 import com.example.domain.role.model.RoleName;
 import com.example.domain.users.model.*;
@@ -8,13 +10,15 @@ import com.example.domain.users.model.dto.CreateUserDTO;
 import com.example.domain.users.model.dto.UpdateUserDTO;
 import com.example.domain.users.model.dto.UserDTO;
 import com.example.domain.users.model.result.ResultUser;
-import com.example.domain.users.model.result.ResultUsers;
 import com.example.domain.users.service.UsersService;
 import com.example.domain.restresult.RestResult;
 import com.example.repository.RoleRepository;
 import com.example.repository.UsersRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,6 +45,9 @@ public class ImpUsersService implements UsersService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /*
     * Method check account on database
@@ -122,13 +129,11 @@ public class ImpUsersService implements UsersService {
     }
 
     @Override
-    public ResultUsers userList(int page, int size) {
+    public ResultList userList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-
-        ResultUsers resultUsers = new ResultUsers();
-        resultUsers.setPage(page+1);
-        resultUsers.setData(repository.findAll(pageable));
-        return resultUsers;
+        Page<User> users = repository.findAll(pageable);
+        ResultList resultList = ResultMapper.pageableToResultList(users);
+        return resultList;
     }
 
     @Override
@@ -143,21 +148,23 @@ public class ImpUsersService implements UsersService {
     @Override
     public ResultUser getUser(Integer id) {
         User user = repository.findById(id).orElse(null);
-        ResultUser resultUser = new ResultUser();
-        resultUser.setRestResult(new RestResult(0, "success"));
-        resultUser.setData(UserMapper.UserToUpdateUserDTO(user));
-        resultUser.setRoles(roleRepository.findAll());
-        return resultUser;
+        ResultUser userSerializer = new ResultUser();
+        userSerializer.setResult(0);
+        userSerializer.setMessage("Success");
+        userSerializer.setData(user);
+        userSerializer.setRoles(roleRepository.findAll());
+        return userSerializer;
     }
 
     @Override
     public ResultUser getUser(String email) {
         User user = repository.findByEmail(email).orElse(null);
-        ResultUser resultUser = new ResultUser();
-        resultUser.setRestResult(new RestResult(0, "success"));
-        resultUser.setData(UserMapper.UserToUpdateUserDTO(user));
-        resultUser.setRoles(roleRepository.findAll());
-        return resultUser;
+        ResultUser userSerializer = new ResultUser();
+        userSerializer.setResult(0);
+        userSerializer.setMessage("Success");
+        userSerializer.setData(user);
+        userSerializer.setRoles(roleRepository.findAll());
+        return userSerializer;
     }
 
     @Override

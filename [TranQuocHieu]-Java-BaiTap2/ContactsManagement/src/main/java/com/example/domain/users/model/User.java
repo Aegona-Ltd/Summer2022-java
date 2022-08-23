@@ -1,6 +1,8 @@
 package com.example.domain.users.model;
 
 import com.example.domain.role.model.Role;
+import com.example.domain.users.model.result.CustomUserSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;

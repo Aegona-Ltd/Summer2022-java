@@ -34,8 +34,9 @@ function loadData(page = 1) {
             'Authorization':'Bearer ' + getCookie("TOKEN")
         },
         success: function (rs) {
+
             var tableList = "";
-            var data = rs.data.content;
+            var data = rs.data;
 
             $.each(data, function (i, item) {
                 let roles = "";
@@ -59,13 +60,13 @@ function loadData(page = 1) {
             pagi += '<li class="page-item">' +
                         '<button class="page-link" onclick="loadData('+((page==1) ? 1: page-1)+')">Previous</button>' +
                     '</li>'
-            for (let i = 1; i <= rs.data.totalPages; i++) {
+            for (let i = 1; i <= rs.totalPages; i++) {
                 pagi += '<li class="page-item" id="pagi-'+i+'">' +
                          '<button class="page-link" onclick="loadData('+i+')">'+i+'</button>' +
                          '</li>'
             }
             pagi += '<li class="page-item">' +
-                    '<button class="page-link" onclick="loadData('+((page==rs.data.totalPages) ? rs.data.totalPages: page+1)+')">Next</button>'+
+                    '<button class="page-link" onclick="loadData('+((page==rs.totalPages) ? rs.totalPages: page+1)+')">Next</button>'+
                     '</li>';
              $('#pagination').html(pagi);
              document.getElementById("pagi-" + rs.page).classList.add('active');

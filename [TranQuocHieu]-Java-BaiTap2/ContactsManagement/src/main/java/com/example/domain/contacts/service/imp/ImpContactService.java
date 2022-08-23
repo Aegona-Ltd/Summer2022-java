@@ -1,15 +1,19 @@
 package com.example.domain.contacts.service.imp;
 
 import com.example.domain.contacts.model.Contact;
-import com.example.domain.contacts.model.result.ResultContact;
-import com.example.domain.contacts.model.result.ResultContactList;
+import com.example.domain.contacts.model.result.ContactSerializer;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
 import com.example.domain.restresult.RestResultError;
+import com.example.domain.restresult.ResultList;
+import com.example.domain.restresult.ResultMapper;
 import com.example.repository.ContactsRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,33 +35,34 @@ public class ImpContactService implements ContactService {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
-    public ResultContactList listContact(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("datatime").descending());
-
-        ResultContactList result = new ResultContactList();
-        result.setResult(0);
-        result.setMessage("Success");
-        result.setPage(page+1);
-        result.setData(repository.findAll(pageable));
-
+    public ResultList listContact(int page, int size) {
+        String sort = "datatime";
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        Page<Contact> contacts = repository.findAll(pageable);
+        ResultList result = ResultMapper.pageableToResultList(contacts);
+        result.setSort(sort);
         return result;
     }
 
     @Override
-    public ResultContact getContact(int id) {
+    public String getContact(int id) throws JsonProcessingException {
+
+        ContactSerializer contactSerializer = new ContactSerializer();
         Contact contact = repository.findById(id).orElse(null);
-        ResultContact result = new ResultContact();
 
         if (contact==null) {
-            result.setResult(10);
-            result.setMessage("Not Found Contact by id: " + id);
+            contactSerializer.setResult(10);
+            contactSerializer.setMessage("Not Found Contact by id: " + id);
         }else {
-            result.setResult(0);
-            result.setMessage("Success");
-            result.setData(contact);
+            contactSerializer.setResult(0);
+            contactSerializer.setMessage("Success");
+            contactSerializer.setContact(contact);
         }
-        return result;
+        return objectMapper.writeValueAsString(contactSerializer);
     }
 
     /*

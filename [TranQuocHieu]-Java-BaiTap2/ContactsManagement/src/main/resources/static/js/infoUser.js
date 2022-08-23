@@ -111,7 +111,7 @@ function viewUpPassword() {
                             '        <div class="col"> ' +
                              '            <div class="row"> ' +
                              '                <label for="inputNewPass" class="form-label col-4">New Password:</label> ' +
-                             '                <input type="text" class="form-control col-8" name="inputNewPass" id="inputNewPass" ' +
+                             '                <input type="password" class="form-control col-8" name="inputNewPass" id="inputNewPass" ' +
                              '                       placeholder="Enter your new password"> ' +
                              '            </div> ' +
                              '            <p class="text-danger ps-3 m-0 fw-bold" id="messNewPassword"></p> ' +
@@ -119,7 +119,7 @@ function viewUpPassword() {
                              '         <div class="col"> ' +
                              '            <div class="row"> ' +
                              '                <label for="inputPassConfirm" class="form-label col-4">Password comfirm:</label> ' +
-                             '                <input type="text" class="form-control col-8" name="name" id="inputPassConfirm" ' +
+                             '                <input type="password" class="form-control col-8" name="name" id="inputPassConfirm" ' +
                              '                       placeholder="Enter your password confirm"> ' +
                              '            </div> ' +
                              '            <p class="text-danger ps-3 m-0 fw-bold" id="messPassConfirm"></p> ' +

@@ -1,10 +1,9 @@
 package com.example.controller.contact;
 
-import com.example.domain.contacts.model.result.ResultContact;
-import com.example.domain.contacts.model.result.ResultContactList;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,14 +21,14 @@ public class ContactRestController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping("/contact")
-    public ResponseEntity<ResultContactList> listContact(@RequestParam (value = "page",defaultValue = "1",required = false) Integer page,
+    public ResponseEntity<?> listContact(@RequestParam (value = "page",defaultValue = "1",required = false) Integer page,
                                                          @RequestParam (value = "size",defaultValue = "5",required = false) Integer size) {
         return ResponseEntity.ok().body(service.listContact(page-1 , size));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping("/contact/{id:.+}")
-    public ResponseEntity<ResultContact> getContact(@PathVariable Integer id) {
+    public ResponseEntity<?> getContact(@PathVariable Integer id) throws JsonProcessingException {
         return ResponseEntity.ok().body(service.getContact(id));
     }
 
@@ -37,7 +36,6 @@ public class ContactRestController {
     public ResponseEntity<?> addContact(@RequestBody @Valid ContactDTO form, BindingResult bindingResult) {
         return ResponseEntity.ok().body(service.addContact(form, bindingResult));
     }
-
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @DeleteMapping("/contact/{id:.+}")

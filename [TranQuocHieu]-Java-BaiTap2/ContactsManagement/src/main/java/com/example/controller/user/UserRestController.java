@@ -2,7 +2,6 @@ package com.example.controller.user;
 
 import com.example.domain.users.model.dto.CreateUserDTO;
 import com.example.domain.users.model.dto.UpdateUserDTO;
-import com.example.domain.users.model.result.ResultUser;
 import com.example.domain.users.service.UsersService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +36,7 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable(name = "id") Integer id) throws JsonProcessingException {
-        ResultUser resultUser = service.getUser(id);
-        return ResponseEntity.ok().body(resultUser);
+        return ResponseEntity.ok().body(service.getUser(id));
     }
 
     @PutMapping("")
