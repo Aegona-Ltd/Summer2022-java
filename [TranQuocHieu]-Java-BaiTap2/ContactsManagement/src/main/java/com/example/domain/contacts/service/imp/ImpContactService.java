@@ -24,6 +24,7 @@ import org.springframework.validation.FieldError;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -112,5 +113,10 @@ public class ImpContactService implements ContactService {
         result.setResult(0);
         result.setMessage("Success");
         return result;
+    }
+
+    @Override
+    public List<Contact> contactList() {
+        return repository.findAll();
     }
 }

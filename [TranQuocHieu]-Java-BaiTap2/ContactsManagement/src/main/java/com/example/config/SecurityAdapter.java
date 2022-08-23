@@ -51,6 +51,8 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/users/export-to-excel").permitAll()
+                .antMatchers("/contacts/export-to-excel").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .exceptionHandling()

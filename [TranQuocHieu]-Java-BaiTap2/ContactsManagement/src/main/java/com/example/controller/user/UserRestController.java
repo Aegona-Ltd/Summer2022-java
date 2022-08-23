@@ -1,8 +1,10 @@
 package com.example.controller.user;
 
+import com.example.domain.users.model.User;
 import com.example.domain.users.model.dto.CreateUserDTO;
 import com.example.domain.users.model.dto.UpdateUserDTO;
 import com.example.domain.users.service.UsersService;
+import com.example.excel.ExcelUserGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -54,5 +62,4 @@ public class UserRestController {
     public ResponseEntity<?> upPass(@RequestBody @Valid CreateUserDTO userDTO, BindingResult bindingResult) {
         return ResponseEntity.ok().body(service.upPass(userDTO, bindingResult));
     }
-
 }

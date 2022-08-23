@@ -9,6 +9,7 @@ import com.example.domain.users.model.*;
 import com.example.domain.users.model.dto.CreateUserDTO;
 import com.example.domain.users.model.dto.UpdateUserDTO;
 import com.example.domain.users.model.dto.UserDTO;
+import com.example.domain.users.model.result.CustomUserSerializer;
 import com.example.domain.users.model.result.ResultUser;
 import com.example.domain.users.service.UsersService;
 import com.example.domain.restresult.RestResult;
@@ -16,6 +17,7 @@ import com.example.repository.RoleRepository;
 import com.example.repository.UsersRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -165,6 +167,12 @@ public class ImpUsersService implements UsersService {
         userSerializer.setData(user);
         userSerializer.setRoles(roleRepository.findAll());
         return userSerializer;
+    }
+
+    @Override
+    @JsonSerialize(using = CustomUserSerializer.class)
+    public List<User> userList() {
+        return repository.findAll();
     }
 
     @Override
