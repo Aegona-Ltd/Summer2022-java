@@ -1,27 +1,6 @@
-
 $(document).ready(function () {
     accountName();
 });
-
-function accountName() {
-    document.getElementById('account-name').innerHTML = "Name: " + getCookie("USERNAME");
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
 
 // Chart bar
 const cvsLine = document.getElementById('chartLine').getContext('2d');

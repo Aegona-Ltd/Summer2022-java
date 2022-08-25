@@ -1,17 +1,14 @@
 package com.example.excel;
 
 import com.example.domain.contacts.model.Contact;
-import com.example.domain.role.model.Role;
-import com.example.domain.users.model.User;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -31,7 +28,11 @@ public class ExcelContactGenarator {
         CellStyle style = createCellStyle(16,true );
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+
+        HSSFPalette palette = new HSSFWorkbook().getCustomPalette();
+        Short ligh_blue = palette.findSimilarColor(0, 204, 255).getIndex();
+
+        style.setFillForegroundColor(ligh_blue);
         createCell(row, 0, "#", style);
         createCell(row, 1, "DataTime", style);
         createCell(row, 2, "Fullname", style);

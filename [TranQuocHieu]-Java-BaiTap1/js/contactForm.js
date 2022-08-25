@@ -30,7 +30,6 @@ function sendContact() {
         },
     })
 }
-
 function checkInputForm(form) {
     let name = document.getElementById('validation-fullname');
     let email = document.getElementById('validation-email');

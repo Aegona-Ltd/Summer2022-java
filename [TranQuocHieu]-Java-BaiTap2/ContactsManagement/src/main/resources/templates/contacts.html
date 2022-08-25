@@ -33,7 +33,7 @@
                 </ul>
                 <div class="d-flex align-items-center">
                     <a id="account-name" th:href="@{'/info'}" class="m-0 me-5 text-white fw-bold"></a>
-                    <a class="btn btn-danger" type="submit" th:href="@{'/api/auth/logout'}">Đăng xuất <i class="bi bi-box-arrow-right"></i></a>
+                    <button class="btn btn-danger" type="submit" onclick="logout()">Đăng xuất <i class="bi bi-box-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -122,5 +122,6 @@
         </div>
     </div>
     <script th:src="@{/js/contacts.js}" defer></script>
+    <script th:src="@{/js/cookie.js}" defer></script>
 </body>
 </html>

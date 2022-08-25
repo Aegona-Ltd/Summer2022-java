@@ -45,12 +45,17 @@ function loadData(page = 1) {
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
+            if (jqXHR.status==401) {
+                let refreshToken = getCookie("REFRESHTOKEN");
+                if (refreshToken!="") {
+                    refreshToke(refreshToken);
+                    loadData();
+                }else {
+                    window.location.href="http://localhost:8080/login"
+                }
+            }
         },
     })
-}
-
-function accountName() {
-    document.getElementById('account-name').innerHTML = "Name: " + getCookie("USERNAME");
 }
 
 function deleteContact(id) {
@@ -76,6 +81,15 @@ function deleteContact(id) {
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
+            if (jqXHR.status==401) {
+                let refreshToken = getCookie("REFRESHTOKEN");
+                if (refreshToken!="") {
+                    refreshToke(refreshToken);
+                    deleteContact();
+                }else {
+                    window.location.href="http://localhost:8080/login"
+                }
+            }
         },
     })
 }
@@ -102,22 +116,15 @@ function viewContact(id) {
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception)
+            if (jqXHR.status==401) {
+                let refreshToken = getCookie("REFRESHTOKEN");
+                if (refreshToken!="") {
+                    refreshToke(refreshToken);
+                    viewContact();
+                }else {
+                    window.location.href="http://localhost:8080/login"
+                }
+            }
         },
     })
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
 }

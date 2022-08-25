@@ -29,7 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String jwt = getJwtFromRequest(request);
 //            Kiem tra da co jwt va dung la jwt cua user hay khong ?
-            if (StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)){
+            if (StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)==0){
+
 //                Lay email(subject) tu token
                 String email = jwtProvider.getUserUsernameFromJWT(jwt);
 //                Lay email tu database
@@ -37,7 +38,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
-//                ??????????????
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
@@ -47,6 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //        next -> Controller
         filterChain.doFilter(request, response);
     }
+
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String token = request.getHeader("Authorization");

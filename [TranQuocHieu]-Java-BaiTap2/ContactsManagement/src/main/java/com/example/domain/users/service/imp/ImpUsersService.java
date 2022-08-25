@@ -13,9 +13,9 @@ import com.example.domain.users.model.result.CustomUserSerializer;
 import com.example.domain.users.model.result.ResultUser;
 import com.example.domain.users.service.UsersService;
 import com.example.domain.restresult.RestResult;
+import com.example.repository.RefreshTokenRepository;
 import com.example.repository.RoleRepository;
 import com.example.repository.UsersRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,8 @@ import java.util.Map;
 @Service
 public class ImpUsersService implements UsersService {
 
+    private static String emailAccount;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -50,6 +52,9 @@ public class ImpUsersService implements UsersService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
 
     /*
     * Method check account on database
@@ -89,6 +94,7 @@ public class ImpUsersService implements UsersService {
         else {
             resultError.setResult(0);
             resultError.setMessage(user.getName());
+            this.emailAccount = user.getEmail();
         }
         return resultError;
     }
@@ -143,6 +149,10 @@ public class ImpUsersService implements UsersService {
         RestResult result = new RestResult();
         result.setResult(0);
         result.setMessage("Success");
+        List<Long> refreshTokenList = refreshTokenRepository.findByUserId(id);
+        for (Long tokenId:refreshTokenList) {
+            refreshTokenRepository.deleteById(tokenId);
+        }
         repository.deleteById(id);
         return result;
     }
@@ -233,5 +243,24 @@ public class ImpUsersService implements UsersService {
         }
 
         return result;
+    }
+
+    @Override
+    public void logout() {
+        User user = repository.findByEmail(this.emailAccount).orElse(null);
+        if (user==null) return;
+        List<Long> refreshTokenList = refreshTokenRepository.findByUserId(user.getId());
+        for (Long tokenId:refreshTokenList) {
+            refreshTokenRepository.deleteById(tokenId);
+        }
+        this.emailAccount = null;
+    }
+
+    public static String getEmailAccount() {
+        return emailAccount;
+    }
+
+    public static void setEmailAccount(String emailAccount) {
+        ImpUsersService.emailAccount = emailAccount;
     }
 }

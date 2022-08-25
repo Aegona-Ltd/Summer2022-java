@@ -66,6 +66,7 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/api/auth/logout")
                 .deleteCookies("USERNAME")
                 .deleteCookies("TOKEN")
-                .logoutSuccessUrl("/login");
+                .deleteCookies("REFRESHTOKEN")
+                .logoutSuccessUrl("/api/auth/logoutF");
     }
 }

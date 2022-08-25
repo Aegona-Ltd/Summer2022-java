@@ -33,4 +33,6 @@ public interface UsersService {
     RestResultError updateUser(UpdateUserDTO userDTO, BindingResult bindingResult);
 
     RestResultError upPass(CreateUserDTO userDTO, BindingResult bindingResult);
+
+    void logout();
 }

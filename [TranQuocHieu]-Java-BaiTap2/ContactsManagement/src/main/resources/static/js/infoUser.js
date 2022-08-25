@@ -1,29 +1,13 @@
 $(document).ready(function () {
     loadData();
+    accountName1();
     accountName();
 });
 
 let userU = {}
 
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-function accountName() {
+function accountName1() {
     const username = getCookie("USERNAME");
-    document.getElementById('account-name').innerHTML = "Name: " + username;
     document.getElementById('username').innerHTML = username.toUpperCase();
 }
 
@@ -49,6 +33,15 @@ function loadData() {
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
+            if (jqXHR.status==401) {
+                let refreshToken = getCookie("REFRESHTOKEN");
+                if (refreshToken!="") {
+                    refreshToke(refreshToken);
+                    loadData();
+                }else {
+                    window.location.href="http://localhost:8080/login"
+                }
+            }
         },
     })
 }
@@ -182,6 +175,15 @@ function updateApiUser() {
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception)
+            if (jqXHR.status==401) {
+                let refreshToken = getCookie("REFRESHTOKEN");
+                if (refreshToken!="") {
+                    refreshToke(refreshToken);
+                    updateApiUser();
+                }else {
+                    window.location.href="http://localhost:8080/login"
+                }
+            }
         },
     })
 }
@@ -253,6 +255,15 @@ function updatePassAPI() {
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
+            if (jqXHR.status==401) {
+                let refreshToken = getCookie("REFRESHTOKEN");
+                if (refreshToken!="") {
+                    refreshToke(refreshToken);
+                    updatePassAPI();
+                }else {
+                    window.location.href="http://localhost:8080/login"
+                }
+            }
         },
     })
 }

@@ -1,4 +1,4 @@
-package com.example.domain.role.model;
+package com.example.domain.request;
 
 import java.io.Serializable;
 

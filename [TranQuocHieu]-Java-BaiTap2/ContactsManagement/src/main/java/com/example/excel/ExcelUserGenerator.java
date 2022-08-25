@@ -2,6 +2,8 @@ package com.example.excel;
 
 import com.example.domain.role.model.Role;
 import com.example.domain.users.model.User;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -28,7 +30,10 @@ public class ExcelUserGenerator {
         CellStyle style = createCellStyle(16,true );
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+        HSSFPalette palette = new HSSFWorkbook().getCustomPalette();
+        Short ligh_blue = palette.findSimilarColor(0, 204, 255).getIndex();
+
+        style.setFillForegroundColor(ligh_blue);
 
         createCell(row, 0, "#", style);
         createCell(row, 1, "Name", style);
@@ -81,20 +86,16 @@ public class ExcelUserGenerator {
 
         Integer count = 1;
         for (User user: userlist) {
-            Row row = xssfSheet.createRow(rowCount++);
-
-            String roles = "";
+            boolean roleFirst = true;
             for (Role role:  user.getRoles()) {
-                roles += role.getName() + ", ";
+                Row row = xssfSheet.createRow(rowCount++);
+                int columnCount = 0;
+                createCell(row, columnCount++, (roleFirst) ? count++: "", (count%2!=0) ? styleRowEven: styleRowOdd);
+                createCell(row, columnCount++, (roleFirst) ? user.getName(): "", (count%2!=0) ? styleRowEven: styleRowOdd);
+                createCell(row, columnCount++, (roleFirst) ? user.getEmail(): "", (count%2!=0) ? styleRowEven: styleRowOdd);
+                createCell(row, columnCount++, role.getName() + "", (count%2!=0) ? styleRowEven: styleRowOdd);
+                roleFirst = false;
             }
-            roles = roles.substring(0, roles.length()-2);
-
-            int columnCount = 0;
-            createCell(row, columnCount++, count++, (count%2!=0) ? styleRowEven: styleRowOdd);
-            createCell(row, columnCount++, user.getName(), (count%2!=0) ? styleRowEven: styleRowOdd);
-            createCell(row, columnCount++, user.getEmail(), (count%2!=0) ? styleRowEven: styleRowOdd);
-            createCell(row, columnCount++, roles, (count%2!=0) ? styleRowEven: styleRowOdd);
-
         }
     }
 
