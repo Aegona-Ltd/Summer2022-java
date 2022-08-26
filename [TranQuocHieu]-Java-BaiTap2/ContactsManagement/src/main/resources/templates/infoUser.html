@@ -1,71 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
     <title>USER</title>
-    <link rel="stylesheet" th:href="@{/css/layout.css}">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css}">
-    <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css}" rel="stylesheet"/>
-    <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}" defer></script>
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js}"></script>
+    <script th:src="@{/js/infoUser.js}" defer></script>
 </head>
 <body id="bg-list">
-<!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="#">COMPANY</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" th:href="@{'/dashboard'}">Trang Chủ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/contacts'}">Contacts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/users'}">Người dùng</a>
-                </li>
-            </ul>
-            <div class="d-flex align-items-center">
-                <a id="account-name" th:href="@{'/info'}" class="m-0 me-5 text-white fw-bold"></a>
-                <button class="btn btn-danger" type="submit" onclick="logout()">Đăng xuất <i class="bi bi-box-arrow-right"></i></button>
-            </div>
-        </div>
-    </div>
-</nav>
-<section class="my-4">
-    <div class="container">
-        <div class="card border-2 border-primary">
-            <div class="card-body row row-cols-1">
-                <div class="col text-center">
-                    <img th:src="@{/img/avatarUser.jpg}" class="border boder-primary" alt="avatar" id="img-avatar">
-                </div>
-                <h1 class="fw-bold col text-center my-4" id="username"></h1>
-                <div class="col text-center">
-                    <h4>EMAIL: </h4>
-                    <p id="email"></p>
-                </div>
-                <div class="col text-center">
-                    <h4>ROLES: </h4>
-                    <p id="roles"></p>
-                </div>
-                <div class="col text-center">
-                    <div class="row row-cols-2 justify-content-evenly gx-3" id="btn-handle">
+<div layout:fragment="content">
+    <section class="my-4">
+        <div class="container">
+            <div class="card border-2 border-primary">
+                <div class="card-body row row-cols-1">
+                    <div class="col text-center">
+                        <img th:src="@{/img/avatarUser.jpg}" class="border boder-primary" alt="avatar" id="img-avatar">
+                    </div>
+                    <h1 class="fw-bold col text-center my-4" id="username"></h1>
+                    <div class="col text-center">
+                        <h4>EMAIL: </h4>
+                        <p id="email"></p>
+                    </div>
+                    <div class="col text-center">
+                        <h4>ROLES: </h4>
+                        <p id="roles"></p>
+                    </div>
+                    <div class="col text-center">
+                        <div class="row row-cols-2 justify-content-evenly gx-3" id="btn-handle">
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section id="view-user" class="container mb-5">
-</section>
-<script th:src="@{/js/infoUser.js}" defer></script>
-<script th:src="@{/js/cookie.js}" defer></script>
+        </section>
+    <section id="view-user" class="container mb-5">
+    </section>
+</div>
 </body>
 </html>

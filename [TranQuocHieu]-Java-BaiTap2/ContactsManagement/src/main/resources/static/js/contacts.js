@@ -1,6 +1,7 @@
 $(document).ready(function () {
     loadData();
     accountName();
+    loadheader('contacts');
 });
 
 function loadData(page = 1) {

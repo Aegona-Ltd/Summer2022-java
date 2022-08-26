@@ -2,6 +2,7 @@ $(document).ready(function () {
     loadData();
     accountName1();
     accountName();
+    loadheader('');
 });
 
 let userU = {}

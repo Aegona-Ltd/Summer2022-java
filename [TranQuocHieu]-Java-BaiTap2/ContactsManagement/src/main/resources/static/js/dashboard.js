@@ -1,6 +1,8 @@
 $(document).ready(function () {
     accountName();
+    loadheader('home');
 });
+
 
 // Chart bar
 const cvsLine = document.getElementById('chartLine').getContext('2d');

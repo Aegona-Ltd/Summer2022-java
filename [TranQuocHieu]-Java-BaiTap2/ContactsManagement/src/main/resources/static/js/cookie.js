@@ -55,4 +55,12 @@ function logout() {
         },
     })
 }
+function loadheader(page) {
+    document.getElementById('link-home-header').classList.remove('active');
+    document.getElementById('link-contacts-header').classList.remove('active');
+    document.getElementById('link-users-header').classList.remove('active');
+    if (page!="") {
+        document.getElementById('link-' + page + '-header').classList.add("active");
+    }
+}
 
