@@ -11,6 +11,7 @@ import com.example.domain.restresult.ResultMapper;
 import com.example.repository.ContactsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -66,12 +68,6 @@ public class ImpContactService implements ContactService {
         return objectMapper.writeValueAsString(contactSerializer);
     }
 
-    /*
-     * Method check account on database
-     * Method return RestResult:
-     *   result 0: login success
-     *   result 90: Wrong input value
-     * */
     @Override
     public RestResultError addContact(@Valid ContactDTO form, BindingResult bindingResult) {
         RestResultError result = new RestResultError();
@@ -82,7 +78,7 @@ public class ImpContactService implements ContactService {
                 String mess = messageSource.getMessage(error, null);
                 errors.put(error.getField(), mess);
             }
-            result.setResult(90);
+            result.setResult(-1);
             result.setMessage("Valid input");
             result.setError(errors);
             return result;
@@ -90,7 +86,7 @@ public class ImpContactService implements ContactService {
         try{
             Integer phonenumber = Integer.parseInt(form.getPhone());
         }catch (Exception e){
-            result.setResult(90);
+            result.setResult(-1);
             errors.put("phone", "Invalid Phone number");
             result.setError(errors);
             return result;
@@ -100,14 +96,19 @@ public class ImpContactService implements ContactService {
 
         Contact contact = new Contact(form);
         contact.setDatatime(myDateObj);
-        repository.save(contact);
-        result.setResult(0);
+        contact = repository.save(contact);
+        result.setResult(contact.getId());
         result.setMessage("Success");
         return result;
     }
 
     @Override
     public RestResult deleteContact(Integer id) {
+        Contact contact = repository.findById(id).orElse(null);
+        if (contact.getFileName()!=null) {
+            File file = getFileById(contact.getId());
+            file.deleteOnExit();
+        }
         repository.deleteById(id);
         RestResult result = new RestResult();
         result.setResult(0);
@@ -118,5 +119,18 @@ public class ImpContactService implements ContactService {
     @Override
     public List<Contact> contactList() {
         return repository.findAll();
+    }
+
+    @Override
+    public File getFileById(Integer id) {
+        String filename = repository.findById(id).orElse(null).getFileName();
+        return new File("src/main/resources/file/upload/"+filename);
+    }
+
+    @Override
+    public void addFileNameById(Integer id, String filename) {
+        Contact contact = repository.findById(id).orElse(null);
+        contact.setFileName(filename);
+        repository.save(contact);
     }
 }

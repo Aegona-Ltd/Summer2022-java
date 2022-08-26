@@ -1,17 +1,15 @@
 package com.example.domain.contacts.model;
 
-import com.example.domain.contacts.model.result.CustomContactSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "contacts")
-@JsonSerialize(using = CustomContactSerializer.class)
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +29,9 @@ public class Contact implements Serializable {
     private String subject;
     @Column(name = "message")
     private String message;
+
+    @Column(name = "file_name")
+    private String fileName;
 
     public Contact(){}
 

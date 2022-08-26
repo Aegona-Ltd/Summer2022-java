@@ -2,9 +2,11 @@ package com.example.domain.contacts.model;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.io.File;
 
 @Data
 public class ContactDTO {

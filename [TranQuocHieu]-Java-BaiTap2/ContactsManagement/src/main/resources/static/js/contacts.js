@@ -16,7 +16,7 @@ function loadData(page = 1) {
             $.each(data, function (i, item) {
                 tableList += '<tr>' +
                                 '<th>'+ (i+1) +'</th>' +
-                                '<td>'+ item.datetime +'</td>' +
+                                '<td>'+ item.datatime +'</td>' +
                                 '<td>'+ item.fullname +'</td>'+
                                 '<td>'+ item.email +'</td>' +
                                 '<td>'+ item.phone +'</td>' +
@@ -76,7 +76,6 @@ function deleteContact(id) {
                     }
                 );
                 loadData();
-
             }
         },
         error: function (jqXHR, exception) {
@@ -104,15 +103,25 @@ function viewContact(id) {
         dataType: 'json',
         success: function(rs) {
             var data = rs.contact;
-            const dataTime = data.datetime.split(" ");
-            $('#date').html(dataTime[0])
-            $('#time').html(dataTime[1])
+            const dateTime = data.datatime.split("T");
+            $('#date').html(dateTime[0])
+            $('#time').html(dateTime[1])
             $('#labelModel').html(data.fullname)
-            $('#name').html(data.fullname)
             $('#email').html(data.email)
             $('#phone').html(data.phone)
             $('#subject').html(data.subject)
             $('#message').html(data.message)
+            var elementLinkDownloadFile = document.getElementById('down-file');
+            if (data.fileName!=null) {
+                $('#down-file').html('File <i class="bi bi-file-earmark-arrow-down"></i>')
+                elementLinkDownloadFile.setAttribute('href', 'http://localhost:8080/api/auth/down-file/' + data.id);
+                elementLinkDownloadFile.classList.add("btn");
+                elementLinkDownloadFile.classList.add("btn-primary");
+            }else {
+                $('#down-file').html("")
+                elementLinkDownloadFile.classList.remove("btn");
+                elementLinkDownloadFile.classList.remove("btn-primary");
+            }
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception)
