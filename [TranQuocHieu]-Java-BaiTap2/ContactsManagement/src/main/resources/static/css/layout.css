@@ -9,6 +9,10 @@
     margin-left: 110px;
 }
 
+#img-update {
+
+}
+
 /* login */
 #bg-login {
     background-image: url("../img/login.jpg");
@@ -31,7 +35,7 @@
     box-shadow: 5px 10px 60px black;
 }
 #textareaMessage {
-    height: 100px;
+    height: 50px;
 }
 img {
     width: 100% !important; 

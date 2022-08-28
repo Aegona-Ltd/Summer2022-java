@@ -14,9 +14,10 @@ function loadData(page = 1) {
         success: function (rs) {
             var tableList = "";
             var data = rs.data;
+            let stt = (page-1)*5;
             $.each(data, function (i, item) {
                 tableList += '<tr>' +
-                                '<th>'+ (i+1) +'</th>' +
+                                '<th>'+ (i+stt+1) +'</th>' +
                                 '<td>'+ item.datatime +'</td>' +
                                 '<td>'+ item.fullname +'</td>'+
                                 '<td>'+ item.email +'</td>' +
@@ -43,6 +44,7 @@ function loadData(page = 1) {
                     '</li>';
              $('#pagination').html(pagi);
              document.getElementById("pagi-" + rs.page).classList.add('active');
+             $('#download-excel').html('<i class="bi bi-cloud-arrow-down-fill"></i> Download to Excel')
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
@@ -54,6 +56,9 @@ function loadData(page = 1) {
                 }else {
                     window.location.href="http://localhost:8080/login"
                 }
+            }
+            if (jqXHR.status==403) {
+                window.location.href="http://localhost:8080/dashboard"
             }
         },
     })

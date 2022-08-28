@@ -12,22 +12,15 @@
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body id="contactForm-img">
-    <div class="d-flex justify-content-center align-items-center screen my-5" >
-        <div class="rounded-3 bg-white w-75" id="card-contactForm">
-            <h2 class="text-center my-3 fw-bolder">CONTACT US</h2>
+<body id="contactForm-img" class="screen">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="rounded-3 bg-white w-75 my-3" id="card-contactForm">
             <div class="row row-cols-2 align-items-center p-4 pt-0">
                 <div class="col">
-                    <div class="row row-cols-1 justify-content-center">
-                        <img src="../img/contactFormUs.png" alt="Email-img" class="col w-50">
-                        <div class="col my-3">
-                            <input class="form-control" type="file" id="formFile">
-                        </div>
-                        <div class="g-recaptcha col" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-                        <p class="text-danger ps-3 m-0 fw-bold" id="messRecapcha"></p>
-                    </div>
+                    <img src="../img/contactFormUs.png" alt="Email-img">
                 </div>
                 <div class="col">
+                    <h2 class="text-center my-3 fw-bolder">CONTACT US</h2>
                     <form class="row row-cols-1 gy-3">
                         <div class="col">
                             <div class="form-floating">
@@ -66,6 +59,14 @@
                                       id="textareaMessage"></textarea>
                         </div>
                         <p class="text-danger ps-3 m-0 fw-bold" id="mess"></p>
+                        <div class="col my-3">
+                            <input class="form-control" type="file" id="formFile">
+                        </div>
+                        <p class="text-danger ps-3 m-0 fw-bold" id="messFile"></p>
+                        <div id="capcha">
+                            <div class="g-recaptcha col" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                            <p class="text-danger fw-bold" id="messRecapcha"></p>
+                        </div>
                         <div class="col">
                             <input type="button" value="SUBMIT" id="btn-submit-ContactUs" class="btn btn-primary w-100">
                         </div>

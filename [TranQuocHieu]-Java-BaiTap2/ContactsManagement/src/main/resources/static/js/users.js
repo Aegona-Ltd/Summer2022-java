@@ -17,21 +17,21 @@ function loadData(page = 1) {
 
             var tableList = "";
             var data = rs.data;
-
             $.each(data, function (i, item) {
                 let roles = "";
+                let stt = (page-1)*5;
                 $.each(item.roles, function(i, role){
                     roles += role.name + " - ";
                 })
                 roles = roles.substring(0, roles.length-3)
                 tableList += '<tr>' +
-                                '<th>'+ (i+1) +'</th>' +
+                                '<th>'+ (stt+i+1) +'</th>' +
                                 '<td>'+ item.name +'</td>' +
                                 '<td>'+ item.email +'</td>' +
                                 '<td class="text-center">'+ roles +'</td>' +
                                 '<td class="text-center">' +
-                                    '<button class="btn btn-outline-success" onclick="callApiUserId('+ item.id +')">View <i class="bi bi-card-list"></i></button> ' +
-                                    '<button class="btn btn-outline-danger" onclick="deleteApiUser('+item.id+')">Delete <i class="bi bi-trash3-fill"></i></i></button>' +
+                                    '<button class="btn btn-outline-success" onclick="callApiUserId('+ item.id +')">View <i class="bi bi-card-list"></i></button>' +
+                                    ( (item.id!=1) ? '<button class="btn btn-outline-danger ms-2" onclick="deleteApiUser('+item.id+')">Delete <i class="bi bi-trash3-fill"></i></i></button>':'') +
                                 '</td>' +
                              '</tr>';
             })
@@ -50,6 +50,7 @@ function loadData(page = 1) {
                     '</li>';
              $('#pagination').html(pagi);
              document.getElementById("pagi-" + rs.page).classList.add('active');
+             $('#download-excel').html('<i class="bi bi-cloud-arrow-down-fill"></i> Download to Excel')
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
@@ -61,6 +62,9 @@ function loadData(page = 1) {
                 }else {
                     window.location.href="http://localhost:8080/login"
                 }
+            }
+            if (jqXHR.status==403) {
+                window.location.href="http://localhost:8080/dashboard"
             }
         },
     })
@@ -188,27 +192,29 @@ function viewUser(roles, id) {
                     '                   <input type="text" class="form-control col-8" name="name" id="inputName" ' +
                     '                       placeholder="Enter your Name"> ' +
                     '               </div> ' +
-                    '            <p class="text-danger ps-3 m-0 fw-bold" id="messName"></p> ' +
-                    '        </div>' +
-                    '        <div class="col-6">' +
-                    '            <div class="row">' +
-                    '                <p class="form-label">Email: <span class="text-danger">*</span></p>' +
-                    '                <p id="inputEmail"></p>' +
-                    '            </div>' +
-                    '        </div>' +
-                    '        <div class="col-6">' +
-                    '            <p>Role: </p>' +
-                                setCheckBox(roles) +
-                    '        <p class="text-danger ps-3 m-0 fw-bold" id="messRole"></p>' +
-                    '        <div class="col-6"><img th:src="@{/img/update.png}"/></div>' +
-                    '        <div class="col">' +
-                    '            <div class="row justify-content-evenly">' +
-                    '                <button type="button" onclick="handleUpdate('+id+')" id="btn-update-user" class="btn btn-success w-25 col-auto">UPDATE</button>' +
-                    '                <button type="button" onclick="handleCancel()" id="btn-cancel-user" class="btn btn-secondary w-25 col-auto">CANCEL</button>' +
-                    '            </div>' +
-                    '        </div>' +
-                    '    </form>' +
-                    '</div>' +
+                    '               <p class="text-danger ps-3 m-0 fw-bold" id="messName"></p> ' +
+                    '           </div>' +
+                    '           <div class="col-6">' +
+                    '               <div class="row">' +
+                    '                   <p class="form-label">Email: <span class="text-danger">*</span></p>' +
+                    '                   <p id="inputEmail"></p>' +
+                    '               </div>' +
+                    '           </div>' +
+                    '           <div class="col-6">' +
+                    '               <p>Role: </p>' +
+                                    setCheckBox(roles) +
+                    '               <p class="text-danger ps-3 m-0 fw-bold" id="messRole"></p>' +
+                    '           </div>' +
+                    '           <div class="col-6" id="img-update">' +
+                    '           </div>' +
+                    '           <div class="col-12 mt-3">' +
+                    '               <div class="row justify-content-evenly">' +
+                    ((id!=1) ? '        <button type="button" onclick="handleUpdate('+id+')" id="btn-update-user" class="btn btn-success w-25 col-auto">UPDATE</button> ':'<div class="col-auto"></div>') +
+                    '                   <button type="button" onclick="handleCancel()" id="btn-cancel-user" class="btn btn-secondary w-25 col-auto">CANCEL</button>' +
+                    '               </div>' +
+                    '           </div>' +
+                    '       </form>' +
+                    '   </div>' +
                     '</div>';
     $("#view-user").html(htmlView);
 }
@@ -229,7 +235,7 @@ function setCheckBox(roles) {
              '                <input class="form-check-input" type="checkbox" value="" id="check-'+role.id+'">' +
              '                <label class="form-check-label" for="check-'+role.id+'">' + role.name +
              '                </label>' +
-             '            </div>';
+             '           </div>';
     })
     return htmlCheckBox;
 }

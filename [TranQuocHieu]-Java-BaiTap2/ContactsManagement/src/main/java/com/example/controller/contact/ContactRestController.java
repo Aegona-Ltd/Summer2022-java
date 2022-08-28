@@ -5,13 +5,8 @@ import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -22,7 +17,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +32,7 @@ public class ContactRestController {
     @GetMapping("/contact")
     public ResponseEntity<?> listContact(@RequestParam (value = "page",defaultValue = "1",required = false) Integer page,
                                                          @RequestParam (value = "size",defaultValue = "5",required = false) Integer size) {
-        return ResponseEntity.ok().body(service.listContact(page-1 , size));
+        return ResponseEntity.ok().body(service.listContact(page , size));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")

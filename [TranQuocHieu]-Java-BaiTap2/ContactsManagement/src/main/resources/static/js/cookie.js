@@ -1,5 +1,5 @@
 function accountName() {
-    document.getElementById('account-name').innerHTML = "Name: " + getCookie("USERNAME");
+    document.getElementById('account-name').innerHTML = getCookie("USERNAME");
 }
 
 function getCookie(cname) {
@@ -59,8 +59,11 @@ function loadheader(page) {
     document.getElementById('link-home-header').classList.remove('active');
     document.getElementById('link-contacts-header').classList.remove('active');
     document.getElementById('link-users-header').classList.remove('active');
-    if (page!="") {
+    document.getElementById('account-name').classList.remove('active');
+    if (page!=='info') {
         document.getElementById('link-' + page + '-header').classList.add("active");
+    }else {
+        document.getElementById('account-name').classList.add("active");
     }
 }
 

@@ -36,7 +36,7 @@ public class ContactsController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=Contact_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
-        List<Contact> contacts = service.contactList();
+        List<Contact> contacts = service.contactList("datatime");
         ExcelContactGenarator generator = new ExcelContactGenarator(contacts);
         generator.generateExcelFile(response);
     }

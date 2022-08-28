@@ -2,7 +2,7 @@ $(document).ready(function () {
     loadData();
     accountName1();
     accountName();
-    loadheader('');
+    loadheader('info');
 });
 
 let userU = {}

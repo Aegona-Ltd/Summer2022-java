@@ -16,8 +16,7 @@ function sendContact() {
             email: $('#inputEmail').val(),
             phone: $('#inputPhone').val(),
             subject: $('#inputSubject').val(),
-            mess: $('#textareaMessage').val(),
-            fileName: $('#formFile').val()
+            mess: $('#textareaMessage').val()
         }),
         dataType: 'json',
         success: function(data) {
@@ -41,7 +40,7 @@ function sendContact() {
                         timeOut: 1000,
                         fadeOut: 1000,
                         onHidden: function () {
-                            window.location.href ="http://localhost:8080/contacts";
+                            window.location.href ="http://localhost:8080/login";
                         }
                     }
                 );
@@ -127,8 +126,15 @@ function checkInputForm() {
     var response = grecaptcha.getResponse();
     if (response.length==0) {
         $('#messRecapcha').html("Please verify that you are not a robot.")
+        check = true
     }else {
         $('#messRecapcha').html("")
+    }
+    if ($("#formFile")[0].files[0].size > 1048576 && $("#formFile")[0].files[0]!=undefined) {
+        $('#messFile').html("Accept File < 1MB");
+        check = true
+    }else {
+        $('#messFile').html("");
     }
     if (!check) sendContact();
 }

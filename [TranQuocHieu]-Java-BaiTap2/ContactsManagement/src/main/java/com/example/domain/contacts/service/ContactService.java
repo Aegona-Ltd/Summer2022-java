@@ -21,7 +21,7 @@ public interface ContactService {
 
     RestResult deleteContact(Integer id);
 
-    List<Contact> contactList();
+    List<Contact> contactList(String sortBy);
 
     File getFileById(Integer id);
 

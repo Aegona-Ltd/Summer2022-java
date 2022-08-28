@@ -1,11 +1,8 @@
-
 jQuery(function($){
   $('#btn-login').click(function (event) {
-    checkAccount();
+    loginAccount();
   });
 });
-
-
 
 function checkAccount() {
     $.ajax({
@@ -38,4 +35,27 @@ function checkAccount() {
             document.getElementById('messError').innerText = "Error from server";
         },
     })
+}
+
+function loginAccount() {
+    document.getElementById('messEmail').innerText = "";
+    document.getElementById('messPassword').innerText = "";
+    document.getElementById('messError').innerText = "";
+    const validRegex = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let check = false
+    if (document.getElementById('email').value.length==0) {
+        document.getElementById('messEmail').innerText = "Please enter your Email!!";
+        document.getElementById('email').focus();
+        check = true
+    }else if (!document.getElementById('email').value.match(validRegex)) {
+        document.getElementById('messEmail').innerText = "Invalid email";
+        document.getElementById('email').focus();
+        check = true
+    }
+    if (document.getElementById('password').value.length==0) {
+        document.getElementById('messPassword').innerText = "Please enter your Password!!";
+        document.getElementById('password').focus();
+        check = true
+    }
+    return (check) ? "" : checkAccount();
 }

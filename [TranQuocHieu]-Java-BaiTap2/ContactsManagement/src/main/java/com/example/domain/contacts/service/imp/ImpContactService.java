@@ -7,16 +7,11 @@ import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
 import com.example.domain.restresult.RestResultError;
 import com.example.domain.restresult.ResultList;
-import com.example.domain.restresult.ResultMapper;
 import com.example.repository.ContactsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -25,6 +20,7 @@ import org.springframework.validation.FieldError;
 import javax.validation.Valid;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,10 +40,25 @@ public class ImpContactService implements ContactService {
     @Override
     public ResultList listContact(int page, int size) {
         String sort = "datatime";
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        Page<Contact> contacts = repository.findAll(pageable);
-        ResultList result = ResultMapper.pageableToResultList(contacts);
+        List<Contact> contactList = contactList(sort);
+        List<Contact> contactsResult = new ArrayList<>();
+        int index = (page-1)*size;
+        int count = index+5; // 20
+        while (index < contactList.size() && index < count){
+            contactsResult.add(contactList.get(index));
+            index++;
+        }
+        int totalPage = contactList.size()/size;
+        int totalPageResult = (contactList.size()%size==0) ? totalPage: totalPage +1;
+
+        ResultList result = new ResultList();
+        result.setResult(0);
+        result.setPage(page);
+        result.setSize(size);
+        result.setTotalElements((long) contactList.size());
+        result.setTotalPages(totalPageResult);
         result.setSort(sort);
+        result.setData(contactsResult);
         return result;
     }
 
@@ -117,8 +128,8 @@ public class ImpContactService implements ContactService {
     }
 
     @Override
-    public List<Contact> contactList() {
-        return repository.findAll();
+    public List<Contact> contactList(String sortBy) {
+        return repository.findAll(Sort.by(sortBy).descending());
     }
 
     @Override
