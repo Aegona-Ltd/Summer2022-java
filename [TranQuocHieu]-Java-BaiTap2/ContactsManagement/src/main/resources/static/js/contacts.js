@@ -4,9 +4,9 @@ $(document).ready(function () {
     loadheader('contacts');
 });
 
-function loadData(page = 1) {
+function loadData(page = 1, size = 5) {
     $.ajax({
-        url: "http://localhost:8080/api/contact?page="+page,
+        url: "http://localhost:8080/api/contact?page="+page+"&size="+size,
         type: "GET",
         headers: {
             'Authorization':'Bearer ' + getCookie("TOKEN")
@@ -14,7 +14,7 @@ function loadData(page = 1) {
         success: function (rs) {
             var tableList = "";
             var data = rs.data;
-            let stt = (page-1)*5;
+            let stt = (page-1) * rs.size;
             $.each(data, function (i, item) {
                 tableList += '<tr>' +
                                 '<th>'+ (i+stt+1) +'</th>' +
@@ -32,15 +32,15 @@ function loadData(page = 1) {
             $('#contact-list').html(tableList);
             let pagi = "";
             pagi += '<li class="page-item">' +
-                        '<button class="page-link" onclick="loadData('+((page==1) ? 1: page-1)+')">Previous</button>' +
+                        '<button class="page-link" onclick="loadData('+((page==1) ? 1: page-1)+','+ selectedValue +')">Previous</button>' +
                     '</li>'
             for (let i = 1; i <= rs.totalPages; i++) {
                 pagi += '<li class="page-item" id="pagi-'+i+'">' +
-                         '<button class="page-link" onclick="loadData('+i+')">'+i+'</button>' +
+                         '<button class="page-link" onclick="loadData('+i+','+ selectedValue +')">'+i+'</button>' +
                          '</li>'
             }
             pagi += '<li class="page-item">' +
-                    '<button class="page-link" onclick="loadData('+((page==rs.totalPages) ? rs.totalPages: page+1)+')">Next</button>'+
+                    '<button class="page-link" onclick="loadData('+((page==rs.totalPages) ? rs.totalPages: page+1)+','+ selectedValue +')">Next</button>'+
                     '</li>';
              $('#pagination').html(pagi);
              document.getElementById("pagi-" + rs.page).classList.add('active');
@@ -142,4 +142,10 @@ function viewContact(id) {
             }
         },
     })
+}
+var selectedValue = 5;
+function selectSize() {
+    var selectBox = document.getElementById("selectSize");
+    selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    loadData(1, selectedValue)
 }

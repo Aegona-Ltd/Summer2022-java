@@ -43,7 +43,7 @@ public class ImpContactService implements ContactService {
         List<Contact> contactList = contactList(sort);
         List<Contact> contactsResult = new ArrayList<>();
         int index = (page-1)*size;
-        int count = index+5; // 20
+        int count = index+size;
         while (index < contactList.size() && index < count){
             contactsResult.add(contactList.get(index));
             index++;

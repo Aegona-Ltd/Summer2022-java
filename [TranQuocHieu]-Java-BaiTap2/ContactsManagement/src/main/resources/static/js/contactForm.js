@@ -130,7 +130,7 @@ function checkInputForm() {
     }else {
         $('#messRecapcha').html("")
     }
-    if ($("#formFile")[0].files[0].size > 1048576 && $("#formFile")[0].files[0]!=undefined) {
+    if ($("#formFile")[0].files[0]!=undefined && $("#formFile")[0].files[0].size > 1048576) {
         $('#messFile').html("Accept File < 1MB");
         check = true
     }else {
