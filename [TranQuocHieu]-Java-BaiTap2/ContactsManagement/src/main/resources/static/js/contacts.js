@@ -18,7 +18,7 @@ function loadData(page = 1, size = 5) {
             $.each(data, function (i, item) {
                 tableList += '<tr>' +
                                 '<th>'+ (i+stt+1) +'</th>' +
-                                '<td>'+ item.datatime +'</td>' +
+                                '<td>'+ item.dateTime +'</td>' +
                                 '<td>'+ item.fullname +'</td>'+
                                 '<td>'+ item.email +'</td>' +
                                 '<td>'+ item.phone +'</td>' +
@@ -108,8 +108,9 @@ function viewContact(id) {
         },
         dataType: 'json',
         success: function(rs) {
+            console.log(rs)
             var data = rs.contact;
-            const dateTime = data.datatime.split("T");
+            const dateTime = data.dateTime.split(" ");
             $('#date').html(dateTime[0])
             $('#time').html(dateTime[1])
             $('#labelModel').html(data.fullname)
@@ -140,7 +141,7 @@ function viewContact(id) {
                     window.location.href="http://localhost:8080/login"
                 }
             }
-        },
+        }
     })
 }
 var selectedValue = 5;

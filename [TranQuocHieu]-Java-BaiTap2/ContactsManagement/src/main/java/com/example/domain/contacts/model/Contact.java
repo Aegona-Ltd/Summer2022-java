@@ -3,7 +3,6 @@ package com.example.domain.contacts.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -17,8 +16,8 @@ public class Contact implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "datatime")
-    private LocalDateTime datatime;
+    @Column(name = "datetime")
+    private LocalDateTime datetime;
     @Column(name = "fullname")
     private String fullname;
     @Column(name = "email")

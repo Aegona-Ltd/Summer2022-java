@@ -1,6 +1,6 @@
 package com.example.domain.contacts.service;
 
-import com.example.domain.contacts.model.Contact;
+import com.example.domain.contacts.document.Contact;
 import com.example.domain.restresult.ResultList;
 import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;

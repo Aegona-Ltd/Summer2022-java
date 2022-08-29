@@ -1,6 +1,6 @@
 package com.example.domain.contacts.model.result;
 
-import com.example.domain.contacts.model.Contact;
+import com.example.domain.contacts.document.Contact;
 import lombok.Data;
 
 @Data

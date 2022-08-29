@@ -1,18 +1,20 @@
 package com.example.domain.contacts.service.imp;
 
-import com.example.domain.contacts.model.Contact;
+import com.example.domain.contacts.document.Contact;
 import com.example.domain.contacts.model.result.ContactSerializer;
 import com.example.domain.contacts.service.ContactService;
 import com.example.domain.restresult.RestResult;
 import com.example.domain.contacts.model.ContactDTO;
 import com.example.domain.restresult.RestResultError;
 import com.example.domain.restresult.ResultList;
+import com.example.repository.ContactsMongoRepository;
 import com.example.repository.ContactsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -20,6 +22,7 @@ import org.springframework.validation.FieldError;
 import javax.validation.Valid;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +32,10 @@ import java.util.Map;
 public class ImpContactService implements ContactService {
 
     @Autowired
-    private ContactsRepository repository;
+    private ContactsRepository contactsRepository;
+
+    @Autowired
+    private ContactsMongoRepository repository;
 
     @Autowired
     private MessageSource messageSource;
@@ -39,7 +45,7 @@ public class ImpContactService implements ContactService {
 
     @Override
     public ResultList listContact(int page, int size) {
-        String sort = "datatime";
+        String sort = "_id";
         List<Contact> contactList = contactList(sort);
         List<Contact> contactsResult = new ArrayList<>();
         int index = (page-1)*size;
@@ -67,7 +73,6 @@ public class ImpContactService implements ContactService {
 
         ContactSerializer contactSerializer = new ContactSerializer();
         Contact contact = repository.findById(id).orElse(null);
-
         if (contact==null) {
             contactSerializer.setResult(10);
             contactSerializer.setMessage("Not Found Contact by id: " + id);
@@ -103,11 +108,22 @@ public class ImpContactService implements ContactService {
             return result;
         }
 
-        LocalDateTime myDateObj = LocalDateTime.now();
+        List<Contact> contactDB = contactList("_id");
+        int idContact = 1;
+        if (contactDB.size() > 0)  idContact = contactDB.get(0).getId()+1;
 
-        Contact contact = new Contact(form);
-        contact.setDatatime(myDateObj);
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Contact contact = new Contact();
+        contact.setId(idContact);
+        contact.setFullname(form.getFullname());
+        contact.setEmail(form.getEmail());
+        contact.setPhone(form.getPhone());
+        contact.setSubject(form.getSubject());
+        contact.setMessage(form.getMess());
+        contact.setDateTime(myDateObj.format(formatter));
         contact = repository.save(contact);
+
         result.setResult(contact.getId());
         result.setMessage("Success");
         return result;

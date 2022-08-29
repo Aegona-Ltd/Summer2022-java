@@ -1,6 +1,6 @@
 package com.example.controller.contact;
 
-import com.example.domain.contacts.model.Contact;
+import com.example.domain.contacts.document.Contact;
 import com.example.domain.contacts.service.ContactService;
 import com.example.excel.ExcelContactGenarator;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.example.excel;
 
-import com.example.domain.contacts.model.Contact;
+import com.example.domain.contacts.document.Contact;
 import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -63,9 +63,8 @@ public class ExcelContactGenarator {
         styleRowEven.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         CellStyle styleRowOdd = createCellStyle(14, false);
         Integer count = 1;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         for (Contact contact: contacts) {
-            String datetime = contact.getDatatime().format(formatter);
+            String datetime = contact.getDateTime();
             Row row = xssfSheet.createRow(rowCount++);
             int columnCount = 0;
             createCell(row, columnCount++, count++, (count%2!=0) ? styleRowEven: styleRowOdd);

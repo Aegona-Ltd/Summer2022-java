@@ -10,7 +10,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestResultError{
-    private int result;
+    private Integer result;
     private String message;
     private Map<String, String> error;
 }

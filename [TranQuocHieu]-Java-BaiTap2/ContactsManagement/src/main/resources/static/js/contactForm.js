@@ -32,7 +32,9 @@ function sendContact() {
                 $('#messSubject').html(data.error.subject);
                 $('#mess').html(data.error.mess);
             }else {
-                uploadFileAPI(data.result);
+                if ($("#formFile")[0].files[0]!=undefined) {
+                    uploadFileAPI(data.result);
+                };
                 toastr.success(
                     'Thank you ' + $('#inputFullName').val(),
                     'Send Success',
