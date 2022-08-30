@@ -1,7 +1,10 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .screen {
     height: 100vh;
 }
-
 
 .valid-input {
     font-weight: bold;
@@ -9,8 +12,13 @@
     margin-left: 110px;
 }
 
-#img-update {
-
+#down-load-excel {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px 0 0 15px;
 }
 
 /* login */
@@ -58,6 +66,17 @@ img {
 }
 .shadow-sum {
     box-shadow: 2px 2px 4px rgba(48, 43, 43, 0.25);
+}
+
+#scroll-up {
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 50%;
+
 }
 
 /* Info */

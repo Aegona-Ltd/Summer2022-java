@@ -8,13 +8,11 @@ import com.example.domain.contacts.model.ContactDTO;
 import com.example.domain.restresult.RestResultError;
 import com.example.domain.restresult.ResultList;
 import com.example.repository.ContactsMongoRepository;
-import com.example.repository.ContactsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -32,9 +30,6 @@ import java.util.Map;
 public class ImpContactService implements ContactService {
 
     @Autowired
-    private ContactsRepository contactsRepository;
-
-    @Autowired
     private ContactsMongoRepository repository;
 
     @Autowired
@@ -44,9 +39,9 @@ public class ImpContactService implements ContactService {
     private ObjectMapper objectMapper;
 
     @Override
-    public ResultList listContact(int page, int size) {
+    public ResultList listContact(int page, int size, String search) {
         String sort = "_id";
-        List<Contact> contactList = contactList(sort);
+        List<Contact> contactList = (search.equals("")) ? contactList(sort): contactListByEmail(search);
         List<Contact> contactsResult = new ArrayList<>();
         int index = (page-1)*size;
         int count = index+size;
@@ -79,6 +74,8 @@ public class ImpContactService implements ContactService {
         }else {
             contactSerializer.setResult(0);
             contactSerializer.setMessage("Success");
+            contact.setSeen(true);
+            contact = repository.save(contact);
             contactSerializer.setContact(contact);
         }
         return objectMapper.writeValueAsString(contactSerializer);
@@ -122,6 +119,7 @@ public class ImpContactService implements ContactService {
         contact.setSubject(form.getSubject());
         contact.setMessage(form.getMess());
         contact.setDateTime(myDateObj.format(formatter));
+        contact.setSeen(false);
         contact = repository.save(contact);
 
         result.setResult(contact.getId());
@@ -148,6 +146,7 @@ public class ImpContactService implements ContactService {
         return repository.findAll(Sort.by(sortBy).descending());
     }
 
+
     @Override
     public File getFileById(Integer id) {
         String filename = repository.findById(id).orElse(null).getFileName();
@@ -159,5 +158,10 @@ public class ImpContactService implements ContactService {
         Contact contact = repository.findById(id).orElse(null);
         contact.setFileName(filename);
         repository.save(contact);
+    }
+
+    @Override
+    public List<Contact> contactListByEmail(String search) {
+        return repository.findByEmail(search);
     }
 }

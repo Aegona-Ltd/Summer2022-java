@@ -16,9 +16,6 @@
                 <div class="card-header bg-primary">
                     <div class="row row-cols-auto justify-content-between align-items-center py-2">
                         <h3 class="fw-bold col text-white">Người dùng</h3>
-                        <div class="col-auto">
-                            <a class="me-3 text-white col" th:href="@{'/users/export-to-excel'}" id="download-excel"></a>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -48,6 +45,9 @@
     <section id="view-user" class="container mb-5">
 
     </section>
+    <a id="down-load-excel" class="bg-primary text-white ps-2" th:href="@{'/users/export-to-excel'}">
+        <i class="bi bi-cloud-arrow-down-fill fs-2"></i>
+    </a>
 </div>
 
 </body>

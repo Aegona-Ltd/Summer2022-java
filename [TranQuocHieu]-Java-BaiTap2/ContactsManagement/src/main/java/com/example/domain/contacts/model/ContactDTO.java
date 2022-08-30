@@ -26,4 +26,6 @@ public class ContactDTO {
 
     @NotEmpty(message = "Please enter your Message")
     private String mess;
+
+    private String keyRecapcha;
 }

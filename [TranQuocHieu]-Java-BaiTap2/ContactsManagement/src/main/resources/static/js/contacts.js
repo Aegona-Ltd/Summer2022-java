@@ -4,9 +4,13 @@ $(document).ready(function () {
     loadheader('contacts');
 });
 
-function loadData(page = 1, size = 5) {
+var selectedValue = 5;
+var page = 1;
+var search = ""
+
+function loadData(page = 1, size = 5, search = "") {
     $.ajax({
-        url: "http://localhost:8080/api/contact?page="+page+"&size="+size,
+        url: "http://localhost:8080/api/contact?page="+page+"&size="+size+"&search=" +search,
         type: "GET",
         headers: {
             'Authorization':'Bearer ' + getCookie("TOKEN")
@@ -16,13 +20,15 @@ function loadData(page = 1, size = 5) {
             var data = rs.data;
             let stt = (page-1) * rs.size;
             $.each(data, function (i, item) {
+                let classBold = ''
+                if (!item.seen) classBold = 'fw-bold'
                 tableList += '<tr>' +
                                 '<th>'+ (i+stt+1) +'</th>' +
-                                '<td>'+ item.dateTime +'</td>' +
-                                '<td>'+ item.fullname +'</td>'+
-                                '<td>'+ item.email +'</td>' +
-                                '<td>'+ item.phone +'</td>' +
-                                '<td>'+ item.subject +'</td>' +
+                                '<td class="'+classBold+'">'+ item.dateTime +'</td>' +
+                                '<td class="'+classBold+'">'+ item.fullname +'</td>'+
+                                '<td class="'+classBold+'">'+ item.email +'</td>' +
+                                '<td class="'+classBold+'">'+ item.phone +'</td>' +
+                                '<td class="'+classBold+'">'+ item.subject +'</td>' +
                                 '<td class="text-center">' +
                                     '<button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#view" onclick="viewContact('+item.id+')">View <i class="bi bi-card-list"></i></button> ' +
                                     '<button class="btn btn-outline-danger" onclick="deleteContact('+item.id+')">Delete <i class="bi bi-trash3-fill"></i></i></button>' +
@@ -44,7 +50,6 @@ function loadData(page = 1, size = 5) {
                     '</li>';
              $('#pagination').html(pagi);
              document.getElementById("pagi-" + rs.page).classList.add('active');
-             $('#download-excel').html('<i class="bi bi-cloud-arrow-down-fill"></i> Download to Excel')
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);
@@ -81,7 +86,7 @@ function deleteContact(id) {
                         fadeOut: 1000
                     }
                 );
-                loadData();
+                loadData(page, selectedValue, search)
             }
         },
         error: function (jqXHR, exception) {
@@ -108,7 +113,6 @@ function viewContact(id) {
         },
         dataType: 'json',
         success: function(rs) {
-            console.log(rs)
             var data = rs.contact;
             const dateTime = data.dateTime.split(" ");
             $('#date').html(dateTime[0])
@@ -129,6 +133,7 @@ function viewContact(id) {
                 elementLinkDownloadFile.classList.remove("btn");
                 elementLinkDownloadFile.classList.remove("btn-primary");
             }
+            loadData(page, selectedValue, search)
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception)
@@ -144,9 +149,15 @@ function viewContact(id) {
         }
     })
 }
-var selectedValue = 5;
+
 function selectSize() {
     var selectBox = document.getElementById("selectSize");
     selectedValue = selectBox.options[selectBox.selectedIndex].value;
     loadData(1, selectedValue)
+}
+
+function searchEmail() {
+    page = 1;
+    search = $('#searchEmail').val();
+    loadData(page, selectedValue, search)
 }

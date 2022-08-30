@@ -17,4 +17,5 @@ public class Contact {
     private String subject;
     private String message;
     private String fileName;
+    private Boolean seen;
 }

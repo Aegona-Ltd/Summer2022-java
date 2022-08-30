@@ -31,8 +31,9 @@ public class ContactRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping("/contact")
     public ResponseEntity<?> listContact(@RequestParam (value = "page",defaultValue = "1",required = false) Integer page,
-                                                         @RequestParam (value = "size",defaultValue = "5",required = false) Integer size) {
-        return ResponseEntity.ok().body(service.listContact(page , size));
+                                         @RequestParam (value = "size",defaultValue = "5",required = false) Integer size,
+                                         @RequestParam (value = "search", defaultValue = "", required = false)String search) {
+        return ResponseEntity.ok().body(service.listContact(page , size, search));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")

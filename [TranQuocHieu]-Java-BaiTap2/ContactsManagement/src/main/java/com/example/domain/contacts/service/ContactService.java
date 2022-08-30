@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ContactService {
 
-    ResultList listContact(int page, int size);
+    ResultList listContact(int page, int size, String search);
 
     String getContact(int id) throws JsonProcessingException;
 
@@ -26,4 +26,6 @@ public interface ContactService {
     File getFileById(Integer id);
 
     void addFileNameById(Integer id, String filename);
+
+    List<Contact> contactListByEmail(String search);
 }

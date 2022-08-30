@@ -16,7 +16,8 @@ function sendContact() {
             email: $('#inputEmail').val(),
             phone: $('#inputPhone').val(),
             subject: $('#inputSubject').val(),
-            mess: $('#textareaMessage').val()
+            mess: $('#textareaMessage').val(),
+            keyRecapcha: ""
         }),
         dataType: 'json',
         success: function(data) {
