@@ -1,10 +1,13 @@
 # CONTACT MANAGEMENT
 ## SETUP
 - STEP 1: pull git `git clone https://github.com/Aegona-Ltd/Summer2022-java.git`
-- STEP 2: Open folder `[TranQuocHieu]-Java-BaiTap2` with application (Eclipse, IDE) installed Spring Initializr
-- STEP 3: Create database MySQL by name `contactdb` in localhost (port: `3306`)
-- STEP 4: Run application by file `ContactsManagementApplication` in `src\main\java\com.example\ContactsManagementApplication`
-- STEP 5: (STRAT WEB) Go to the link: localhost:8080/login
+- STEP 2: Open folder `[TranQuocHieu]-Java-BaiTap2` with application (EclipseIDE, IntelliJ) installed Spring Initializr
+- STEP 3: Upload Maven
+  - EclipseIDE: Auto
+  - IntelliJ: in `pom.xml`
+- STEP 4: Create database MySQL by name `contactdb` in localhost (port: `3306`)
+- STEP 5: Run application by file `ContactsManagementApplication` in `src\main\java\com.example\ContactsManagementApplication`
+- STEP 6: (STRAT WEB) Go to the link: localhost:8080/login
 ### NOTE
 - Project use:
   - Maven Project
