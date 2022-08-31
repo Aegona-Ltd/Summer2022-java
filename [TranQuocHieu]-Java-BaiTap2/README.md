@@ -1,0 +1,37 @@
+# CONTACT MANAGEMENT
+## SETUP
+STEP 1: pull git `git clone https://github.com/Aegona-Ltd/Summer2022-java.git`
+STEP 2: Open folder `[TranQuocHieu]-Java-BaiTap2` with application (Eclipse, IDE) installed Spring Initializr
+STEP 3: Create database MySQL by name `contactdb` in localhost (port: `3306`)
+STEP 4: Run application by file `ContactsManagementApplication` in `src\main\java\com.example\ContactsManagementApplication`
+STEP 5: (STRAT WEB) Go to the link: localhost:8080/login
+### NOTE
+- Project use:
+  - Maven Project
+  - JDK: 17
+  - Java: 11
+  - Spring Boot - Spring MVC
+- Spring security:
+  - Use permissions and prevent unauthorized access
+  - Account Admin:
+    - Email: `abc@abc.com`
+    - Password: `123`
+- Settings connect: File `application` in `src\main\resources\application.properties`
+  - MySQL:
+    - Link connect object `spring.datasource.url`
+    - Object username `spring.datasource.username`
+    - Object password `spring.datasource.password`
+  - MongoDB
+    - Database name object `spring.data.mongodb.database`
+    - Object port `spring.data.mongodb.port`
+    - Object host `spring.data.mongodb.host`
+  - Redis
+    - Object host: `redis.host`
+    - Object port: `redis.port`
+  - JWT
+    - Object secret of Token access: `jwt.secret`
+    - Object expiration of Token access: `jwt.expirationDateInMs`
+    - Object expiration of Refresh Token: `jwt.refreshExpirationDateInMs`
+- SQL
+  - MySQL: Users, Contacts (migration)
+  - MongoDB: Contacts
