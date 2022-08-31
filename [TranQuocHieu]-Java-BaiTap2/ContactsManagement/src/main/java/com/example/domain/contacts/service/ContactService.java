@@ -28,4 +28,8 @@ public interface ContactService {
     void addFileNameById(Integer id, String filename);
 
     List<Contact> contactListByEmail(String search);
+
+    Contact addcontact(Contact contact);
+
+    Contact getContactFromCache(Integer id);
 }

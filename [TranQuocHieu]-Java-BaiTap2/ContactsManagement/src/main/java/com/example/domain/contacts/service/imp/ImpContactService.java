@@ -11,14 +11,17 @@ import com.example.repository.ContactsMongoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,6 +32,12 @@ import java.util.Map;
 @Service
 public class ImpContactService implements ContactService {
 
+    public static final String HASH_KEY = "contacts";
+    private static Integer indexContact = 0;
+
+    @Autowired
+    private RedisTemplate template;
+
     @Autowired
     private ContactsMongoRepository repository;
 
@@ -37,6 +46,9 @@ public class ImpContactService implements ContactService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Value("${redis.expire}")
+    private Integer redisExpire;
 
     @Override
     public ResultList listContact(int page, int size, String search) {
@@ -67,15 +79,19 @@ public class ImpContactService implements ContactService {
     public String getContact(int id) throws JsonProcessingException {
 
         ContactSerializer contactSerializer = new ContactSerializer();
-        Contact contact = repository.findById(id).orElse(null);
+        Contact contact = getContactFromCache(id);
         if (contact==null) {
             contactSerializer.setResult(10);
             contactSerializer.setMessage("Not Found Contact by id: " + id);
         }else {
             contactSerializer.setResult(0);
             contactSerializer.setMessage("Success");
-            contact.setSeen(true);
-            contact = repository.save(contact);
+            if (!contact.getSeen()) {
+                contact.setSeen(true);
+                contact = repository.save(contact);
+                if (template.hasKey(HASH_KEY)) addcontact(contact);
+                else contactList("_id");
+            }
             contactSerializer.setContact(contact);
         }
         return objectMapper.writeValueAsString(contactSerializer);
@@ -105,7 +121,7 @@ public class ImpContactService implements ContactService {
             return result;
         }
 
-        List<Contact> contactDB = contactList("_id");
+        List<Contact> contactDB = repository.findAll(Sort.by("_id").descending());
         int idContact = 1;
         if (contactDB.size() > 0)  idContact = contactDB.get(0).getId()+1;
 
@@ -121,7 +137,9 @@ public class ImpContactService implements ContactService {
         contact.setDateTime(myDateObj.format(formatter));
         contact.setSeen(false);
         contact = repository.save(contact);
-
+        indexContact++;
+        if (template.hasKey(HASH_KEY)) addcontact(contact);
+        else contactList("_id");
         result.setResult(contact.getId());
         result.setMessage("Success");
         return result;
@@ -129,11 +147,12 @@ public class ImpContactService implements ContactService {
 
     @Override
     public RestResult deleteContact(Integer id) {
-        Contact contact = repository.findById(id).orElse(null);
+        Contact contact = getContactFromCache(id);
         if (contact.getFileName()!=null) {
             File file = getFileById(contact.getId());
             file.deleteOnExit();
         }
+        template.opsForHash().delete(HASH_KEY, id);
         repository.deleteById(id);
         RestResult result = new RestResult();
         result.setResult(0);
@@ -143,25 +162,59 @@ public class ImpContactService implements ContactService {
 
     @Override
     public List<Contact> contactList(String sortBy) {
-        return repository.findAll(Sort.by(sortBy).descending());
+        if (!template.hasKey(HASH_KEY) || template.opsForHash().size(HASH_KEY) < indexContact) {
+            List<Contact> contacts = repository.findAll(Sort.by(sortBy).descending());
+            indexContact = contacts.size();
+            for (Contact contact: contacts) {
+                addcontact(contact);
+            }
+            template.expire(HASH_KEY, Duration.ofSeconds(redisExpire));
+        }
+        return template.opsForHash().values(HASH_KEY);
     }
 
 
     @Override
     public File getFileById(Integer id) {
-        String filename = repository.findById(id).orElse(null).getFileName();
+        String filename = getContactFromCache(id).getFileName();
         return new File("src/main/resources/file/upload/"+filename);
     }
 
     @Override
     public void addFileNameById(Integer id, String filename) {
-        Contact contact = repository.findById(id).orElse(null);
-        contact.setFileName(filename);
-        repository.save(contact);
+        Contact contactDB = repository.findById(id).orElse(null);
+        Contact contactCache = getContactFromCache(id);
+        contactCache.setFileName(filename);
+        contactDB.setFileName(filename);
+
+        addcontact(contactCache);
+        repository.save(contactDB);
     }
 
     @Override
     public List<Contact> contactListByEmail(String search) {
         return repository.findByEmail(search);
     }
+
+    @Override
+    public Contact addcontact(Contact contact) {
+        template.opsForHash().put(HASH_KEY, contact.getId(), contact);
+        System.out.println(contact);
+        return contact;
+    }
+
+    @Override
+    public Contact getContactFromCache(Integer id) {
+        Contact contact = (Contact) template.opsForHash().get(HASH_KEY, id);
+        if (contact==null) {
+            contact = repository.findById(id).orElse(null);
+            if (contact!=null) {
+                addcontact(contact);
+                return contact;
+            }
+            return null;
+        }
+        return contact;
+    }
+
 }

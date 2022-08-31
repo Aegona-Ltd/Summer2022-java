@@ -39,6 +39,7 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+//    Phương thức userDetailsService() có tác dụng cung cấp user cho Spring Security
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
