@@ -5,9 +5,9 @@
 - STEP 3: Upload Maven
   - EclipseIDE: Auto
   - IntelliJ: in `pom.xml`
-- STEP 4: Create database MySQL by name `contactdb` in localhost (port: `3306`)
+- STEP 4: Create database MySQL by name `contactdb` in localhost (Configuration instructions are below)
 - STEP 5: Run application by file `ContactsManagementApplication` in `src\main\java\com.example\ContactsManagementApplication`
-- STEP 6: (STRAT WEB) Go to the link: localhost:8080/login
+- STEP 6: (START WEB) Go to the link: localhost:8080/login
 ### NOTE
 - Project use:
   - Maven Project
