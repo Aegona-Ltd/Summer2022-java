@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="ui container page-login">
+        <div class="ui centered grid container grey message">
+          <div class="column">
+            <div class="ui icon warning message">
+                <i class="phone square icon"></i>
+                <div class="content">
+                  <div class="header">
+                    Contact us
+                  </div>
+                  <p>Do you have a question?</p>
+                </div>
+              </div>
+            <div class="ui fluid card">
+              <div class="content">
+              <form class="ui form">
+                <div class="field">
+                  <label>Full name</label>
+                  <input type="text" id="fullname" placeholder="Enter your full name">
+                  <span style="color: red;" id="fullname_error"></span>
+                </div>
+                <div class="field">
+                  <label>Email</label>
+                  <input type="text" id="email" placeholder="Enter your email">
+                  <span style="color: red;" id="email_error"></span>
+                </div>
+                <div class="field">
+                    <label>Phone number</label>
+                    <input type="text" id="phone" placeholder="Enter your phone number">
+                    <span style="color: red;" id="phone_error"></span>
+                  </div>
+                <div class="field">
+                    <label>Message</label>
+                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                  </div>
+                <button class="ui primary button" type="submit" onclick="return validate();">
+                  submit
+                </button>
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="js/Contact-Us.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+        integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
