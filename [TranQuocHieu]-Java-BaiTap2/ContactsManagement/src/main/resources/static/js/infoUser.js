@@ -138,7 +138,7 @@ function handleCancel(){
 function handleUpdate() {
     let checkERROR = false;
     if ($("#inputName").val().length==0) {
-            $("#messName").html("Vui long nhap name!!");
+            $("#messName").html("Please enter name!!");
             checkERROR = true;
     }else {
        $("#messName").html("");
@@ -202,19 +202,19 @@ function handleSavePass() {
     $('#messNewPassword').html("")
     $('#messPassConfirm').html("")
     if ($("#inputPassOld").val().length==0) {
-       $('#messPass').html("Vui long nhap password!!")
+       $('#messPass').html("Plase enter your password!!")
        errorInput = true;
     }
     if ($("#inputNewPass").val().length==0) {
-       $('#messNewPassword').html("Vui long nhap new password!!")
+       $('#messNewPassword').html("Plase enter your new password!!")
        errorInput = true;
     }
     if ($("#inputPassConfirm").val().length==0) {
-       $('#messPassConfirm').html("Vui long nhap password comfirm!!")
+       $('#messPassConfirm').html("Plase enter your password comfirm!!")
        errorInput = true;
     }
     if ($("#inputNewPass").val() != $("#inputPassConfirm").val()) {
-        $('#messPassConfirm').html("Password confirm khong dung!!!")
+        $('#messPassConfirm').html("Wrong Confirm Password!!!")
         errorInput = true;
     }
 

@@ -10,9 +10,9 @@ import java.util.List;
 @Data
 public class UpdateUserDTO {
     private Integer id;
-    @NotNull(message = "Vui long nhap name!!")
+    @NotNull(message = "Please enter name!!")
     private String name;
     private String email;
-    @NotNull(message = "Vui long chon roles")
+    @NotNull(message = "Please choose roles")
     private List<Role> roles;
 }
