@@ -24,16 +24,12 @@ import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ImpContactService implements ContactService {
 
     public static final String HASH_KEY = "contacts";
-    private static Integer indexContact = 0;
 
     @Autowired
     private RedisTemplate template;
@@ -54,6 +50,12 @@ public class ImpContactService implements ContactService {
     public ResultList listContact(int page, int size, String search) {
         String sort = "_id";
         List<Contact> contactList = (search.equals("")) ? contactList(sort): contactListByEmail(search);
+        Collections.sort(contactList, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                return o2.getId().compareTo(o1.getId());
+            }
+        });
         List<Contact> contactsResult = new ArrayList<>();
         int index = (page-1)*size;
         int count = index+size;
@@ -90,7 +92,6 @@ public class ImpContactService implements ContactService {
                 contact.setSeen(true);
                 contact = repository.save(contact);
                 if (template.hasKey(HASH_KEY)) addcontact(contact);
-                else contactList("_id");
             }
             contactSerializer.setContact(contact);
         }
@@ -137,9 +138,10 @@ public class ImpContactService implements ContactService {
         contact.setDateTime(myDateObj.format(formatter));
         contact.setSeen(false);
         contact = repository.save(contact);
-        indexContact++;
-        if (template.hasKey(HASH_KEY)) addcontact(contact);
-        else contactList("_id");
+        if (template.hasKey(HASH_KEY)) {
+            template.delete(HASH_KEY);
+            contactList("_id");
+        }
         result.setResult(contact.getId());
         result.setMessage("Success");
         return result;
@@ -162,9 +164,8 @@ public class ImpContactService implements ContactService {
 
     @Override
     public List<Contact> contactList(String sortBy) {
-        if (!template.hasKey(HASH_KEY) || template.opsForHash().size(HASH_KEY) < indexContact) {
+        if (!template.hasKey(HASH_KEY)) {
             List<Contact> contacts = repository.findAll(Sort.by(sortBy).descending());
-            indexContact = contacts.size();
             for (Contact contact: contacts) {
                 addcontact(contact);
             }
