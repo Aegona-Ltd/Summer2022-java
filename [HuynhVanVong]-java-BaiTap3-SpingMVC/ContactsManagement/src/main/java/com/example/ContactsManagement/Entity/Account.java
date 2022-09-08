@@ -30,7 +30,7 @@ public class Account implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     List<Authority> authorities;
 }

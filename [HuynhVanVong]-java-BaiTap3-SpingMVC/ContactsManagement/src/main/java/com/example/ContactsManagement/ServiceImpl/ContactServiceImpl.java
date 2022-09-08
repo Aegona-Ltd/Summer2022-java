@@ -8,11 +8,10 @@ import com.example.ContactsManagement.utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ContactServiceImpl implements ContactService {
     @Autowired
@@ -20,8 +19,11 @@ public class ContactServiceImpl implements ContactService {
     @Autowired
     Convert convert;
     @Override
-    public List<Contact> getAllContacts() {
-        return null;
+    public List<ContactDTO> getAllContacts() {
+        List<Contact> listContacts = contactReposistory.findAll();
+        List<ContactDTO> listDTO = listContacts.stream().map(contact -> convert.toDto(contact, ContactDTO.class))
+                .collect(Collectors.toList());
+        return listDTO;
     }
 
     @Override

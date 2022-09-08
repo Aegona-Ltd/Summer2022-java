@@ -6,6 +6,6 @@ import com.example.ContactsManagement.Entity.Contact;
 import java.util.List;
 
 public interface ContactService {
-    List<Contact> getAllContacts();
+    List<ContactDTO> getAllContacts();
     ContactDTO addContact(ContactDTO contactDTO);
 }

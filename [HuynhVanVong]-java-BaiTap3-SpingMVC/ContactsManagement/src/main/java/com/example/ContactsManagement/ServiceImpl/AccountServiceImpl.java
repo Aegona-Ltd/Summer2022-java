@@ -1,27 +1,68 @@
 package com.example.ContactsManagement.ServiceImpl;
 
+import com.example.ContactsManagement.DTO.AccountDTO;
 import com.example.ContactsManagement.Entity.Account;
 import com.example.ContactsManagement.Repository.AccountReposistory;
 import com.example.ContactsManagement.Service.AccountService;
+import com.example.ContactsManagement.utils.Convert;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountReposistory AcccountReposistory;
 
+    @Autowired
+    Convert convert;
 
-
-    @Override
-    public Account findByEmail(String email) {
-        Account user = new Account();
-        user = AcccountReposistory.findByEmail(email);
-        return user;
-    }
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public Account findByUserName(String username) {
         return AcccountReposistory.findByUserNameEquals(username);
+    }
+
+    @Override
+    public Account findById(Integer id) {
+        Optional<Account> account = AcccountReposistory.findById(id);
+        return modelMapper.map(account.get(), Account.class);
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccounts() {
+        List<Account> listAccounts = AcccountReposistory.findAll();
+        List<AccountDTO> listAccountsDTO = listAccounts.stream().map(account -> convert.toDto(account, AccountDTO.class))
+                .collect(Collectors.toList());
+        return listAccountsDTO;
+    }
+
+    @Override
+    public AccountDTO registerAccount(AccountDTO accountDTO) {
+        Account newAccount = convert.toEntity(accountDTO, Account.class);
+        AccountDTO newAccountDTO = convert.toDto(AcccountReposistory.save(newAccount), AccountDTO.class);
+        return newAccountDTO;
+    }
+
+    @Override
+    public AccountDTO editAccount(AccountDTO accountDTO) {
+        Account newAccount = new Account();
+        if(accountDTO.getIdUser() != null) {
+            Optional<Account> oldAccount = AcccountReposistory.findById(accountDTO.getIdUser());
+            newAccount = modelMapper.map(oldAccount, Account.class);
+        }
+        newAccount = AcccountReposistory.save(newAccount);
+        return convert.toDto(newAccount, AccountDTO.class);
+    }
+
+    @Override
+    public void deleteAccount(Integer id) {
+        AcccountReposistory.deleteById(id);
     }
 }

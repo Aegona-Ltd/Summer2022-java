@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Giao diện đăng nhập
         http.formLogin()
-                .loginPage("/users/login")
+                .loginPage("/home/login")
                         .usernameParameter("username")
                                 .passwordParameter("password")
                 .permitAll();
