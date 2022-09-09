@@ -8,6 +8,15 @@
 <div class="container">
     <div class="row">
         <table class="table table-success table-striped">
+            <div class="col-4 m-5">
+                <label>limit</label>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" onclick=" getUserManager(1,value)">
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -28,6 +37,23 @@
             </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+        <nav  aria-label="Page navigation example">
+            <ul id="pagination" class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+<!--                <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        </div>
     </div>
     <hr>
     <div class="col-4 mt-3">

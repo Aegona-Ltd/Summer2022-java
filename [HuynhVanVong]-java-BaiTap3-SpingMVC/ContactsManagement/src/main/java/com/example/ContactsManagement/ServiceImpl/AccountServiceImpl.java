@@ -1,14 +1,18 @@
 package com.example.ContactsManagement.ServiceImpl;
 
 import com.example.ContactsManagement.DTO.AccountDTO;
+import com.example.ContactsManagement.DTO.Output.AccountOutput;
 import com.example.ContactsManagement.Entity.Account;
 import com.example.ContactsManagement.Repository.AccountReposistory;
 import com.example.ContactsManagement.Service.AccountService;
 import com.example.ContactsManagement.utils.Convert;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,6 +44,22 @@ public class AccountServiceImpl implements AccountService {
         List<Account> listAccounts = AcccountReposistory.findAll();
         List<AccountDTO> listAccountsDTO = listAccounts.stream().map(account -> convert.toDto(account, AccountDTO.class))
                 .collect(Collectors.toList());
+        return listAccountsDTO;
+    }
+
+    @Override
+    public int totalItem() {
+        return (int) AcccountReposistory.count();
+    }
+
+    @Override
+    public List<AccountDTO> getAllAccountsPagination(Pageable pageable) {
+        List<AccountDTO> listAccountsDTO = new ArrayList<>();
+        List<Account> listAccounts = AcccountReposistory.findAll(pageable).getContent();
+        for (Account account : listAccounts) {
+            AccountDTO accountDTO = convert.toDto(account, AccountDTO.class);
+            listAccountsDTO.add(accountDTO);
+        }
         return listAccountsDTO;
     }
 
