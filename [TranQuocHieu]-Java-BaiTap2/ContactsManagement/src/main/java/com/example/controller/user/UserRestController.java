@@ -3,6 +3,7 @@ package com.example.controller.user;
 import com.example.domain.users.model.User;
 import com.example.domain.users.model.dto.CreateUserDTO;
 import com.example.domain.users.model.dto.UpdateUserDTO;
+import com.example.domain.users.model.result.LoginResponse;
 import com.example.domain.users.service.UsersService;
 import com.example.excel.ExcelUserGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -61,5 +62,10 @@ public class UserRestController {
     @PutMapping("/upPass")
     public ResponseEntity<?> upPass(@RequestBody @Valid CreateUserDTO userDTO, BindingResult bindingResult) {
         return ResponseEntity.ok().body(service.upPass(userDTO, bindingResult));
+    }
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @GetMapping("/all")
+    public ResponseEntity<?> userList() {
+        return ResponseEntity.ok().body(new LoginResponse(true, service.userList(), "Success"));
     }
 }

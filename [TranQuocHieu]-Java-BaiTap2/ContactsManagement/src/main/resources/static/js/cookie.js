@@ -35,7 +35,8 @@ function refreshToke(token) {
         }),
         dataType: 'json',
         success: function(data) {
-            setCookie("TOKEN", data.accessToken, 7)
+            setCookie("TOKEN", data.data.accessToken, 7)
+            setCookie("REFRESHTOKEN", data.data.refreshToken, 7)
         },
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception);

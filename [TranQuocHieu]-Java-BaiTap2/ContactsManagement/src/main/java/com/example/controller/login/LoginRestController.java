@@ -7,6 +7,7 @@ import com.example.domain.request.TokenRefreshRequest;
 import com.example.domain.response.TokenRefreshResponse;
 import com.example.domain.restresult.RestResultError;
 import com.example.domain.response.JwtResponse;
+import com.example.domain.users.model.result.LoginResponse;
 import com.example.domain.users.service.UsersService;
 import com.example.domain.users.model.dto.UserDTO;
 import com.example.domain.users.service.imp.ImpUsersService;
@@ -46,7 +47,8 @@ public class LoginRestController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtProvider.generateToken(authentication);
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(service.getUser(form.getEmail()).getData().getId());
-            return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), result.getMessage()));
+            JwtResponse jwtResponse = new JwtResponse(jwt, refreshToken.getToken(), result.getMessage());
+            return ResponseEntity.ok(new LoginResponse(true, jwtResponse, "Success"));
         }
         return ResponseEntity.ok().body(result);
     }
@@ -60,7 +62,9 @@ public class LoginRestController {
                 .map(user -> {
                     String token = jwtProvider.generateTokenFromUsername(user.getEmail());
                     ImpUsersService.setEmailAccount(user.getEmail());
-                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+
+                    TokenRefreshResponse tokenRefreshResponse = new TokenRefreshResponse(token, refreshTokenService.updateRefreshToken(requestRefreshToken));
+                    return ResponseEntity.ok(new LoginResponse(true, tokenRefreshResponse,"Success"));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));

@@ -14,19 +14,19 @@ function checkAccount() {
             email: $('#email').val(),
             password: $('#password').val()
         }),
-        success: function(data) {
+        success: function(rs) {
             $('#messEmail').html("");
             $('#messPassword').html("");
             $('#messError').html("");
-            if (data.result==90) {
-                $('#messEmail').html(data.error.email);
-                $('#messPassword').html(data.error.password);
-            }else if (data.result==10 || data.result==20){
-                $('#messError').html(data.message);
+            if (rs.result==90) {
+                $('#messEmail').html(rs.error.email);
+                $('#messPassword').html(rs.error.password);
+            }else if (rs.result==10 || rs.result==20){
+                $('#messError').html(rs.message);
             }else {
-                setCookie("USERNAME", data.username, 2)
-                setCookie("TOKEN", data.token, 2)
-                setCookie("REFRESHTOKEN", data.refreshToken, 7)
+                setCookie("USERNAME", rs.data.username, 7)
+                setCookie("TOKEN", rs.data.token, 7)
+                setCookie("REFRESHTOKEN", rs.data.refreshToken, 7)
                 window.location.href = "http://localhost:8080/dashboard"
             }
         },

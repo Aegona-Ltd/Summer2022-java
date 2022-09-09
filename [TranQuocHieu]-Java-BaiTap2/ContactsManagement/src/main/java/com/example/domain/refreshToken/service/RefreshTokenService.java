@@ -14,4 +14,6 @@ public interface RefreshTokenService {
     RefreshToken verifyExpiration(RefreshToken token);
 
     void deleteTokenById(Long id);
+
+    String updateRefreshToken(String email);
 }

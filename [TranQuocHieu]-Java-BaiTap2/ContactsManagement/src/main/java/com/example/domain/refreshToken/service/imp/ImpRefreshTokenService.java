@@ -54,4 +54,12 @@ public class ImpRefreshTokenService implements RefreshTokenService {
         refreshTokenRepository.deleteById(id);
     }
 
+    @Override
+    public String updateRefreshToken(String token) {
+        RefreshToken refreshToken = (RefreshToken) refreshTokenRepository.findByToken(token).orElse(null);
+        refreshToken.setToken(UUID.randomUUID().toString());
+        refreshTokenRepository.save(refreshToken);
+        return refreshToken.getToken();
+    }
+
 }

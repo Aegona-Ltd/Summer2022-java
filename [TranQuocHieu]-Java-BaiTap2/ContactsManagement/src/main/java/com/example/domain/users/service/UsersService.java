@@ -35,4 +35,5 @@ public interface UsersService {
     RestResultError upPass(CreateUserDTO userDTO, BindingResult bindingResult);
 
     void logout();
+
 }

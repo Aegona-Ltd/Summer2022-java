@@ -55,6 +55,7 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/export-to-excel").permitAll()
                 .antMatchers("/contacts/export-to-excel").permitAll()
                 .antMatchers("/api/auth/down-file/**").permitAll()
+                .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .exceptionHandling()
