@@ -13,6 +13,7 @@ function sendRegistration() {
         }),
         dataType: 'json',
         success: function(data) {
+            alert('Registration successfully');
             console.log(data);
         },
         error: function (jqXHR, exception) {

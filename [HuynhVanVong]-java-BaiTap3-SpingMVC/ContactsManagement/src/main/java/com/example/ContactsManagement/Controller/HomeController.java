@@ -45,4 +45,9 @@ public class HomeController {
         return "Register";
     }
 
+    @GetMapping("/dataTable")
+    public String getDataTable() {
+        return "datatable";
+    }
+
 }

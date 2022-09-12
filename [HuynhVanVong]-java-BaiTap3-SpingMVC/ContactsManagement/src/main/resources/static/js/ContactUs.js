@@ -1,5 +1,4 @@
 function sendContact() {
-    console.log('hello');
     var response = grecaptcha.getResponse();
     if (response){
         $.ajax({
@@ -15,17 +14,6 @@ function sendContact() {
             dataType: 'json',
             success: function(data) {
                 alert("Thanks your question!");
-                console.log(data);
-                // $('#messFullname').html("");
-                // $('#messEmail').html("");
-                // $('#messPhone').html("");
-                // $('#mess').html("");
-                // if (data.result==-1) {
-                //     $('#messFullname').html(data.error.fullname);
-                //     $('#messEmail').html(data.error.email);
-                //     $('#messPhone').html(data.error.phone);
-                //     $('#mess').html(data.error.mess);
-                // }
             },
             error: function (jqXHR, exception) {
                 console.log(jqXHR, exception);
@@ -36,4 +24,14 @@ function sendContact() {
         alert("Please prove that you're not a robot!")
     }
 
+}
+
+// get input value
+function getValue(id){
+    return document.getElementById(id).value.trim();
+}
+
+// show err
+function showError(key, mess){
+    document.getElementById(key + '_error').innerHTML = mess;
 }

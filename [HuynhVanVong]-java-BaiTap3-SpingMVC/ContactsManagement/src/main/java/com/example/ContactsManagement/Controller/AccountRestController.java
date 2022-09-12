@@ -5,7 +5,11 @@ import com.example.ContactsManagement.DTO.Output.AccountOutput;
 import com.example.ContactsManagement.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,13 +35,19 @@ public class AccountRestController {
     }
 
     @PostMapping()
-    public AccountDTO registerAccount(@RequestBody AccountDTO accountDTO) {
-        return accountService.registerAccount(accountDTO);
+    public ResponseEntity registerAccount(@RequestBody @Valid AccountDTO accountDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(accountService.registerAccount(accountDTO));
     }
 
     @PutMapping()
-    public AccountDTO editAccount(@RequestBody AccountDTO accountDTO) {
-        return accountService.registerAccount(accountDTO);
+    public ResponseEntity editAccount(@RequestBody @Valid AccountDTO accountDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(accountService.registerAccount(accountDTO));
     }
 
     @DeleteMapping("delete/{id}")

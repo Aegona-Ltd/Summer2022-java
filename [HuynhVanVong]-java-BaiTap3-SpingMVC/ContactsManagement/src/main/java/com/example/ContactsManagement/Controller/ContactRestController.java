@@ -6,12 +6,18 @@ import com.example.ContactsManagement.Service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/contacts")
@@ -25,13 +31,26 @@ public class ContactRestController {
     @Autowired
     RestTemplate restTemplate;
 
-    @PostMapping()
-    public ContactDTO saveNewContact(@RequestBody ContactDTO contactDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @PostMapping
+    public ResponseEntity saveNewContact(@RequestBody @Valid ContactDTO contactDTO, HttpServletRequest request, HttpServletResponse response,
+                                     BindingResult bindingResult) throws IOException {
         String gReCaptchaResponse = request.getParameter("g-recaptcha-response");
         if(!verifyReCAPTCHA(gReCaptchaResponse)){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        return contactService.addContact(contactDTO);
+        if(bindingResult.hasErrors()){
+//            Map<String, String> errors= new HashMap<>();
+//
+//            bindingResult.getFieldErrors().forEach(
+//                    error -> errors.put(error.getField(), error.getDefaultMessage())
+//            );
+//            String errorMsg= "";
+//            for(String key: errors.keySet()){
+//                errorMsg+= "Lỗi ở: " + key + ", lí do: " + errors.get(key) + "\n";
+//            }
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(contactService.addContact(contactDTO)) ;
     }
     @GetMapping()
     public List<ContactDTO> getContacts() {
