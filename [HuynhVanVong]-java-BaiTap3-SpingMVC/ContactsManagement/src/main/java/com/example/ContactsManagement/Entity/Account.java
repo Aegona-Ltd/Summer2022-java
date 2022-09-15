@@ -1,14 +1,14 @@
 package com.example.ContactsManagement.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -33,4 +33,7 @@ public class Account implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     List<Authority> authorities;
+
+//    @OneToOne(mappedBy = "account")
+//    private RefreshToken refreshToken;
 }

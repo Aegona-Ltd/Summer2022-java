@@ -13,7 +13,6 @@ public class HomeController {
         return "login";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/home")
     public String getViewPage() {
         return "home";
@@ -24,7 +23,7 @@ public class HomeController {
         return "ContactUs";
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/dashboard")
     public String getDashboard() {
         return "Dashboard";
@@ -34,7 +33,7 @@ public class HomeController {
     public String getListContact() {
         return "ListContact";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/UserManagement")
     public String getUserManagement() {
         return "UserManagement";

@@ -25,13 +25,3 @@ function sendContact() {
     }
 
 }
-
-// get input value
-function getValue(id){
-    return document.getElementById(id).value.trim();
-}
-
-// show err
-function showError(key, mess){
-    document.getElementById(key + '_error').innerHTML = mess;
-}

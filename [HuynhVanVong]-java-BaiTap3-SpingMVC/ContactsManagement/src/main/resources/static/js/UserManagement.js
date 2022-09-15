@@ -3,10 +3,14 @@ getUserManager();
 var _limitPage;
 function getUserManager(pageChoose = 1, limitPage =3 ) {
     _limitPage = limitPage;
+    let jwt = localStorage.getItem("token")
     $.ajax({
         url: "http://localhost:8080/account/pageable?page="+pageChoose+"&limit="+limitPage,
         type: "GET",
         contentType: "application/json;",
+        headers: {
+            "Authorization": "Bearer " + jwt.substring(1, jwt.length-1)
+        },
         success: function(data) {
             let response = "";
             let newData = data.listResults;
@@ -29,6 +33,7 @@ function getUserManager(pageChoose = 1, limitPage =3 ) {
             renderPaginationButton(data.totalPages);
         },
         error: function (jqXHR, exception) {
+            console.log("Error");
             console.log(jqXHR, exception);
         },
     })
@@ -47,9 +52,13 @@ function renderPaginationButton(totalPages) {
 
 // delete user function
 function deleteUser(id) {
+    let jwt = localStorage.getItem("token");
     $.ajax({
         url: "http://localhost:8080/account/delete/"+id,
         type: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + jwt.substring(1, jwt.length-1)
+        },
         contentType: "application/json;",
         success: function(data) {
             getUserManager();
@@ -74,10 +83,14 @@ function handleEditUser(idUser) {
 
 // edit infor user
 function editInfoUser() {
+    let jwt = localStorage.getItem("token");
     console.log('edit function');
     $.ajax({
         url: "http://localhost:8080/account",
         type: "PUT",
+        headers: {
+            "Authorization": "Bearer " + jwt.substring(1, jwt.length-1)
+        },
         contentType: "application/json;",
         data: JSON.stringify({
             idUser:$('#idEdit').val(),

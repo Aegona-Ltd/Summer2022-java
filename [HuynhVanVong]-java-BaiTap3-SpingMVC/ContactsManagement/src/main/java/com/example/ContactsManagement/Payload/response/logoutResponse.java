@@ -1,14 +1,14 @@
-package com.example.ContactsManagement.Entity;
+package com.example.ContactsManagement.Payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReCaptchaResponse {
+public class logoutResponse implements Serializable {
     private boolean success;
-    private String challenge_ts;
-    private String hostname;
 }

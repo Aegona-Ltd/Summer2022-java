@@ -7,11 +7,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.datatables.repository.DataTablesRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class)
 public class ContactsManagementApplication {
+	@Bean
+	public BCryptPasswordEncoder getPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	@Bean
 	public ModelMapper modelMapper(){
 		ModelMapper modelMapper = new ModelMapper();

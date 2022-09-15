@@ -4,7 +4,7 @@
 <header >
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd" id="navbar-example1" >
         <div class="container-fluid ">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/home/home}">
                 <img
                         src="https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-logo/d2a05331078417497a241ac6f2cd26d5.png"
                         class="me-2"
@@ -40,13 +40,42 @@
             </div>
         </div>
         <div class="d-flex align-items-center">
+
+            <a class="btn btn-info m-2" id="helloName"></a>
             <a class="btn btn-primary m-2" th:href="@{/home/login}">Login</a>
+            <a class="btn btn-primary m-2" onclick="logout()">Logout</a>
             <a class="btn btn-primary m-2" th:href="@{/home/Register}">Register</a>
         </div>
         </div>
         <!-- Collapsible wrapper -->
     </nav>
     <!-- Navbar -->
+    <script>
+        document.getElementById("helloName").innerText = "Hello: "+ localStorage.getItem("username");
+        function logout() {
+            localStorage.clear();
+            $.ajax({
+                url: "http://localhost:8080/account/logout",
+                type: "Get",
+                contentType: "application/json;",
+                // data: JSON.stringify({
+                //     userName: $('#username').val(),
+                //     password: $('#password').val()
+                // }),
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    if(data.success === true) {
+                        document.location.href = 'http://localhost:8080/home/home';
+                    }
+                },
+                error: function (jqXHR, exception) {
+                    alert("Chưa đăng nhập");
+                    console.log(jqXHR, exception);
+                },
+            })
+        }
+    </script>
 </header>
 </body>
 </html>
