@@ -10,13 +10,18 @@ import com.example.ContactsManagement.Payload.request.TokenRefreshRequest;
 import com.example.ContactsManagement.Payload.response.JwtResponse;
 import com.example.ContactsManagement.Payload.response.TokenRefreshResponse;
 import com.example.ContactsManagement.Service.AccountService;
+import com.example.ContactsManagement.Service.ExcelService;
 import com.example.ContactsManagement.Service.RefreshTokenService;
 import com.example.ContactsManagement.config.JwtTokenProvider;
 import com.example.ContactsManagement.Payload.response.LoginResponse;
 import com.example.ContactsManagement.Payload.response.logoutResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,6 +50,8 @@ public class AccountRestController {
     AuthenticationManager authenticationManager;
     @Autowired
     RefreshTokenService refreshTokenService;
+    @Autowired
+    ExcelService fileService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AccountDTO accountDTO, BindingResult bindingResult) {
@@ -127,10 +134,15 @@ public class AccountRestController {
     public logoutResponse logout(HttpServletRequest request, HttpServletResponse response){
        return accountService.logoutAccount(request, response);
     }
+    @GetMapping("download")
+    public ResponseEntity<Resource> getFile() {
+        String filename = "account.xlsx";
+        InputStreamResource file = new InputStreamResource(fileService.loadListUser());
 
-//    @DeleteMapping("token/{id}")
-//    public void deleteToken(@PathVariable String id){
-//        refreshTokenService.deleteByUserId(id);
-//    }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+                .body(file);
+    }
 
 }

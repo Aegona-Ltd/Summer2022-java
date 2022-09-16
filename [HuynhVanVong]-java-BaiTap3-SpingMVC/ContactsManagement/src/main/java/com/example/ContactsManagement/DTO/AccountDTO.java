@@ -1,11 +1,13 @@
 package com.example.ContactsManagement.DTO;
 
+import com.example.ContactsManagement.Entity.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,5 +22,6 @@ public class AccountDTO {
     private String email;
     @Length(min = 6, max = 20, message = "Password is mandatory")
     private String password;
+    List<Authority> authorities;
 
 }
