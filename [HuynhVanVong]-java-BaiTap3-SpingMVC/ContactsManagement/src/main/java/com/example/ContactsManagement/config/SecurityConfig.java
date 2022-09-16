@@ -12,10 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @Configuration
@@ -39,8 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Phân quyền sử dụng
         http.authorizeRequests()
                 .antMatchers("/account/login").permitAll()
+                .antMatchers("/account/logout").permitAll()
+                .antMatchers("/account/refreshtoken").permitAll()
                 .antMatchers("post","/account").permitAll()
-                .antMatchers("/account/**").authenticated();
+                .antMatchers("/account/**").authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED : " + ex.getMessage()))
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         // Điều khiển lỗi truy cập không đúng vai trò
 //        http.exceptionHandling()

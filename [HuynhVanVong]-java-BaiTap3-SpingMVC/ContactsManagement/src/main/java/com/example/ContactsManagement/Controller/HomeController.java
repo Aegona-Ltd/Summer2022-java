@@ -33,7 +33,7 @@ public class HomeController {
     public String getListContact() {
         return "ListContact";
     }
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/UserManagement")
     public String getUserManagement() {
         return "UserManagement";

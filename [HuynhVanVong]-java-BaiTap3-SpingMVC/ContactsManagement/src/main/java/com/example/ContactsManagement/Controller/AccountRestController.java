@@ -3,10 +3,18 @@ package com.example.ContactsManagement.Controller;
 import com.example.ContactsManagement.DTO.AccountDTO;
 import com.example.ContactsManagement.DTO.Output.AccountOutput;
 import com.example.ContactsManagement.DTO.Output.RestResultError;
+import com.example.ContactsManagement.Entity.CustomAccount;
+import com.example.ContactsManagement.Entity.RefreshToken;
+import com.example.ContactsManagement.Payload.exception.TokenRefreshException;
+import com.example.ContactsManagement.Payload.request.TokenRefreshRequest;
+import com.example.ContactsManagement.Payload.response.JwtResponse;
+import com.example.ContactsManagement.Payload.response.TokenRefreshResponse;
 import com.example.ContactsManagement.Service.AccountService;
+import com.example.ContactsManagement.Service.RefreshTokenService;
 import com.example.ContactsManagement.config.JwtTokenProvider;
 import com.example.ContactsManagement.Payload.response.LoginResponse;
 import com.example.ContactsManagement.Payload.response.logoutResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("account")
@@ -34,12 +43,14 @@ public class AccountRestController {
     JwtTokenProvider jwtTokenProvider;
     @Autowired
     AuthenticationManager authenticationManager;
-
+    @Autowired
+    RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AccountDTO accountDTO, BindingResult bindingResult) {
         // Xác thực từ username và password.
         RestResultError result = accountService.loginAccount(accountDTO, bindingResult);
+        System.out.println(result.getMessage());
         if (result.getResult() == 0) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -48,17 +59,39 @@ public class AccountRestController {
                 )
         );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            CustomAccount userDetails = (CustomAccount) authentication.getPrincipal();
             String jwt = jwtTokenProvider.generateToken(accountDTO.getUserName());
-            LoginResponse response = new LoginResponse(jwt, accountDTO.getUserName(), true);
-            return ResponseEntity.ok(response);
+            List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getAccount().getIdUser());
+            //LoginResponse response = new LoginResponse(jwt, accountDTO.getUserName(), true);
+            return  ResponseEntity.ok(new JwtResponse(true,jwt, refreshToken.getToken(),
+                    userDetails.getUsername(), roles));
         }
         return ResponseEntity.ok().body(result);
     }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken( @RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getAccount)
+                .map(user -> {
+                    String token = jwtTokenProvider.generateToken(user.getUserName());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, refreshTokenService.updateRefreshToken(requestRefreshToken)));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
+    }
+
+
     @GetMapping()
     public List<AccountDTO> getAllAccounts(){
         return accountService.getAllAccounts();
     }
-//    @PreAuthorize("isAuthenticated")
+
     @GetMapping("/pageable") @PreAuthorize("hasAnyRole('ADMIN')")
     public AccountOutput getAllAccountsPageable(@RequestParam("page") int page,
                                                    @RequestParam("limit") int limit){
@@ -78,7 +111,7 @@ public class AccountRestController {
     }
 
     @PutMapping()@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity editAccount(@RequestBody @Valid AccountDTO accountDTO, BindingResult bindingResult) {
+    public ResponseEntity editAccount(@RequestBody @Valid AccountDTO accountDTO, @NotNull BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return ResponseEntity.badRequest().build();
         }
@@ -94,5 +127,10 @@ public class AccountRestController {
     public logoutResponse logout(HttpServletRequest request, HttpServletResponse response){
        return accountService.logoutAccount(request, response);
     }
+
+//    @DeleteMapping("token/{id}")
+//    public void deleteToken(@PathVariable String id){
+//        refreshTokenService.deleteByUserId(id);
+//    }
 
 }

@@ -9,14 +9,20 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+
 @NoArgsConstructor
 public class JwtResponse {
     private String token;
     private String type = "Bearer";
     private String refreshToken;
-    private Long id;
     private String username;
-    private String email;
     private List<String> roles;
+    private boolean success;
+    public JwtResponse( boolean success ,String accessToken, String refreshToken, String username,List<String> roles) {
+        this.success = success;
+        this.token = accessToken;
+        this.refreshToken = refreshToken;
+        this.username = username;
+        this.roles = roles;
+    }
 }

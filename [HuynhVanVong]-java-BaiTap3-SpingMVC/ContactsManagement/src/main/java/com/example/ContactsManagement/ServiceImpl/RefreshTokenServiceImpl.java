@@ -8,8 +8,10 @@ import com.example.ContactsManagement.Service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,7 +26,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private Long refreshTokenDurationMs;
 
     @Override
+    @Transactional
     public RefreshToken createRefreshToken(Integer idUser) {
+        deleteByAccount(idUser);
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setAccount(accountReposistory.findById(idUser).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
@@ -34,17 +38,30 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
+    public Optional<RefreshToken> findByToken(String token) {
+        return refreshTokenRepository.findByToken(token);
+    }
+
+    @Override
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(token);
-            throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signin request");
+            throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signIn request");
         }
-
         return token;
     }
 
     @Override
-    public int deleteByUserId(Integer userId) {
-        return 0;
+    public int deleteByAccount(Integer idUser) {
+        return refreshTokenRepository.deleteByAccount(accountReposistory.findById(idUser).get());
     }
+
+    @Override
+    public String updateRefreshToken(String token) {
+        RefreshToken refreshToken = (RefreshToken) refreshTokenRepository.findByToken(token).orElse(null);
+        refreshToken.setToken(UUID.randomUUID().toString());
+        refreshTokenRepository.save(refreshToken);
+        return refreshToken.getToken();
+    }
+
 }

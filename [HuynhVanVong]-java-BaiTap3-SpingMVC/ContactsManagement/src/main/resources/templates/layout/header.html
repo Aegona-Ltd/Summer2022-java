@@ -53,19 +53,14 @@
     <script>
         document.getElementById("helloName").innerText = "Hello: "+ localStorage.getItem("username");
         function logout() {
-            localStorage.clear();
             $.ajax({
                 url: "http://localhost:8080/account/logout",
                 type: "Get",
                 contentType: "application/json;",
-                // data: JSON.stringify({
-                //     userName: $('#username').val(),
-                //     password: $('#password').val()
-                // }),
                 dataType: 'json',
                 success: function(data) {
-                    console.log(data);
                     if(data.success === true) {
+                        localStorage.clear();
                         document.location.href = 'http://localhost:8080/home/home';
                     }
                 },

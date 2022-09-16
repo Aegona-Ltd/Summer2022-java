@@ -1,3 +1,6 @@
+if(localStorage.getItem("token") === ""){
+    document.location.href = 'http://localhost:8080/home/login';
+}
 let users = [];
 getUserManager();
 var _limitPage;
@@ -33,8 +36,10 @@ function getUserManager(pageChoose = 1, limitPage =3 ) {
             renderPaginationButton(data.totalPages);
         },
         error: function (jqXHR, exception) {
-            console.log("Error");
-            console.log(jqXHR, exception);
+            console.log("error", exception);
+            if(jqXHR.status ===401){
+                document.location.href = 'http://localhost:8080/home/login';
+            }
         },
     })
 }
