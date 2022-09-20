@@ -11,6 +11,12 @@ import com.example.ContactsManagement.Payload.response.logoutResponse;
 import com.example.ContactsManagement.utils.Convert;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
@@ -31,20 +37,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 @Primary
 @Service
+@CacheConfig(cacheNames = "customerCache")
 public class AccountServiceImpl implements AccountService  {
     @Autowired
     AccountReposistory accountReposistory;
-
     @Autowired
     Convert convert;
-
     @Autowired
     ModelMapper modelMapper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     UserDetailsService userDetailsService;
 
@@ -61,6 +65,7 @@ public class AccountServiceImpl implements AccountService  {
     }
 
     @Override
+    @Cacheable(cacheNames = "customers")
     public List<AccountDTO> getAllAccounts() {
         List<Account> listAccounts = accountReposistory.findAll();
         List<AccountDTO> listAccountsDTO = listAccounts.stream().map(account -> convert.toDto(account, AccountDTO.class))
@@ -85,6 +90,7 @@ public class AccountServiceImpl implements AccountService  {
     }
 
     @Override
+    @CacheEvict(cacheNames = "customers", allEntries = true)
     public AccountDTO registerAccount(AccountDTO accountDTO) {
         Account newAccount = convert.toEntity(accountDTO, Account.class);
         newAccount.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
@@ -93,18 +99,14 @@ public class AccountServiceImpl implements AccountService  {
     }
 
     @Override
+    @CacheEvict(cacheNames = "customers", allEntries = true)
     public AccountDTO editAccount(AccountDTO accountDTO) {
-        Account newAccount = new Account();
-//        if(accountDTO.getIdUser() != null) {
-//            Optional<Account> oldAccount = accountReposistory.findById(accountDTO.getIdUser());
-//            newAccount = modelMapper.map(oldAccount.get(), Account.class);
-//        }
-        newAccount = modelMapper.map(accountDTO, Account.class);
-        newAccount = accountReposistory.save(newAccount);
-        return convert.toDto(newAccount, AccountDTO.class);
+        return  convert.toDto(accountReposistory.save(convert.toEntity(accountDTO,Account.class)), AccountDTO.class);
     }
 
     @Override
+    @Caching(evict = { @CacheEvict(cacheNames = "customer", key = "#id"),
+            @CacheEvict(cacheNames = "customers", allEntries = true) })
     public void deleteAccount(Integer id) {
         accountReposistory.deleteById(id);
     }

@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account/download").permitAll()
                 .antMatchers("/account/upload").permitAll()
                 .antMatchers("post","/account").permitAll()
+                .antMatchers("get","/account").permitAll()
                 .antMatchers("/account/**").authenticated()
                 .and()
                 .exceptionHandling()

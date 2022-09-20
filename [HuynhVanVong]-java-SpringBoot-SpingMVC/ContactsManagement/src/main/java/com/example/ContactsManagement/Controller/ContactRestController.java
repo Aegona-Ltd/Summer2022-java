@@ -56,7 +56,6 @@ public class ContactRestController {
     public ResponseEntity<Resource> getFile() {
         String filename = "Contact.xlsx";
         InputStreamResource file = new InputStreamResource(fileService.loadListContact());
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
@@ -67,7 +66,6 @@ public class ContactRestController {
     public ResponseEntity<Resource> getTwoFile() {
         String filename = "ListInfo.xlsx";
         InputStreamResource file = new InputStreamResource(fileService.loadTwoList());
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))

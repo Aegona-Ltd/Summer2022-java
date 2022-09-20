@@ -18,6 +18,7 @@ import com.example.ContactsManagement.Payload.response.logoutResponse;
 import com.example.ContactsManagement.utils.ImportExcelHelper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -122,9 +123,9 @@ public class AccountRestController {
 
     @PutMapping()@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity editAccount(@RequestBody @Valid AccountDTO accountDTO, @NotNull BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().build();
-        }
+//        if (bindingResult.hasErrors()){
+//            return ResponseEntity.badRequest().build();
+//        }
         return ResponseEntity.ok(accountService.editAccount(accountDTO));
     }
 

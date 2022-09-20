@@ -11,7 +11,7 @@ public class JwtTokenProvider {
     // Jwt secret key
     private final String JWT_SECRET = "aegona";
     // Effective time's jwt
-    private final long JWT_EXPIRATION = 30000;
+    private final long JWT_EXPIRATION = 60000;
 
     // Create a new JWT from user information
     public String generateToken(String username ){
