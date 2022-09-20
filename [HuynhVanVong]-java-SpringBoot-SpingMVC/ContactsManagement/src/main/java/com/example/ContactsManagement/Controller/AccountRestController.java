@@ -15,12 +15,14 @@ import com.example.ContactsManagement.Service.RefreshTokenService;
 import com.example.ContactsManagement.config.JwtTokenProvider;
 import com.example.ContactsManagement.Payload.response.LoginResponse;
 import com.example.ContactsManagement.Payload.response.logoutResponse;
+import com.example.ContactsManagement.utils.ImportExcelHelper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -31,6 +33,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
@@ -143,6 +146,23 @@ public class AccountRestController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                 .body(file);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file) {
+        String message = "";
+
+        if (ImportExcelHelper.hasExcelFormat(file)) {
+            try {
+                fileService.save(file);
+                return ResponseEntity.status(HttpStatus.OK).build();
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("fail"+e.getMessage());
+            }
+        }
+
+        message = "Please upload an excel file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
 }

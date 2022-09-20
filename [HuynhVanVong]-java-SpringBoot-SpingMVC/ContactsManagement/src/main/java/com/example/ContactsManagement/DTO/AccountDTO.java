@@ -24,4 +24,10 @@ public class AccountDTO {
     private String password;
     List<Authority> authorities;
 
+//    public AccountDTO(String userName, String fullName, String email, String password) {
+//        this.userName = userName;
+//        this.fullName = fullName;
+//        this.email = email;
+//        this.password = password;
+//    }
 }
