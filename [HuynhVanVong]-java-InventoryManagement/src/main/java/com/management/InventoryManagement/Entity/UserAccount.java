@@ -30,6 +30,8 @@ public class UserAccount implements Serializable {
     private String email;
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
+    @Column(nullable = false)
+    private boolean isDeleted = Boolean.FALSE;
     @JsonIgnore
     @OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
     private List<Authority> authorities;

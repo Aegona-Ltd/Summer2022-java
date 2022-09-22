@@ -31,6 +31,8 @@ public class Product implements Serializable {
     private Integer Amount;
     @Column(nullable = false)
     private Date importDate;
+    @Column
+    private boolean isDeleted = Boolean.FALSE;
     @ManyToOne
     @JoinColumn(name = "categoriesID")
     private Category category;
