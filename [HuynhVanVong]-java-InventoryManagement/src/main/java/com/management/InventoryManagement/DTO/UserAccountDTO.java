@@ -14,5 +14,5 @@ public class UserAccountDTO {
     private String fullName;
     private String email;
     private String phoneNumber;
-    private boolean isDeleted;
+    private boolean isDeleted = Boolean.FALSE;
 }

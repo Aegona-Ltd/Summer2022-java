@@ -1,10 +1,14 @@
 package com.management.InventoryManagement.Service.ServiceImpl;
 
 import com.management.InventoryManagement.DTO.UserAccountDTO;
+import com.management.InventoryManagement.Entity.EmailDetails;
 import com.management.InventoryManagement.Entity.UserAccount;
 import com.management.InventoryManagement.Entity.UserDetailsImpl;
 import com.management.InventoryManagement.Reposistory.UserAccountReposistory;
+import com.management.InventoryManagement.Service.EmailService;
 import com.management.InventoryManagement.Service.UserAccountService;
+import com.management.InventoryManagement.Utils.Convert;
+import com.management.InventoryManagement.Utils.RandomPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +26,14 @@ public class UserAccountServiceImpl implements UserAccountService {
     UserAccountReposistory userAccountReposistory;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    Convert convert;
+    @Autowired
+    private RandomPassword randomPassword;
+
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public UserAccount findByUserName(String userName) {
         return userAccountReposistory.findByUserNameEquals(userName);
@@ -39,7 +51,22 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccountDTO registerAccount(UserAccountDTO account) {
-        return null;
+        UserAccountDTO userAccountDTO = new UserAccountDTO();
+        userAccountDTO.setUserName(account.getUserName());
+        userAccountDTO.setEmail(account.getEmail());
+        userAccountDTO.setFullName(account.getFullName());
+        userAccountDTO.setPhoneNumber(account.getPhoneNumber());
+        String password = randomPassword.alphaNumericString();
+        userAccountDTO.setPassword(passwordEncoder.encode(password));
+        UserAccount userAccount = convert.toEntity(userAccountDTO, UserAccount.class);
+        UserAccountDTO userAccountDTOResponse = convert.toDto(userAccountReposistory.save(userAccount),
+                UserAccountDTO.class);
+
+        EmailDetails emailDetails = new EmailDetails(userAccount.getEmail(), "Your Password: "
+                + password, "Password App");
+        emailService.sendSimpleMail(emailDetails);
+
+        return userAccountDTOResponse;
     }
 
     @Override
@@ -57,9 +84,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         UserAccount accountInDB = userAccountReposistory.findByUserNameEquals(account.getUserName());
         if (accountInDB == null) {
             return false;
-        } else if (!passwordEncoder.matches( account.getPassword(), accountInDB.getPassword())) {
+        } else if (!passwordEncoder.matches(account.getPassword(), accountInDB.getPassword())) {
             return false;
-        }else if(accountInDB.isDeleted()){
+        } else if (accountInDB.isDeleted()) {
             return false;
         }
         return true;

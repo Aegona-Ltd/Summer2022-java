@@ -2,9 +2,13 @@ package com.management.InventoryManagement.Controller;
 
 import com.management.InventoryManagement.Config.JwtTokenProvider;
 import com.management.InventoryManagement.DTO.UserAccountDTO;
+import com.management.InventoryManagement.Entity.EmailDetails;
 import com.management.InventoryManagement.Entity.UserDetailsImpl;
 import com.management.InventoryManagement.Payload.Response.LoginResponse;
+import com.management.InventoryManagement.Payload.Response.RegisterResponse;
+import com.management.InventoryManagement.Service.EmailService;
 import com.management.InventoryManagement.Service.UserAccountService;
+import com.management.InventoryManagement.Utils.RandomPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,9 +29,10 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     @Autowired
-    JwtTokenProvider jwtTokenProvider;
+    private JwtTokenProvider jwtTokenProvider;
+
 
 
     @PostMapping("/login")
@@ -49,6 +54,17 @@ public class UserAccountController {
         }
         return ResponseEntity.ok(new LoginResponse("null", "null", 403,
                 "Username or Password inValid", false, null));
+    }
+
+    @PostMapping("/registerAccount")
+    public ResponseEntity<?> registerAccount(@RequestBody UserAccountDTO userAccountDTO){
+        RegisterResponse response = new RegisterResponse();
+        response.setMessage("Register successfully");
+        response.setUsername(userAccountDTO.getUserName());
+        response.setSuccess(true);
+        response.setResultCode(200);
+        userAccountService.registerAccount(userAccountDTO);
+        return ResponseEntity.ok(response);
     }
 
 }
