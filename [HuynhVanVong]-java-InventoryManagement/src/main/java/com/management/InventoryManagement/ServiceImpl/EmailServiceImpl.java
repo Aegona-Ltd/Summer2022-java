@@ -1,4 +1,4 @@
-package com.management.InventoryManagement.Service.ServiceImpl;
+package com.management.InventoryManagement.ServiceImpl;
 
 import com.management.InventoryManagement.Entity.EmailDetails;
 import com.management.InventoryManagement.Service.EmailService;

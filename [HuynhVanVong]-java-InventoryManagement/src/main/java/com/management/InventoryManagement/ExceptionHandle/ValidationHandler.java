@@ -1,6 +1,6 @@
 package com.management.InventoryManagement.ExceptionHandle;
 
-import com.management.InventoryManagement.Payload.Response.ErrorResponse;
+import com.management.InventoryManagement.Payload.Response.ObjectResponse;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,8 +28,8 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             errors.put(fieldName, message);
             logger.error(ex.getMessage());
         });
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(status.value(),
-                errors.toString(), false));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ObjectResponse(status.value(),
+                errors.toString(), false, null));
     }
 
     @ExceptionHandler(ConstraintViolationException.class) //endpoint exception handler error
@@ -42,8 +42,16 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             errors.put(filed, message);
             logger.error(exception.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                errors.toString(),false));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ObjectResponse(HttpStatus.BAD_REQUEST.value(),
+                errors.toString(), false, null));
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<?> handleNotFoundException(Exception e){
+        logger.error("Not Found exception: " + e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ObjectResponse(HttpStatus.NOT_FOUND.value(),
+                "Not Found", false, null ));
     }
 
     @ExceptionHandler(Exception.class) //ApplicationException handler error
@@ -52,4 +60,5 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
         e.printStackTrace();
         return ResponseEntity.status(500).body("Server Error");
     }
+
 }

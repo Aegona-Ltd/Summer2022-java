@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,6 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "UserAccount")
+@SQLDelete(sql = "UPDATE user_account SET is_deleted = true WHERE userid=?")
+@FilterDef(name = "deletedUserAccountFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedUserAccountFilter", condition = "isDeleted = :isDeleted")
+//@Where(clause = "is_deleted=false")
 public class UserAccount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,6 +12,7 @@ import java.util.List;
 public class LoginResponse {
     private String token;
     private final String type="Bearer";
+    private Integer userId;
     private String username;
     private Integer resultCode;
     private String message;
