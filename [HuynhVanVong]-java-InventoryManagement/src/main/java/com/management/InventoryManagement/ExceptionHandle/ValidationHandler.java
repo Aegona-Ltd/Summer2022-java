@@ -1,5 +1,6 @@
 package com.management.InventoryManagement.ExceptionHandle;
 
+import com.management.InventoryManagement.Payload.Response.ErrorResponse;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice //tất cả các exception sẽ được gom về đây
+@RestControllerAdvice //collect all exception
 public class ValidationHandler extends ResponseEntityExceptionHandler {
-    @Override //lỗi do mình custom
+    @Override //custom exception handler
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
@@ -25,11 +26,13 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
+            logger.error(ex.getMessage());
         });
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(status.value(),
+                errors.toString(), false));
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler(ConstraintViolationException.class) //endpoint exception handler error
     protected ResponseEntity<Object> handlePathVariableError(final ConstraintViolationException exception) {
         String[] s = exception.getMessage().split(",");
         Map<String, String> errors = new HashMap<>();
@@ -37,13 +40,16 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             String filed = error.substring(error.indexOf(".") + 1, error.indexOf(":")).trim();
             String message = error.substring(error.indexOf(":") + 1).trim();
             errors.put(filed, message);
+            logger.error(exception.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                errors.toString(),false));
     }
 
-    @ExceptionHandler(Exception.class) //lỗi hệ thống thì ném ra unknown errors
+    @ExceptionHandler(Exception.class) //ApplicationException handler error
     public ResponseEntity<String> handleUnwantedException(Exception e) {
+        logger.error("Unwanted exception: " + e.getMessage());
         e.printStackTrace();
-        return ResponseEntity.status(500).body("Unknown error");
+        return ResponseEntity.status(500).body("Server Error");
     }
 }

@@ -2,14 +2,13 @@ package com.management.InventoryManagement.Controller;
 
 import com.management.InventoryManagement.Config.JwtTokenProvider;
 import com.management.InventoryManagement.DTO.UserAccountDTO;
-import com.management.InventoryManagement.Entity.EmailDetails;
 import com.management.InventoryManagement.Entity.UserDetailsImpl;
+import com.management.InventoryManagement.Payload.Response.ErrorResponse;
 import com.management.InventoryManagement.Payload.Response.LoginResponse;
 import com.management.InventoryManagement.Payload.Response.RegisterResponse;
-import com.management.InventoryManagement.Service.EmailService;
 import com.management.InventoryManagement.Service.UserAccountService;
-import com.management.InventoryManagement.Utils.RandomPassword;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,8 +51,8 @@ public class UserAccountController {
             return ResponseEntity.ok(new LoginResponse(jwt, userDetails.getUsername(), 200,
                     "Login successfully", true, roles));
         }
-        return ResponseEntity.ok(new LoginResponse("null", "null", 403,
-                "Username or Password inValid", false, null));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse( HttpStatus.NOT_FOUND.value(),
+                "Username or Password inValid", false));
     }
 
     @PostMapping("/registerAccount")
@@ -61,7 +60,7 @@ public class UserAccountController {
         RegisterResponse response = new RegisterResponse();
         response.setMessage("Register successfully");
         response.setUsername(userAccountDTO.getUserName());
-        response.setSuccess(true);
+        response.setIsSuccess(true);
         response.setResultCode(200);
         userAccountService.registerAccount(userAccountDTO);
         return ResponseEntity.ok(response);

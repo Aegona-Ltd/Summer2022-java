@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class LoginResponse {
     private String token;
-//    private final String type="Bearer";
+    private final String type="Bearer";
     private String username;
     private Integer resultCode;
     private String message;

@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterResponse {
-    private String username;
-    private Integer resultCode;
+public class ErrorResponse {
+    private Integer httpStatus;
     private String message;
     private Boolean isSuccess;
 }

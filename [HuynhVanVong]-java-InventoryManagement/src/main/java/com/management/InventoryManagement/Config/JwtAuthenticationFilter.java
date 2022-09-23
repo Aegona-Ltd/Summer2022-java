@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserAccount account = userAccountService.findByUserName(username);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (account != null) {
-                    // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
+                    // if valid user, set information for Security Context
                     UsernamePasswordAuthenticationToken
                             authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception ex) {
-            log.error("failed on set user authentication", ex);
+            log.error("failed on set user authentication: ", ex);
         }
         filterChain.doFilter(request, response);
     }
