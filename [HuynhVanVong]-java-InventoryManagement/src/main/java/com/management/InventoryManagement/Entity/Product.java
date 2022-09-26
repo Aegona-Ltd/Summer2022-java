@@ -26,6 +26,10 @@ import java.util.List;
 @FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedProductFilter", condition = "isDeleted = :isDeleted")
 public class Product implements Serializable {
+    public Product(Integer productId) {
+        this.productId = productId;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productID")
@@ -43,7 +47,6 @@ public class Product implements Serializable {
     @Column
     private boolean isDeleted = Boolean.FALSE;
     @ManyToOne
-
     @JoinColumn(name = "categoriesID")
     private Category category;
     @JsonIgnore

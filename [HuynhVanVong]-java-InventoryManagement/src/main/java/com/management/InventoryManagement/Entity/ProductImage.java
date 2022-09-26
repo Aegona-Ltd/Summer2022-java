@@ -14,19 +14,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ProductImage")
 public class ProductImage {
-    public ProductImage(String name, String type, byte[] data) {
-        this.name = name;
-        this.type = type;
-        this.data = data;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "imageID")
     private Integer imageID;
-    private String name;
-    @Lob
-    private byte[] data;
-    private String type;
+    private String imageURL;
     @ManyToOne
     @JoinColumn(name = "productID")
     private Product product;

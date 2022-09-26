@@ -133,11 +133,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         } else if (accountInDB.isDeleted()) {
             return false;
         }
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        accountInDB.getUserName(),
-//                        accountInDB.getPassword()
-//                ));
         return true;
     }
 

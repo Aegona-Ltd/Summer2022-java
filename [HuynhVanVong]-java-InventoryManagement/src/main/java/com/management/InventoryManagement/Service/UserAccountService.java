@@ -2,11 +2,8 @@ package com.management.InventoryManagement.Service;
 
 import com.management.InventoryManagement.DTO.UserAccountDTO;
 import com.management.InventoryManagement.Entity.UserAccount;
-import com.management.InventoryManagement.Payload.Request.ChangePasswordRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface UserAccountService extends UserDetailsService {
