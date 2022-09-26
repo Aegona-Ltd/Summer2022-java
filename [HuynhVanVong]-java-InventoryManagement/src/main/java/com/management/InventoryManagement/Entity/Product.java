@@ -1,10 +1,15 @@
 package com.management.InventoryManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
+@SQLDelete(sql = "UPDATE product SET is_deleted = true WHERE productID=?")
+@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedProductFilter", condition = "isDeleted = :isDeleted")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +36,14 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private Double price;
     @Column(nullable = false)
-    private Integer Amount;
+    private Integer amount;
     @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date importDate;
     @Column
     private boolean isDeleted = Boolean.FALSE;
     @ManyToOne
+
     @JoinColumn(name = "categoriesID")
     private Category category;
     @JsonIgnore

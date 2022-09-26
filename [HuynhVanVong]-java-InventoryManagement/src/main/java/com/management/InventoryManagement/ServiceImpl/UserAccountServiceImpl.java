@@ -11,16 +11,11 @@ import com.management.InventoryManagement.Utils.Convert;
 import com.management.InventoryManagement.Utils.RandomPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +31,6 @@ public class UserAccountServiceImpl implements UserAccountService {
     private Convert convert;
     @Autowired
     private RandomPassword randomPassword;
-
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -146,18 +140,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 //                ));
         return true;
     }
-
-    @Override
-    public Boolean isLogout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-            return true;
-        }
-        return false;
-
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

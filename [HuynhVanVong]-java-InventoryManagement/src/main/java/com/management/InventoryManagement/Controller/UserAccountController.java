@@ -17,8 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -110,11 +108,4 @@ public class UserAccountController {
                 "Not found username or old password not valid", false, null));
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
-        if (userAccountService.isLogout(request, response)){
-            return ResponseEntity.ok().body(new ObjectResponse(200, "Logout Successfully", true, null));
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ObjectResponse(HttpStatus.BAD_REQUEST.value(),"Logout fail", false, null));
-    }
 }

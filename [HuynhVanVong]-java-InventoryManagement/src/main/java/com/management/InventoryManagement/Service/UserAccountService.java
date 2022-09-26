@@ -21,6 +21,5 @@ public interface UserAccountService extends UserDetailsService {
     Boolean updatePassword(String username, String oldPassword, String newPassword);
     void deleteAccount(Integer id);
     Boolean isLogin(UserAccountDTO account);
-    Boolean isLogout(HttpServletRequest request, HttpServletResponse response);
 
 }

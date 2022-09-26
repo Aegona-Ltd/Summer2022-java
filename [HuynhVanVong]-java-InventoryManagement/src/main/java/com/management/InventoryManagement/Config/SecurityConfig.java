@@ -39,14 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().disable();
         // Phân quyền sử dụng
         http.authorizeRequests()
-//                .antMatchers("/account/login").permitAll()
-//                .antMatchers("/account/logout").permitAll()
-//                .antMatchers("/account/refreshtoken").permitAll()
-//                .antMatchers("/account/download").permitAll()
-//                .antMatchers("/account/upload").permitAll()
-//                .antMatchers("post", "/account").permitAll()
-//                .antMatchers("get", "/account").permitAll()
-//                .antMatchers("/account/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()

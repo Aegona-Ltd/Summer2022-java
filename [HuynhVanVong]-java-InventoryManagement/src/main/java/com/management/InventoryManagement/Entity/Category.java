@@ -1,5 +1,7 @@
 package com.management.InventoryManagement.Entity;
 
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,8 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 @Table(name = "categories")
 public class Category implements Serializable {
@@ -25,7 +26,9 @@ public class Category implements Serializable {
     private String Title;
     private String Description;
     private String Slug;
+
     @JsonIgnore
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> products;
+
 }

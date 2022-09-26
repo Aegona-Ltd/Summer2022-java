@@ -22,9 +22,10 @@ public class RoleController {
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(), "Successfully", true, list));
     }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> updateRole(@RequestBody RoleDTO role){
         RoleDTO roleDTO = roleService.updateRole(role);
-        return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(), "Successfully",true, Collections.singletonList(roleDTO)));
+        return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(), "Successfully",true,
+                Collections.singletonList(roleDTO)));
     }
 }
