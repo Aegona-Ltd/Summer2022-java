@@ -28,8 +28,8 @@ public class ProductTransaction implements Serializable {
     private Status status;
     @ManyToOne
     @JoinColumn(name = "productID")
-    private Product product;
+    private Product productID;
     @JsonIgnore
-    @OneToMany(mappedBy = "productTransaction", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productTransID", fetch = FetchType.LAZY)
     private List<LogProductTransaction> logProductTransaction;
 }

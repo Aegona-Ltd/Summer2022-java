@@ -26,8 +26,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO updateProduct(ProductDTO productDTO) {
-        Product product = convert.toEntity(productDTO, Product.class);
+    public ProductDTO updateAmountProduct(ProductDTO productDTO) {
+        Product product = productReposistory.findById(productDTO.getProductId()).orElse(null);
+        product.setAmount(product.getAmount() + productDTO.getAmount());
         return convert.toDto(productReposistory.save(product), ProductDTO.class);
     }
 

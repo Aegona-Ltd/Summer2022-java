@@ -31,7 +31,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     public void updateProductImage(List<Integer> ids, Integer productID) {
         for (int i = 0; i < ids.size(); i++) {
             Optional<ProductImage> productImage = productImageReposistory.findById(ids.get(i));
-            productImage.get().setProduct(new Product(productID));
+            productImage.get().setProductIMG(new Product(productID));
             productImageReposistory.save(productImage.get());
         }
 

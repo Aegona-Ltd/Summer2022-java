@@ -15,6 +15,9 @@ import java.util.List;
 @Entity
 @Table(name = "status")
 public class Status {
+    public Status(Integer statusID) {
+        this.statusID = statusID;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "statusID")

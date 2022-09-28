@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface ProductService {
     ProductDTO insertProduct(ProductDTO product);
-    ProductDTO updateProduct(ProductDTO product);
+    ProductDTO updateAmountProduct(ProductDTO productDTO);
     void deleteProduct(Integer id);
     List<ProductDTO> findProductIsDeleted();
     List<ProductDTO> findProductIsNoDeleted();
+//    List<ProductDTO> findLogByProductId();
 }

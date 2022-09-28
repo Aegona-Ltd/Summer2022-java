@@ -29,7 +29,6 @@ public class Product implements Serializable {
     public Product(Integer productId) {
         this.productId = productId;
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productID")
@@ -50,9 +49,9 @@ public class Product implements Serializable {
     @JoinColumn(name = "categoriesID")
     private Category category;
     @JsonIgnore
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productIMG", fetch = FetchType.LAZY)
     private List<ProductImage> productImages;
     @JsonIgnore
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productID", fetch = FetchType.LAZY)
     private List<ProductTransaction> productTransactions;
 }

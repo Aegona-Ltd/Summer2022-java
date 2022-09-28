@@ -43,6 +43,6 @@ public class UserAccount implements Serializable {
     @OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
     private List<Authority> authorities;
     @JsonIgnore
-    @OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userID", fetch = FetchType.LAZY)
     private List<LogProductTransaction> logProductTransactions;
 }

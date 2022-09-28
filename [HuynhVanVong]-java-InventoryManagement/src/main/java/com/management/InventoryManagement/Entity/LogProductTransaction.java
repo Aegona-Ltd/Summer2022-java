@@ -21,11 +21,12 @@ public class LogProductTransaction implements Serializable {
     @Column(name = "LogProductTransID")
     private Integer LogProductTransID;
     @Column(name = "dateLog", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateLog;
     @ManyToOne
-    @JoinColumn(name = "productID")
-    private ProductTransaction productTransaction;
+    @JoinColumn(name = "productTransID")
+    private ProductTransaction productTransID;
     @ManyToOne
     @JoinColumn(name = "userID")
-    private UserAccount userAccount;
+    private UserAccount userID;
 }
