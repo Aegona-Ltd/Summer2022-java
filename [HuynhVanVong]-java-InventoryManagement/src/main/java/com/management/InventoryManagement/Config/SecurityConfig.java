@@ -39,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().disable();
         // Phân quyền sử dụng
         http.authorizeRequests()
+                .antMatchers("api/v1/UserAccount/login").permitAll()
+                .antMatchers("/api/v1/productTrans/NoEnterStockYet").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()

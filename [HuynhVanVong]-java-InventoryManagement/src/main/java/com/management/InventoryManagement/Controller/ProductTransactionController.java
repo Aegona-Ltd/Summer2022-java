@@ -2,7 +2,6 @@ package com.management.InventoryManagement.Controller;
 
 import com.management.InventoryManagement.DTO.LogProductTransactionDTO;
 import com.management.InventoryManagement.DTO.ProductTransactionDTO;
-import com.management.InventoryManagement.Entity.ProductTransaction;
 import com.management.InventoryManagement.Payload.Response.ObjectResponse;
 import com.management.InventoryManagement.Payload.Response.ResponseMessage;
 import com.management.InventoryManagement.Service.LogProductTransactionService;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/productTrans")
@@ -41,8 +41,19 @@ public class ProductTransactionController {
         if(productTransactionDTO == true){
             return ResponseEntity.ok(new ResponseMessage("Approve successfully"));
         }
-//        return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"Enter stock successfully",
-//                true, Collections.singletonList(productTransactionDTO)));
         return ResponseEntity.badRequest().body(new ResponseMessage("Approved or error"));
+    }
+
+    @GetMapping("/log/{id}")
+    public ResponseEntity<?> getLog(@PathVariable Integer id) {
+        List<LogProductTransactionDTO> list = productTransactionService.findLogByTransId(id);
+        return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"successfully", true, list));
+    }
+
+    // get product no enter stock yet
+
+    @GetMapping("/NoEnterStockYet")
+    public ResponseEntity<?> getProductNoEnterStock(){
+        return ResponseEntity.ok(productTransactionService.findTransByProductId(1));
     }
 }

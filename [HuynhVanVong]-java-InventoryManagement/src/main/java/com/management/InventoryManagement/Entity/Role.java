@@ -20,6 +20,6 @@ public class Role implements Serializable {
     @Column(name = "nameRole", nullable = false)
     private String nameRole;
     @JsonIgnore
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private List<Authority> authorities;
 }

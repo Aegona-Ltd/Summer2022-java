@@ -1,6 +1,8 @@
 package com.management.InventoryManagement.Service;
 
+import com.management.InventoryManagement.DTO.LogProductTransactionDTO;
 import com.management.InventoryManagement.DTO.ProductDTO;
+import com.management.InventoryManagement.DTO.ProductTransactionDTO;
 
 import java.util.List;
 
@@ -10,5 +12,5 @@ public interface ProductService {
     void deleteProduct(Integer id);
     List<ProductDTO> findProductIsDeleted();
     List<ProductDTO> findProductIsNoDeleted();
-//    List<ProductDTO> findLogByProductId();
+    List<ProductTransactionDTO> findProductTransById(Integer id);
 }

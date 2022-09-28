@@ -1,6 +1,7 @@
 package com.management.InventoryManagement.Entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

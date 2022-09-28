@@ -1,7 +1,11 @@
 package com.management.InventoryManagement.ServiceImpl;
 
+import com.management.InventoryManagement.DTO.LogProductTransactionDTO;
 import com.management.InventoryManagement.DTO.ProductDTO;
+import com.management.InventoryManagement.DTO.ProductTransactionDTO;
+import com.management.InventoryManagement.Entity.LogProductTransaction;
 import com.management.InventoryManagement.Entity.Product;
+import com.management.InventoryManagement.Entity.ProductTransaction;
 import com.management.InventoryManagement.Reposistory.ProductReposistory;
 import com.management.InventoryManagement.Service.ProductService;
 import com.management.InventoryManagement.Utils.Convert;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,5 +56,13 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDTO> productsDTO = products.stream().map(product -> convert.toDto(product, ProductDTO.class))
                 .collect(Collectors.toList());
         return productsDTO;
+    }
+
+    @Override
+    public List<ProductTransactionDTO> findProductTransById(Integer id) {
+        Optional<Product> product = productReposistory.findById(id);
+        List<ProductTransactionDTO> listTransDTO = product.get().getProductTransactions().stream()
+                .map(transaction -> convert.toDto(transaction, ProductTransactionDTO.class)).collect(Collectors.toList());
+        return listTransDTO;
     }
 }

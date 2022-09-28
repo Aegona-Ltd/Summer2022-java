@@ -1,19 +1,15 @@
 package com.management.InventoryManagement.Controller;
 
 import com.management.InventoryManagement.DTO.ProductDTO;
-import com.management.InventoryManagement.DTO.ProductImageDTO;
-import com.management.InventoryManagement.Entity.ProductImage;
+import com.management.InventoryManagement.DTO.ProductTransactionDTO;
 import com.management.InventoryManagement.Payload.Response.ObjectResponse;
-import com.management.InventoryManagement.Reposistory.ProductImageReposistory;
-import com.management.InventoryManagement.Service.FileManagerService;
-import com.management.InventoryManagement.Service.ProductImageService;
 import com.management.InventoryManagement.Service.ProductService;
 import com.management.InventoryManagement.Utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +54,13 @@ public class ProductController {
     public ResponseEntity<?> getProductIsNoDeleted(){
         List<ProductDTO> products = productService.findProductIsNoDeleted();
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"successfully",true, products));
+    }
+
+    @GetMapping("/log/{id}")
+    public ResponseEntity<?> getLogs(@PathVariable Integer id){
+        List<ProductTransactionDTO> list = productService.findProductTransById(id);
+        return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"successfully",
+                true, list));
     }
 
 }

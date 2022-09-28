@@ -1,5 +1,6 @@
 package com.management.InventoryManagement.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.management.InventoryManagement.Entity.ProductImage;
 import com.management.InventoryManagement.Entity.ProductTransaction;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,7 @@ public class ProductDTO {
     private Double price;
     private Integer amount;
     private Date importDate = new Date();
-//    private Category category;
     private Integer categoryID;
-    private List<ProductImage> productImages;
-    private List<ProductTransaction> productTransactions;
+//    private List<ProductImage> productImages;
+//    private List<ProductTransactionDTO> productTransactions;
 }

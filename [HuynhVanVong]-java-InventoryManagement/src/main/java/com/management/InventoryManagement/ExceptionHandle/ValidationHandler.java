@@ -1,7 +1,7 @@
 package com.management.InventoryManagement.ExceptionHandle;
 
 import com.management.InventoryManagement.Payload.Response.ObjectResponse;
-import org.hibernate.annotations.SQLDelete;
+import io.jsonwebtoken.SignatureException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

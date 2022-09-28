@@ -1,5 +1,6 @@
 package com.management.InventoryManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Status {
     private Integer statusID;
     @Column(nullable = false)
     private String statusName;
+    @JsonIgnore
     @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     private List<ProductTransaction> productTransactions;
 }

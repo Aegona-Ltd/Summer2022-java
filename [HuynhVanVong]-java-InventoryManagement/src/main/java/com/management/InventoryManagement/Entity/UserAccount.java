@@ -40,7 +40,7 @@ public class UserAccount implements Serializable {
     @Column(nullable = false)
     private boolean isDeleted = Boolean.FALSE;
     @JsonIgnore
-    @OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER)
     private List<Authority> authorities;
     @JsonIgnore
     @OneToMany(mappedBy = "userID", fetch = FetchType.LAZY)
