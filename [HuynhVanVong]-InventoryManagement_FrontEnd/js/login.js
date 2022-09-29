@@ -14,7 +14,7 @@ function login() {
                 localStorage.setItem('token', JSON.stringify(data.token));
                 localStorage.setItem('userID', JSON.stringify(data.userId));
                 localStorage.setItem('username', JSON.stringify(data.username));
-                location.href='home.html'
+                location.href='profile.html'
         
             }
         },

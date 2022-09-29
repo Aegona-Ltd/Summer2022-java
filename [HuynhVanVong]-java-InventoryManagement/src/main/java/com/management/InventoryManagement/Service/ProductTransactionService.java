@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ProductTransactionService {
     ProductTransactionDTO insertProductTransaction(ProductTransactionDTO productTransaction);
-    Boolean updateStatusTrans(ProductTransactionDTO productTransaction);
+    Boolean updateStatusTrans(Integer id);
     List<LogProductTransactionDTO> findLogByTransId(Integer id);
     List<ProductTransResponse> findTransByProductId(Integer id);
 }

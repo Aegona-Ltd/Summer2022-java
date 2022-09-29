@@ -29,14 +29,15 @@ public class ProductTransactionServiceImpl implements ProductTransactionService 
     @Override
     public ProductTransactionDTO insertProductTransaction(ProductTransactionDTO productTransactionDTO) {
         ProductTransaction productTransaction = convert.toDto(productTransactionDTO, ProductTransaction.class);
+        productTransaction.setStatus(new Status(1));
         return convert.toDto(productTransactionReposistory.save(productTransaction), ProductTransactionDTO.class);
     }
 
     @Override
-    public Boolean updateStatusTrans(ProductTransactionDTO productTransaction) {
+    public Boolean updateStatusTrans(Integer id) {
         ProductTransaction oldProductTransaction = productTransactionReposistory.
-                findById(productTransaction.getProductTransID()).orElse(null);
-        Product oldProduct = productReposistory.findById(productTransaction.getProductID()).orElse(null);
+                findById(id).orElse(null);
+        Product oldProduct = productReposistory.findById(oldProductTransaction.getProductID().getProductId()).orElse(null);
 
         if(oldProduct != null && oldProductTransaction.getStatus().getStatusID() == 1) {
             oldProduct.setAmount(oldProduct.getAmount()+oldProductTransaction.getAmount());

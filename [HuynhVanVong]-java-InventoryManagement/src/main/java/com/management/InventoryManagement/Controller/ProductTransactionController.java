@@ -35,9 +35,9 @@ public class ProductTransactionController {
                 true, Collections.singletonList(productTrans)));
     }
 
-    @PutMapping
-    ResponseEntity<?> approveEnterStock(@RequestBody ProductTransactionDTO productTransaction){
-        Boolean productTransactionDTO = productTransactionService.updateStatusTrans(productTransaction);
+    @PutMapping("{id}")
+    ResponseEntity<?> approveEnterStock(@PathVariable Integer id){
+        Boolean productTransactionDTO = productTransactionService.updateStatusTrans(id);
         if(productTransactionDTO == true){
             return ResponseEntity.ok(new ResponseMessage("Approve successfully"));
         }
