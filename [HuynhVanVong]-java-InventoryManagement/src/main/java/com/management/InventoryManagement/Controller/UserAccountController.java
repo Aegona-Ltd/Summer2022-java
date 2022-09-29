@@ -18,13 +18,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/UserAccount")
+@CrossOrigin("*")
 public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
@@ -54,7 +54,7 @@ public class UserAccountController {
                 "Username or Password inValid", false, null));
     }
 
-    @PostMapping("/registerAccount")
+    @PostMapping("/registerAccount") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> registerAccount(@RequestBody @Valid UserAccountDTO userAccountDTO) {
         RegisterResponse response = new RegisterResponse();
         response.setMessage("Register successfully");
@@ -65,14 +65,14 @@ public class UserAccountController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping
+    @PutMapping @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateAccount(@RequestBody @Valid UserAccountDTO userAccount) {
         userAccountService.updateAccount(userAccount);
         return ResponseEntity.status(200).body(new ObjectResponse(HttpStatus.OK.value(),
                 "Update successfully", true, null));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> deleteAccount(@PathVariable Integer id) {
         userAccountService.deleteAccount(id);
         return ResponseEntity.status(200).body(new ObjectResponse(HttpStatus.OK.value(),
@@ -88,13 +88,13 @@ public class UserAccountController {
                 "Not found user", false, null));
     }
 
-    @GetMapping("isDeleted")
+    @GetMapping("isDeleted") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> getUserIsDeleted() {
         return ResponseEntity.status(200).body(new ObjectResponse(200, "Successfully",
                 true, userAccountService.findUsersByIsDeleted()));
     }
 
-    @GetMapping("isNotDeleted")
+    @GetMapping("isNotDeleted") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> getUserIsNotDeleted() {
         return ResponseEntity.status(200).body(new ObjectResponse(200, "Successfully",
                 true, userAccountService.findUsersByIsNotDeleted()));

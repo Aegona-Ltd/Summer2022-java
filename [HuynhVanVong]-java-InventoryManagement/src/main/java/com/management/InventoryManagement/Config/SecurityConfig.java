@@ -36,11 +36,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // CSRF, CORS
-        http.csrf().disable().cors().disable();
+        http.csrf().disable();
+        http.cors().disable();
         // Phân quyền sử dụng
         http.authorizeRequests()
-                .antMatchers("api/v1/UserAccount/login").permitAll()
+                .antMatchers("/api/v1/UserAccount/login").permitAll()
                 .antMatchers("/api/v1/productTrans/NoEnterStockYet").hasRole("ADMIN")
+//                .antMatchers("/api/v1/product/isNoDeleted").hasRole("ADMIN")
+                .antMatchers("/api/v1/UserAccount/**").authenticated()
+                .antMatchers("/api/v1/UserAccount/changePassword").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()
@@ -48,21 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        // Điều khiển lỗi truy cập không đúng vai trò
-//        http.exceptionHandling()
-//                .accessDeniedPage("/auth/access/denied");
 
-        // Giao diện đăng nhập
-        http.httpBasic();
-//        http.formLogin()
-//                .loginPage("/home/login")
-//                        .usernameParameter("username")
-//                                .passwordParameter("password")
-//                .permitAll();
-        // Đăng xuất
-//        http.logout()
-//                .logoutUrl("/account/logout")
-//                .logoutSuccessUrl("/home/login");
     }
 
     /*--Cho phép request đến REST API từ browser--*/
@@ -71,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
-    // bean filter and authenticationManagerBean
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
