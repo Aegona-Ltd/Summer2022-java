@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Product</title>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
@@ -21,7 +21,7 @@
     <div id="includedContent"></div>
 
     <div class="row">
-        <div class="col-3 p-5 border"> 
+        <div class="col-3 p-5 border">
             <div class="d-flex justify-content-center">
                 <div class="fs-3 text-primary">CREATE PRODUCT</div>
             </div>
@@ -35,7 +35,7 @@
                 <input type="text" class="form-control" id="description">
             </div>
             <div class="mb-3">
-                <label  class="form-label">price</label>
+                <label class="form-label">price</label>
                 <input type="text" class="form-control" id="price">
             </div>
             <div class="mb-3">
@@ -46,6 +46,13 @@
                 <label for="phoneNumber" class="form-label">categoryID</label>
                 <input type="text" class="form-control" id="categoryID">
             </div>
+
+            <input type="hidden" name="" id="imgProduct">
+            <label for="img">Select image:</label>
+            <input type="file" id="img" name="img" multiple accept="image/*" onchange="uploadIMG()">
+
+            <br> <br>
+
             <button class="btn btn-warning" type="submit" onclick="createProduct()">Create Product</button>
         </div>
 
@@ -65,31 +72,31 @@
                     </tr>
                 </thead>
                 <tbody id="producsNotDelete">
-                   
+
                 </tbody>
             </table>
             <!--  -->
             <hr>
             <div class="mt-5">
-            <div class="d-flex justify-content-center">
-                <div class=" fs-3">TRANS OF PRODUCT</div>
+                <div class="d-flex justify-content-center">
+                    <div class=" fs-3">TRANS OF PRODUCT</div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">productName</th>
+                            <th scope="col">amount</th>
+                            <th scope="col">statusName</th>
+                            <th scope="col">productTransID</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTrans">
+
+                    </tbody>
+                </table>
+                <div class="text-warning" id="logInfo"></div>
             </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">productName</th>
-                        <th scope="col">amount</th>
-                        <th scope="col">statusName</th>
-                        <th scope="col">productTransID</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="productTrans">
-                    
-                </tbody>
-            </table>
-            <div class="text-warning" id="logInfo"></div>
-        </div>
         </div>
 
     </div>

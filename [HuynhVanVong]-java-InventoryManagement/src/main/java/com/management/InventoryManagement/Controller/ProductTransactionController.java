@@ -40,8 +40,12 @@ public class ProductTransactionController {
 
     @PutMapping("{id}")  @PreAuthorize("hasAnyRole('ADMIN')")
     ResponseEntity<?> approveEnterStock(@PathVariable Integer id){
-        Boolean productTransactionDTO = productTransactionService.updateStatusTrans(id);
-        if(productTransactionDTO == true){
+        ProductTransactionDTO productTransactionDTO = productTransactionService.updateStatusTrans(id);
+        if(productTransactionDTO != null){
+            LogProductTransactionDTO logProductTransactionDTO = new LogProductTransactionDTO();
+            logProductTransactionDTO.setUserId(1);
+            logProductTransactionDTO.setProductTransID(productTransactionDTO.getProductTransID());
+            logProductTransactionService.insertLogProductTransaction(logProductTransactionDTO);
             return ResponseEntity.ok(new ResponseMessage("Approve successfully"));
         }
         return ResponseEntity.badRequest().body(new ResponseMessage("Approved or error"));

@@ -6,7 +6,6 @@ import com.management.InventoryManagement.Entity.Product;
 import com.management.InventoryManagement.Entity.ProductTransaction;
 import com.management.InventoryManagement.Entity.Status;
 import com.management.InventoryManagement.Payload.Response.ProductTransResponse;
-import com.management.InventoryManagement.Reposistory.LogProductTransactionReposistory;
 import com.management.InventoryManagement.Reposistory.ProductReposistory;
 import com.management.InventoryManagement.Reposistory.ProductTransactionReposistory;
 import com.management.InventoryManagement.Service.ProductTransactionService;
@@ -17,13 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @Service
 public class ProductTransactionServiceImpl implements ProductTransactionService {
     @Autowired
     private ProductTransactionReposistory productTransactionReposistory;
-    @Autowired
-    private LogProductTransactionReposistory logProductTransactionReposistory;
     @Autowired
     private Convert convert;
     @Autowired
@@ -37,7 +33,7 @@ public class ProductTransactionServiceImpl implements ProductTransactionService 
     }
 
     @Override
-    public Boolean updateStatusTrans(Integer id) {
+    public ProductTransactionDTO updateStatusTrans(Integer id) {
         ProductTransaction oldProductTransaction = productTransactionReposistory.
                 findById(id).orElse(null);
         Product oldProduct = productReposistory.findById(oldProductTransaction.getProductID().getProductId()).orElse(null);
@@ -45,10 +41,10 @@ public class ProductTransactionServiceImpl implements ProductTransactionService 
         if(oldProduct != null && oldProductTransaction.getStatus().getStatusID() == 1) {
             oldProduct.setAmount(oldProduct.getAmount()+oldProductTransaction.getAmount());
             oldProductTransaction.setStatus(new Status(2));
-            productTransactionReposistory.save(oldProductTransaction);
-            return true;
+            ProductTransaction p = productTransactionReposistory.save(oldProductTransaction);
+            return convert.toDto(p, ProductTransactionDTO.class);
         }
-        return false;
+        return null;
     }
 
     @Override

@@ -4,13 +4,11 @@ import com.management.InventoryManagement.DTO.ProductDTO;
 import com.management.InventoryManagement.DTO.ProductTransactionDTO;
 import com.management.InventoryManagement.Payload.Response.ObjectResponse;
 import com.management.InventoryManagement.Service.ProductService;
-import com.management.InventoryManagement.Utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +19,6 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
-    @Autowired
-    private Convert convert;
 
     @PostMapping @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> insertProduct(@RequestBody ProductDTO productDTO){
