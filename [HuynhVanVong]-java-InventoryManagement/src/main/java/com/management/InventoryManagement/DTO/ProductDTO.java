@@ -21,6 +21,7 @@ public class ProductDTO {
     private String description;
     private Double price;
     private Integer amount;
+
     private Date importDate = new Date();
     private Integer categoryID;
 //    private List<ProductImage> productImages;

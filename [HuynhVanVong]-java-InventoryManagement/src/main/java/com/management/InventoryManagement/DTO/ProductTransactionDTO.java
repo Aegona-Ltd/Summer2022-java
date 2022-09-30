@@ -13,6 +13,7 @@ import lombok.Setter;
 public class ProductTransactionDTO {
     private Integer productTransID;
     private Integer amount;
-    private Integer statusId;
+//    private Integer statusId;
+    private String statusName;
     private Integer productID;
 }

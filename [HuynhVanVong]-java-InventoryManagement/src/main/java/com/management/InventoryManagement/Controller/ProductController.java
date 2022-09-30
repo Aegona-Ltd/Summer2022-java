@@ -8,6 +8,7 @@ import com.management.InventoryManagement.Utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,14 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/product")
+@CrossOrigin("*")
 public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
     private Convert convert;
 
-
-    @PostMapping
+    @PostMapping @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> insertProduct(@RequestBody ProductDTO productDTO){
         ProductDTO product = productService.insertProduct(productDTO);
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(), "Insert successfully",
@@ -37,7 +38,7 @@ public class ProductController {
                 true, Collections.singletonList(product)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer id){
        productService.deleteProduct(id);
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(), "Delete product successfully",
@@ -50,13 +51,13 @@ public class ProductController {
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"successfully",true, products));
     }
 
-    @GetMapping("/isNoDeleted")
+    @GetMapping("/isNoDeleted") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> getProductIsNoDeleted(){
         List<ProductDTO> products = productService.findProductIsNoDeleted();
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"successfully",true, products));
     }
 
-    @GetMapping("/log/{id}")
+    @GetMapping("/log/{id}") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> getLogs(@PathVariable Integer id){
         List<ProductTransactionDTO> list = productService.findProductTransById(id);
         return ResponseEntity.ok(new ObjectResponse(HttpStatus.OK.value(),"successfully",

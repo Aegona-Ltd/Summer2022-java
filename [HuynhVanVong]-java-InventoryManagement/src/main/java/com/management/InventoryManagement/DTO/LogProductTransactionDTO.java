@@ -16,5 +16,5 @@ public class LogProductTransactionDTO {
     private Integer LogProductTransID;
     private Date dateLog = new Date();
     private Integer productTransID;
-    private Integer userID;
+    private Integer userId;
 }

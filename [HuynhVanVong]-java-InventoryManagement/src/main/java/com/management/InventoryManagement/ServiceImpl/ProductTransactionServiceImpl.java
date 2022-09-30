@@ -6,6 +6,7 @@ import com.management.InventoryManagement.Entity.Product;
 import com.management.InventoryManagement.Entity.ProductTransaction;
 import com.management.InventoryManagement.Entity.Status;
 import com.management.InventoryManagement.Payload.Response.ProductTransResponse;
+import com.management.InventoryManagement.Reposistory.LogProductTransactionReposistory;
 import com.management.InventoryManagement.Reposistory.ProductReposistory;
 import com.management.InventoryManagement.Reposistory.ProductTransactionReposistory;
 import com.management.InventoryManagement.Service.ProductTransactionService;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 public class ProductTransactionServiceImpl implements ProductTransactionService {
     @Autowired
     private ProductTransactionReposistory productTransactionReposistory;
+    @Autowired
+    private LogProductTransactionReposistory logProductTransactionReposistory;
     @Autowired
     private Convert convert;
     @Autowired
@@ -60,8 +63,23 @@ public class ProductTransactionServiceImpl implements ProductTransactionService 
     }
 
     @Override
-    public List<ProductTransResponse> findTransByProductId(Integer id) {
+    public List<ProductTransResponse> findTransByStatusId(Integer id) {
         List<ProductTransaction> listTrans = productTransactionReposistory.findAllByStatusStatusID(id);
+        List<ProductTransResponse> listResponse = new ArrayList<>();
+        for (ProductTransaction o: listTrans) {
+            ProductTransResponse p = new ProductTransResponse();
+            p.setProductTransID(o.getProductTransID());
+            p.setAmount(o.getAmount());
+            p.setStatusName(o.getStatus().getStatusName());
+            p.setProductName(o.getProductID().getTitle());
+            listResponse.add(p);
+        }
+        return listResponse;
+    }
+
+    @Override
+    public List<ProductTransResponse> findTransByProductId(Integer id) {
+        List<ProductTransaction> listTrans = productTransactionReposistory.findAllByProductIDProductId(id);
         List<ProductTransResponse> listResponse = new ArrayList<>();
         for (ProductTransaction o: listTrans) {
             ProductTransResponse p = new ProductTransResponse();

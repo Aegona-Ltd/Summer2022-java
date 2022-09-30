@@ -13,5 +13,6 @@ public interface ProductTransactionService {
     ProductTransactionDTO insertProductTransaction(ProductTransactionDTO productTransaction);
     Boolean updateStatusTrans(Integer id);
     List<LogProductTransactionDTO> findLogByTransId(Integer id);
+    List<ProductTransResponse> findTransByStatusId(Integer id);
     List<ProductTransResponse> findTransByProductId(Integer id);
 }

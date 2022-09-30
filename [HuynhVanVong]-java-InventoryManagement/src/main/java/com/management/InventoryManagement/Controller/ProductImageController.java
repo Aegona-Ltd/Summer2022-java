@@ -7,6 +7,7 @@ import com.management.InventoryManagement.Service.FileManagerService;
 import com.management.InventoryManagement.Service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,13 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/upload")
+@CrossOrigin("*")
 public class ProductImageController {
     @Autowired
     private ProductImageService productImageService;
     @Autowired
     private FileManagerService fileManagerService;
 
-    @PostMapping
+    @PostMapping@PreAuthorize("hasAnyRole('ADMIN')")
     public List<Integer> uploadImage(@RequestParam("file")MultipartFile[] files) {
         List<Integer> ids = new ArrayList<>();
         List<String> imgURLS = fileManagerService.save(files);
@@ -33,7 +35,7 @@ public class ProductImageController {
         return ids;
     }
 
-    @PutMapping("{productID}")
+    @PutMapping("{productID}") @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> updateProductImage(@RequestBody List<Integer> list, @PathVariable Integer productID){
         productImageService.updateProductImage(list, productID);
         return ResponseEntity.ok().build();
