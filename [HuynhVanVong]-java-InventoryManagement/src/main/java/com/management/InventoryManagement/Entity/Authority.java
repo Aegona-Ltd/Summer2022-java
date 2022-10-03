@@ -14,10 +14,16 @@ public class Authority implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer authorityID;
-    @ManyToOne
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinColumn(name = "userID")
     private UserAccount userAccount;
-    @ManyToOne
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinColumn(name = "roleID")
     private Role role;
 }

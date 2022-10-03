@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -24,6 +25,10 @@ import java.util.List;
 @Filter(name = "deletedUserAccountFilter", condition = "isDeleted = :isDeleted")
 //@Where(clause = "is_deleted=false")
 public class UserAccount implements Serializable {
+    public UserAccount(Integer userID) {
+        this.userID = userID;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userID;
@@ -40,7 +45,7 @@ public class UserAccount implements Serializable {
     @Column(nullable = false)
     private boolean isDeleted = Boolean.FALSE;
     @JsonIgnore
-    @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Authority> authorities;
     @JsonIgnore
     @OneToMany(mappedBy = "userID", fetch = FetchType.LAZY)
